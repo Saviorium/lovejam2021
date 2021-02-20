@@ -13,11 +13,14 @@ local Port = Class {
 function Port:onTick()
     self:getShipToPort()
 
-    log(2, "Port checking docked ship ")
+    log(1, "Port checking docked ship")
     if self.dockedShip then
-        log(1, "Port is transporting resources")
-        self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed )
-        self.storage:addAndGetExcess(self.direction * self.loadSpeed )
+        log(1, "Port started transport resources", self.direction == 1 and self.storage:canPut(self.loadSpeed) or self.storage:canGet(self.loadSpeed))
+        if (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or (self.direction == -1 and self.storage:canGet(self.loadSpeed)) then
+            print(self.storage:canPut(self.loadSpeed), self.storage:canGet(self.loadSpeed))
+            self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed )
+            self.storage:addAndGetExcess(self.direction * self.loadSpeed )
+        end
     --     if self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed ) ~= 0
     --    and self.storage:addAndGetExcess(self.direction * self.loadSpeed ) == 0
     --   then

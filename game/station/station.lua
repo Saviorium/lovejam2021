@@ -13,27 +13,23 @@ local Station = Class {
 
         self.image = image
         self.focusedImage = focusedImage
+
+        self.isBuilding = false
     end
 }
-
--- function Station:loadParameters(x, y, params)
---     return self(x,
---                 y,
---                 params.width,
---                 params.height,
---                 params.inResources,
---                 params.outResources,
---                 params.image,
---                 params.focusedImage)
--- end
 
 function Station:onTick()
 
     local canProduce = true
     for name, resource in pairs(self.inResources) do
         local canGet = resource.storage:canGet(resource.consume)
-        log(3, "Station storage of " .. name .. " check of get is " .. (canGet and 1 or 0))
+        log(3, "Station storage of " .. name .. " check of can get is " .. (canGet and 1 or 0))
         canProduce = canGet and canProduce or false
+    end
+    for name, resource in pairs(self.outResources) do
+        local canPut = resource.storage:canPut(resource.produce)
+        log(3, "Station storage of " .. name .. " check of can put is " .. (canGet and 1 or 0))
+        canProduce = canPut and canProduce or false
     end
     if canProduce then
         for name, resource in pairs(self.inResources) do

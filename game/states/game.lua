@@ -7,9 +7,11 @@ function Game:enter()
 end
 
 function Game:mousepressed(x, y)
+    self.gameWorld:mousepressed(x, y)
 end
 
 function Game:mousereleased(x, y)
+    self.gameWorld:mousereleased(x, y)
 end
 
 function Game:wheelmoved(x, y)
