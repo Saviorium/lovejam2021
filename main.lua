@@ -1,8 +1,10 @@
 require "utils"
 require "engine.debug"
 
+Class        = require "lib.hump.class"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
+Storage      = require("game.storage.storage")
 
 states = {
     game = require "game.states.game",

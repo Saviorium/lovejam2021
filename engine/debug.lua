@@ -1,4 +1,4 @@
-serpent = require "lib.debug.serpent"
+local serpent = require "lib.debug.serpent"
 Debug = {
     showFps = 0,
     showStatesLoadSave = 0,
@@ -8,7 +8,11 @@ Debug = {
     ballSpeedLog = 0,
     replayDebug = 0,
     visualDesyncDebug = 0,
-    networkSocket = 0
+    networkSocket = 0,
+    stationsInnerDebug = 0,
+    stationsDrawDebug = true,
+    storagesInnerDebug = 0,
+    storagesDrawDebug = true,
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})
