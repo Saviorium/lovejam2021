@@ -4,7 +4,6 @@ require "engine.debug"
 Class = require "lib.hump.class"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
-Clock        = require "game.clock"
 Vector       = require "lib.hump.vector"
 
 function love.load()
@@ -12,7 +11,6 @@ function love.load()
     states = {
         game = require "game.states.game",
     }
-    Clock = Clock(1, 15)
     StateManager.switch(states.game)
 end
 
@@ -41,6 +39,5 @@ function love.wheelmoved(x, y)
 end
 
 function love.update(dt)
-    Clock:update(dt)
     StateManager.update(dt)
 end

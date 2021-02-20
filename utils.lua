@@ -26,3 +26,15 @@ end
 function nvl(value, ifNullValue)
     return value and value or ifNullValue
 end
+
+function merge(table, fromTable)
+    local result = {}
+    for k, v in pairs(table) do
+        if fromTable[k] then
+            result[k] = fromTable[k]
+        else
+            result[k] = v
+        end
+    end
+    return result
+end

@@ -9,6 +9,7 @@ globals = {
   "Class",
   "Vector",
   "nvl",
+  "merge",
   "StateManager",
   "AssetManager",
   "states",

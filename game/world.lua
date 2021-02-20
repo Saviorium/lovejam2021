@@ -8,17 +8,24 @@ local Route            = require("game.route")
 local WindowManager    = require("game.ui.window_manager")
 local NewStationButton = require("game.ui.new_station_button")
 local BuildingStation  = require("game.station.station")
+local Clock            = require("game.clock")
+
 local StationBuilder   = require("game.station.station_builder")
+local RouteBuilder     = require "game.route_builder"
 
 -- local StationParameters = require("game.station.stations_parameters")
 
 local World = Class {
     init = function(self)
+        self.clock = Clock(1, 15)
         self.resourcesGrid = MapGrid(100, 100, ResourcesData)
         self.stations = {}
         self.routes = {}
         self.ships = {}
         self:populateOnInit()
+        self.builders = {
+            route = RouteBuilder(self)
+        }
         self.camera = {
             position = Vector(0, 0),
             zoom = 1
@@ -36,9 +43,16 @@ function World:populateOnInit()
     table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
     table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
 
-    table.insert( self.ships, Ship(150, 300, Route(self.stations[1], self.stations[2])) )
-    table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
-    table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
+    table.insert( self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])) )
+    table.insert( self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])) )
+    table.insert( self.ships, Ship(150, 500):setRoute(self:addRoute(self.stations[3], self.stations[5])) )
+end
+
+function World:addRoute(from, to)
+    if not from or not to then return end
+    self.routes[from] = self.routes[from] or {}
+    self.routes[from][to] = self.routes[from][to] or Route(from, to)
+    return self.routes[from][to]
 end
 
 
@@ -81,16 +95,38 @@ function World:initUI()
 end
 
 function World:update(dt)
-    if Clock.dayChanged then
+    self.clock:update(dt)
+    if self.clock.dayChanged then
         for _, station in pairs(self.stations) do
             station:onTick()
         end
     end
+
     self:handleInputMove()
+
+    for _, station in pairs(self.stations) do
+        station:setHover(false)
+    end
+    local stationSelected = self:selectStationAt(self:getMouseCoords())
+    if stationSelected then
+        stationSelected:setHover(true)
+    end
+    if self.builders.route:isBuilding() then
+        self.builders.route:setDestination(stationSelected)
+    end
+
     for _, ship in pairs(self.ships) do
         ship:update(dt)
     end
     self.uiManager:update(dt)
+end
+
+function World:selectStationAt(point)
+    for _, station in pairs(self.stations) do
+        if (station:getCenter() - point):len() < config.selection.stationSize then
+            return station
+        end
+    end
 end
 
 function World:draw()
@@ -98,6 +134,7 @@ function World:draw()
     self:attachCamera()
     -- draw background
     self.resourcesGrid:draw()
+    self.builders.route:draw()
     for _, routesFrom in pairs(self.routes) do
         for routeTo, route in pairs(routesFrom) do
             route:draw()
@@ -110,11 +147,16 @@ function World:draw()
         ship:draw()
     end
 
-    local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
+
+    local mouseCoords = self:getMouseCoords()
     love.graphics.pop()
     self.uiManager:draw()
     love.graphics.print(string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")), 2, 16)
     love.graphics.print(string.format("Resource ice: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice")), 2, 32)
+
+    love.graphics.print(string.format(
+        "Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")),
+    2, 16)
 end
 
 function World:wheelmoved(x, y)
@@ -123,10 +165,26 @@ end
 
 function World:mousepressed(x, y)
     self.uiManager:mousepressed(x, y)
+    local station = self:selectStationAt(self:getFromScreenCoord(Vector(x, y)))
+    if station and not self.builders.route:isBuilding() and station:canBuildRouteFrom() then
+        self.builders.route:startBuilding(station)
+        return
+    end
 end
 
 function World:mousereleased(x, y)
     self.uiManager:mousereleased(x, y)
+    local station = self:selectStationAt(self:getMouseCoords())
+    if self.builders.route:isBuilding() then
+        local from, to = self.builders.route:finishBuilding()
+        self:addRoute(from, to)
+    else
+        self.builders.route:stopBuilding()
+    end
+end
+
+function World:getMouseCoords()
+    return self:getFromScreenCoord(Vector(love.mouse.getPosition()))
 end
 
 function World:zoom(screenPoint, zoomSize)

@@ -3,7 +3,7 @@ local ProgressBar = require "game.ui.progress_bar"
 
 -- Абстрактная станция с ресурсом
 local Station = Class {
-    init = function(self, position, width, height, inResources, outResources, image, focusedImage)
+    init = function(self, position, width, height, inResources, outResources, image, selectedImage)
         self.x = position.x
         self.y = position.y
         self.width = nvl(width, image:getWidth())
@@ -19,16 +19,23 @@ local Station = Class {
 
         self.outResources = outResources
         self.outProgressBars = {}
-        local index = 1
+        index = 1
         for _, res in pairs(outResources) do
             table.insert(self.outProgressBars, ProgressBar(self.x + self.width + 4*index, self.y, 4, self.height, res.storage))
             index = index + 1
         end
 
-        self.image = image
-        self.focusedImage = focusedImage
+        self.name = "station #" .. love.math.random( 100 )
+        for name, _ in pairs(self.outResources) do
+            self.name = name .. " " .. self.name
+        end
 
-        self.isBuilding = false
+
+        self.image = image
+
+        self.selectedImage = selectedImage
+        self.isSelected = false
+        self.isHovered = false
     end
 }
 
@@ -42,7 +49,7 @@ function Station:onTick()
     end
     for name, resource in pairs(self.outResources) do
         local canPut = resource.storage:canPut(resource.produce)
-        log(3, "Station storage of " .. name .. " check of can put is " .. (canGet and 1 or 0))
+        log(3, "Station storage of " .. name .. " check of can put is " .. (canPut and 1 or 0))
         canProduce = canPut and canProduce or false
     end
     if canProduce then
@@ -67,16 +74,20 @@ function Station:onTick()
 end
 
 function Station:draw()
-    love.graphics.draw(self.image, self.x, self.y)
     for _, progressBar in pairs(self.inProgressBars) do
         progressBar:draw()
     end
     for _, progressBar in pairs(self.outProgressBars) do
         progressBar:draw()
     end
-    if self.isFocused then
-        love.graphics.draw(self.focusedImage, self.x, self.y)
+    if self.isSelected then
+        self:drawSelected()
+    else
+        if self.isHovered then
+            self:drawHovered()
+        end
     end
+    love.graphics.draw(self.image, self.x, self.y)
     if Debug.stationsDrawDebug then
         local ind = 0
         for _, res in pairs(self:getProductingResources()) do
@@ -100,6 +111,39 @@ function Station:draw()
     end
 end
 
+function Station:drawSelected()
+    local scale = Vector(
+        (self.width + config.selection.border*2) / self.width,
+        (self.height + config.selection.border*2) / self.height
+    )
+    love.graphics.setBlendMode("add", "alphamultiply")
+    love.graphics.setColor(config.selection.colorSelected)
+    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.setBlendMode("alpha")
+    love.graphics.setColor(1, 1, 1)
+end
+
+function Station:drawHovered()
+    local scale = Vector(
+        (self.width + config.selection.border*2) / self.width,
+        (self.height + config.selection.border*2) / self.height
+    )
+    love.graphics.setBlendMode("add", "alphamultiply")
+    love.graphics.setColor(config.selection.colorHover)
+    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.setBlendMode("alpha")
+    love.graphics.setColor(1, 1, 1)
+end
+
+function Station:canBuildRouteFrom()
+    if self.outResources == 'ship' then
+        return false
+    end
+    return true
+end
+
 function Station:getProductingResources()
     local result = {}
     for name, _ in pairs(self.outResources) do
@@ -116,8 +160,20 @@ function Station:getConsumingResources()
     return result
 end
 
+function Station:setSelected(bool)
+    self.isSelected = bool
+end
+
+function Station:setHover(bool)
+    self.isHovered = bool
+end
+
 function Station:getCenter()
     return Vector(self.x + self.width/2, self.y + self.height/2)
+end
+
+function Station:tostring()
+    return self.name
 end
 
 return Station
