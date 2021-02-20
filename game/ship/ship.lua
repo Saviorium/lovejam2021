@@ -9,12 +9,13 @@ local Ship = Class {
         self.x = nvl(x, 0)
         self.y = nvl(y, 0)
         self.storage = Storage(1000, 0, 'any', 100, 0)
-        self.speed   = 1
-        self.tasks = TaskList()
+        self.speed   = 30
 
         self.way = way
-        local target = self.way.endStation
-        self.tasks:addTask(Tasks.goTo(self, target, target.inResources[self.way.resourceTaking]))
+        local target = self.way.startStation
+        self.tasks = TaskList( function ()
+                                    self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.way.resourceTaking].storage)) 
+                               end )
 
         self.image        = AssetManager:getImage('ship')
         self.focusedImage = AssetManager:getImage('ship')
@@ -32,10 +33,11 @@ function Ship:draw()
         love.graphics.draw(self.image, self.x, self.y)
     end
 end
+
 function Ship:isNear( target )
     local result = Vector(target.x - self.x, target.y - self.y):len()
     log(1, "Ship checking distance to target", result)
-    return result <= 1
+    return result <= target.width
 end
 
 function Ship:moveTo( dt, target )

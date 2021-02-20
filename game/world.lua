@@ -28,8 +28,8 @@ function World:populateOnInit()
     table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
     table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(100, 500)))
 
-    table.insert( self.ships, Ship(500, 500, Way(self.stations[1], self.stations[2])) )
-    table.insert( self.ships, Ship(800, 800, Way(self.stations[3], self.stations[5])) )
+    table.insert( self.ships, Ship(150, 300, Way(self.stations[1], self.stations[2])) )
+    table.insert( self.ships, Ship(150, 350, Way(self.stations[3], self.stations[5])) )
 end
 
 function World:update(dt)
