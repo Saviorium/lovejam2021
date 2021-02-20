@@ -69,26 +69,8 @@ function World:initUI()
                         position = Vector(0, love.graphics.getHeight() - 64 * index),
                         tag = "New" .. stationName .. "Button",
                         targetStation = station,
-                        startCallback = function()
-                            self.stationBuilder:startBuild(stationName)
-                        end,
-                        missCallback = function()
-                            local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
-                            if self.stationBuilder.buildingStation == stationName then
-                                if
-                                    (self.stationBuilder.buildingStation == "oreDrill" and
-                                        self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron") == 0) or
-                                        (self.stationBuilder.buildingStation == "cocoaFarm" and
-                                            self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") == 0)
-                                 then
-                                    self.stationBuilder.buildingStation = nil
-                                else
-                                    local stationIndex = #self.stations + 1
-                                    self.stations[stationIndex] =
-                                        self.stationBuilder:placeStation(mouseCoords, station, self, stationIndex)
-                                end
-                            end
-                        end
+                        startCallback = function() self.stationBuilder:startBuild(stationName) end,
+                        misCallback = function() return self.stationBuilder:placeStation( stationName, station, self ) end
                     }
                 )
             )
@@ -170,22 +152,24 @@ function World:wheelmoved(x, y)
 end
 
 function World:mousepressed(x, y)
-    self.uiManager:mousepressed(x, y)
-    local station = self:selectStationAt(self:getFromScreenCoord(Vector(x, y)))
-    if station and not self.builders.route:isBuilding() and station:canBuildRouteFrom() then
-        self.builders.route:startBuilding(station)
-        return
+    if not self.uiManager:mousepressed(x, y) then
+        local station = self:selectStationAt(self:getFromScreenCoord(Vector(x, y)))
+        if station and not self.builders.route:isBuilding() and station:canBuildRouteFrom() then
+            self.builders.route:startBuilding(station)
+            return
+        end
     end
 end
 
 function World:mousereleased(x, y)
-    self.uiManager:mousereleased(x, y)
-    local station = self:selectStationAt(self:getMouseCoords())
-    if self.builders.route:isBuilding() then
-        local from, to = self.builders.route:finishBuilding()
-        self:addRoute(from, to)
-    else
-        self.builders.route:stopBuilding()
+    if not self.uiManager:mousereleased(x, y) then
+        local station = self:selectStationAt(self:getMouseCoords())
+        if self.builders.route:isBuilding() then
+            local from, to = self.builders.route:finishBuilding()
+            self:addRoute(from, to)
+        else
+            self.builders.route:stopBuilding()
+        end
     end
 end
 

@@ -65,28 +65,37 @@ function WindowManager:mousepressed(x, y)
                 object.mousepressed(object, x, y)
             end
         elseif object.misClickInteraction then
-            object.misClickInteraction(object, x, y)
+            if object.misClickInteraction(object, x, y) then
+                return true
+            end
         end
     end
+    return false
 end
 
 -- Обработчик отпускания кнопки мыши
 function WindowManager:mousereleased(x, y)
+    local x, y = love.graphics.transformPoint(x, y)
+    print( x, y)
     for _, object in pairs(self.objects) do
-        if object:getCollision(x, y) then
+        if not object:getCollision(x, y) then
             if object.stopClickInteraction then
                 object.stopClickInteraction(object, x, y)
             end
+            return true
         end
     end
+    return false
 end
 
 function WindowManager:wheelmoved(x, y)
     for _, object in pairs(self.objects) do
         if object.wheelMoved then
             object.wheelMoved(object, x, y)
+            return true
         end
     end
+    return false
 end
 
 -- Обработчик отпускания кнопки мыши
@@ -94,8 +103,10 @@ function WindowManager:keypressed(key)
     for ind, object in pairs(self.objects) do
         if object.keypressed then
             object.keypressed(object, key)
+            return true
         end
     end
+    return false
 end
 
 return WindowManager

@@ -1,6 +1,6 @@
 local UIobject = require "game.ui.uiobject"
 
-NewStationButton = Class {
+local NewStationButton = Class {
     __includes = UIobject,
     init = function(self, parameters)
         self.targetStation = parameters.targetStation(parameters.position)
@@ -13,7 +13,8 @@ NewStationButton = Class {
                         parameters.tag,
                         'fixed')
         self.startClickInteraction = nvl(parameters.startCallback, self.defaultCallback)
-        self.misClickInteraction = nvl(parameters.missCallback, self.defaultCallback)
+        self.misClickInteraction   = parameters.misCallback
+        self.stopClickInteraction  = parameters.endCallback
     end
 }
 
@@ -26,7 +27,6 @@ function NewStationButton:render()
 end
 
 function NewStationButton.defaultCallback(self)
-     print(self.tag,'Clicked')
 end
 
 return NewStationButton
