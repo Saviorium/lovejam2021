@@ -1,5 +1,4 @@
 local log      = require 'engine.logger' ("shipInnerDebug")
-local serpent  = require "lib.debug.serpent"
 local Storage  = require "game.storage.storage"
 local TaskList = require "game.task.task_list"
 local Tasks    = require "game.task.shiptasks"
@@ -15,7 +14,7 @@ local Ship = Class {
 
         self.way = way
         local target = self.way.endStation
-        self.tasks:addTask(Tasks.goto(self, target, target.inResources[self.way.resourceTaking]))
+        self.tasks:addTask(Tasks.goTo(self, target, target.inResources[self.way.resourceTaking]))
 
         self.image        = AssetManager:getImage('ship')
         self.focusedImage = AssetManager:getImage('ship')

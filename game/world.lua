@@ -22,11 +22,11 @@ local World = Class {
 }
 
 function World:populateOnInit()
-    table.insert( self.stations, Stations.oreDrill(100, 100) )
-    table.insert( self.stations, Stations.ironAnvil(100, 200) )
-    table.insert( self.stations, Stations.milkStation(100, 300) )
-    table.insert( self.stations, Stations.cocoaFarm(100, 400) )
-    table.insert( self.stations, Stations.chocolateFabric(100, 500) )
+    table.insert( self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(100, 100)))
+    table.insert( self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(100, 200)))
+    table.insert( self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
+    table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
+    table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(100, 500)))
 
     table.insert( self.ships, Ship(500, 500, Way(self.stations[1], self.stations[2])) )
     table.insert( self.ships, Ship(800, 800, Way(self.stations[3], self.stations[5])) )
@@ -59,7 +59,7 @@ function World:draw()
     local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
     love.graphics.pop()
 
-    love.graphics.print(string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords.x, mouseCoords.y, "iron")), 2, 16)
+    love.graphics.print(string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")), 2, 16)
 end
 
 function World:wheelmoved(x, y)

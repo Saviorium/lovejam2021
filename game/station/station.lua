@@ -2,9 +2,9 @@ local log = require 'engine.logger' ("stationsInnerDebug")
 
 -- Абстрактная станция с ресурсом
 local Station = Class {
-    init = function(self, x, y, width, height, inResources, outResources, image, focusedImage)
-        self.x = nvl(x, 0)
-        self.y = nvl(y, 0)
+    init = function(self, position, width, height, inResources, outResources, image, focusedImage)
+        self.x = position.x
+        self.y = position.y
         self.width = nvl(width, image:getWidth())
         self.height = nvl(height, image:getHeight())
 

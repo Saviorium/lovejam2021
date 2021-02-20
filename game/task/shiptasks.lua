@@ -2,12 +2,12 @@ local log  = require 'engine.logger' ("taskInnerDebug")
 local Task = require "game.task.task"
 
 local Tasks = {
-    goto = function(ship, destination, destinationStorage)           
-        log(1, "Adding goto to ship")    
+    goTo = function(ship, destination, destinationStorage)
+        log(1, "Adding goto to ship")
         log(4, "Adding goto to ship",ship )
         return Task(
             "goto",
-            function(dt)      
+            function(dt)
                 log(1, "Going to destignation in")
                 ship:moveTo(dt, destination)
             end,
@@ -49,7 +49,7 @@ local Tasks = {
             end,
             function()
                 local target = ship.way.endStation
-                ship.tasks:addTask(Tasks.goto(ship, target, target.inResources[ship.way.resourceTaking]))
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.way.resourceTaking]))
             end
         )
     end,
@@ -63,7 +63,7 @@ local Tasks = {
             end,
             function() 
                 local target = ship.way.startStation
-                ship.tasks:addTask(Tasks.goto(ship, target, target.outResources[ship.way.resourceTaking]))
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.way.resourceTaking]))
             end
         )
     end,

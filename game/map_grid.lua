@@ -37,16 +37,30 @@ function MapGrid:getResourceTypes()
     return self.resources
 end
 
-function MapGrid:getResourcesAtCoords(x, y, resourceName)
-    cell = { x = math.floor(x/self.gridSize), y = math.floor(y/self.gridSize) }
+function MapGrid:getResourcesAtCoords(point, resourceName)
+    local cell = self:getGridCellAtCoords(point)
     if not self.grid[resourceName].cells[cell.x] or not self.grid[resourceName].cells[cell.x][cell.y] then
         return 0
     end
     return self.grid[resourceName].cells[cell.x][cell.y]
 end
 
+function MapGrid:clampToGrid(x, y)
+    local point
+    if type(x) == 'table' and type(x.x) == 'number' and type(x.y) == 'number' then
+        point = x
+    else
+        point = Vector(x, y)
+    end
+    return self:getGridCellAtCoords(point)*self.gridSize
+end
+
+function MapGrid:getGridCellAtCoords(point)
+    return Vector(math.floor(point.x/self.gridSize), math.floor(point.y/self.gridSize))
+end
+
 function MapGrid:draw()
-    for resourceName, resource in pairs(self.resources) do
+    for resourceName, _ in pairs(self.resources) do
         for x = 1, self.size.width do
             for y = 1, self.size.height do
                 self:drawResource(x, y, resourceName)

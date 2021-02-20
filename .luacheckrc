@@ -7,6 +7,7 @@ globals = {
   "config",
   "Debug",
   "Class",
+  "Vector",
   "StateManager",
   "AssetManager",
   "states",
