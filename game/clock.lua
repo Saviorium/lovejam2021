@@ -1,19 +1,15 @@
 Class = require "lib.hump.class"
 
 Clock = Class {
-    init = function(self, initDate, secPerRealSec)
-        self.time = os.time(initDate)
-        self.rate = secPerRealSec
-        self.dateFormat = "%d.%m.%Y"
+    init = function(self, secsInDay, daysInMonth)
 
-        self.timeInDay = 5
-        self.daysInMonth = 15
+        self.secsInDay = secsInDay
+        self.daysInMonth = daysInMonth
 
         self.day = 1
         self.month = 1
 
-        self.dayCounter = 0
-        self.monthCounter = 0
+        self.timer = 0
     end
 }
 
@@ -22,12 +18,16 @@ function Clock:tostring()
 end
 
 function Clock:update(dt)
-    local dayChanged, monthChanged = false, false
-    self.dayCounter = self.dayCounter + dt
-    if self.dayCounter >= self.timeInDay then
+    self.dayChanged, self.monthChanged = false, false
+    self.timer = self.timer + dt
+    if self.timer >= self.secsInDay then
         self.day = self.day + 1
-        self.dayCounter = 0
-        dayChanged = true
+        self.timer = 0
+        self.dayChanged = true
+        if self.day % self.daysInMonth == 0 then
+            self.month = self.month + 1
+            self.monthChanged = true
+        end
     end
 end
 

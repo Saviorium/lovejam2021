@@ -9,7 +9,7 @@ local Stations = {
                                     nil,
                                     nil,
                                     {},
-                                    {ironOre = { product = 100, Storage(4000, 0, 'ironOre', 100, -1)} },
+                                    {ironOre = { produce = 100, storage = Storage(1000, 0, 'ironOre', 100, -1)} },
                                     AssetManager:getImage('ship'),
                                     AssetManager:getImage('ship')
                                   )
