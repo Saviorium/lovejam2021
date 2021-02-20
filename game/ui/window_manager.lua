@@ -56,6 +56,7 @@ end
 -- Обработчик нажатия кнопки мыши на объекты
 function WindowManager:mousepressed(x, y)
     local x, y = love.graphics.transformPoint(x, y)
+    local result = false
     for _, object in pairs(self.objects) do
         if object:getCollision(x, y) then
             if object.startClickInteraction then
@@ -64,49 +65,50 @@ function WindowManager:mousepressed(x, y)
             if object.mousepressed then
                 object.mousepressed(object, x, y)
             end
+            result = true
         elseif object.misClickInteraction then
-            if object.misClickInteraction(object, x, y) then
-                return true
-            end
+            result = object.misClickInteraction(object, x, y)
         end
     end
-    return false
+    return result
 end
 
 -- Обработчик отпускания кнопки мыши
 function WindowManager:mousereleased(x, y)
     local x, y = love.graphics.transformPoint(x, y)
-    print( x, y)
+    local result = false
     for _, object in pairs(self.objects) do
-        if not object:getCollision(x, y) then
+        if object:getCollision(x, y) or object.isPressed then
             if object.stopClickInteraction then
                 object.stopClickInteraction(object, x, y)
             end
-            return true
+            result = true
         end
     end
-    return false
+    return result
 end
 
 function WindowManager:wheelmoved(x, y)
+    local result = false
     for _, object in pairs(self.objects) do
         if object.wheelMoved then
             object.wheelMoved(object, x, y)
-            return true
+            result = true
         end
     end
-    return false
+    return result
 end
 
 -- Обработчик отпускания кнопки мыши
 function WindowManager:keypressed(key)
-    for ind, object in pairs(self.objects) do
+    local result = false
+    for _, object in pairs(self.objects) do
         if object.keypressed then
             object.keypressed(object, key)
-            return true
+            result = true
         end
     end
-    return false
+    return result
 end
 
 return WindowManager

@@ -61,7 +61,7 @@ end
 function World:initUI()
     local index = 1
     for stationName, station in pairs(Stations) do
-        if stationName ~= "cityStation" and stationName ~= "buildShipsStation" then
+        if stationName ~= "cityStation" then
             self.uiManager:registerObject(
                 "New" .. stationName .. "Button",
                 NewStationButton(
@@ -167,10 +167,9 @@ function World:mousereleased(x, y)
         if self.builders.route:isBuilding() then
             local from, to = self.builders.route:finishBuilding()
             self:addRoute(from, to)
-        else
-            self.builders.route:stopBuilding()
         end
     end
+    self.builders.route:stopBuilding()
 end
 
 function World:getMouseCoords()
