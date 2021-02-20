@@ -12,6 +12,10 @@ end
 function Game:mousereleased(x, y)
 end
 
+function Game:wheelmoved(x, y)
+    self.gameWorld:wheelmoved(x, y)
+end
+
 function Game:keypressed(key)
 end
 
