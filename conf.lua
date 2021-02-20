@@ -1,4 +1,10 @@
-config = {}
+config = {
+    camera = {
+        zoomRate = 0.2, -- more - faster
+        zoomMin = 0.5,
+        zoomMax = 5
+    }
+}
 
 function love.conf(t)
     t.window.title = "lovejam2021"

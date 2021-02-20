@@ -67,7 +67,13 @@ function World:wheelmoved(x, y)
 end
 
 function World:zoom(screenPoint, zoomSize)
-    local zoomUnit = -0.2
+    if zoomSize > 0 and self.camera.zoom > config.camera.zoomMax then -- zoom in
+        return
+    end
+    if zoomSize < 0 and self.camera.zoom < config.camera.zoomMin then -- zoom out
+        return
+    end
+    local zoomUnit = -config.camera.zoomRate
     local pointInWorldCoordinates = self:getFromScreenCoord(screenPoint)
     self.camera.position = self.camera.position - (pointInWorldCoordinates - self.camera.position) * zoomUnit * zoomSize
     self.camera.zoom = self.camera.zoom / (1 + zoomSize * zoomUnit);
