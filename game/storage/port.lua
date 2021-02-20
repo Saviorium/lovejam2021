@@ -1,6 +1,7 @@
-local log = require 'engine.logger' ("storagesInnerDebug")
+local log = require "engine.logger"("storagesInnerDebug")
 
-local Port = Class {
+local Port =
+    Class {
     init = function(self, storage, loadSpeed, direction)
         self.shipsQueue = {}
         self.dockedShip = nil
@@ -15,18 +16,19 @@ function Port:onTick()
 
     log(1, "Port checking docked ship")
     if self.dockedShip then
-        log(1, "Port started transport resources", self.direction == 1 and self.storage:canPut(self.loadSpeed) or self.storage:canGet(self.loadSpeed))
-        if (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or (self.direction == -1 and self.storage:canGet(self.loadSpeed)) then
+        log(
+            1,
+            "Port started transport resources",
+            self.direction == 1 and self.storage:canPut(self.loadSpeed) or self.storage:canGet(self.loadSpeed)
+        )
+        if
+            (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or
+                (self.direction == -1 and self.storage:canGet(self.loadSpeed))
+         then
             print(self.storage:canPut(self.loadSpeed), self.storage:canGet(self.loadSpeed))
-            self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed )
-            self.storage:addAndGetExcess(self.direction * self.loadSpeed )
+            self.dockedShip.storage:addAndGetExcess(-self.direction * self.loadSpeed)
+            self.storage:addAndGetExcess(self.direction * self.loadSpeed)
         end
-    --     if self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed ) ~= 0
-    --    and self.storage:addAndGetExcess(self.direction * self.loadSpeed ) == 0
-    --   then
-    --         self.dockedShip = nil
-    --         self:getShipToPort()
-    --     end
     end
 end
 

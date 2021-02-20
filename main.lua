@@ -4,18 +4,18 @@ require "engine.debug"
 Class = require "lib.hump.class"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
-Vector       = require "lib.hump.vector"
+Vector = require "lib.hump.vector"
 
 function love.load()
     AssetManager:load("assets")
     states = {
-        game = require "game.states.game",
+        game = require "game.states.game"
     }
     StateManager.switch(states.game)
 end
 
 function love.draw()
-    love.graphics.setColor(1,1,1)
+    love.graphics.setColor(1, 1, 1)
     StateManager.draw()
 end
 

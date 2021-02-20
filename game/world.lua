@@ -1,21 +1,22 @@
 local Vector = require("lib.hump.vector")
 
-local MapGrid          = require("game.map_grid")
-local ResourcesData    = require("data.resources_grid_data")
-local Stations         = require("game.station.stations")
-local Ship             = require("game.ship.ship")
-local Route            = require("game.route")
-local WindowManager    = require("game.ui.window_manager")
+local MapGrid = require("game.map_grid")
+local ResourcesData = require("data.resources_grid_data")
+local Stations = require("game.station.stations")
+local Ship = require("game.ship.ship")
+local Route = require("game.route")
+local WindowManager = require("game.ui.window_manager")
 local NewStationButton = require("game.ui.new_station_button")
-local BuildingStation  = require("game.station.station")
-local Clock            = require("game.clock")
+local BuildingStation = require("game.station.station")
+local Clock = require("game.clock")
 
-local StationBuilder   = require("game.station.station_builder")
-local RouteBuilder     = require "game.route_builder"
+local StationBuilder = require("game.station.station_builder")
+local RouteBuilder = require "game.route_builder"
 
 -- local StationParameters = require("game.station.stations_parameters")
 
-local World = Class {
+local World =
+    Class {
     init = function(self)
         self.clock = Clock(1, 15)
         self.resourcesGrid = MapGrid(100, 100, ResourcesData)
@@ -37,57 +38,59 @@ local World = Class {
 }
 
 function World:populateOnInit()
-    table.insert( self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(534, 234)))
-    table.insert( self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(100, 200)))
-    table.insert( self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
-    table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
-    table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
+    table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(534, 234)))
+    table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(100, 200)))
+    table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
+    table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
+    table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
 
-    table.insert( self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])) )
-    table.insert( self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])) )
-    table.insert( self.ships, Ship(150, 500):setRoute(self:addRoute(self.stations[3], self.stations[5])) )
+    table.insert(self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])))
+    table.insert(self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])))
+    table.insert(self.ships, Ship(150, 500):setRoute(self:addRoute(self.stations[3], self.stations[5])))
 end
 
 function World:addRoute(from, to)
-    if not from or not to then return end
+    if not from or not to then
+        return
+    end
     self.routes[from] = self.routes[from] or {}
     self.routes[from][to] = self.routes[from][to] or Route(from, to)
     return self.routes[from][to]
 end
 
-
 function World:initUI()
     local index = 1
     for stationName, station in pairs(Stations) do
-        if stationName ~= 'cityStation' and stationName ~= 'buildShipsStation' then
+        if stationName ~= "cityStation" and stationName ~= "buildShipsStation" then
             self.uiManager:registerObject(
-            'New' .. stationName .. 'Button',
-            NewStationButton(
-                                {
-                                position = Vector(0, love.graphics.getHeight() - 64*index),
-                                tag = 'New' .. stationName .. 'Button',
-                                targetStation = station,
-                                startCallback =
-                                    function ()
-                                        print('Im here')
-                                        self.stationBuilder:startBuild( stationName )
-                                    end,
-                                missCallback  =
-                                    function ()
-                                        print('Now im not')
-                                        local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
-                                        if self.stationBuilder.buildingStation == stationName then
-                                            if (self.stationBuilder.buildingStation == 'oreDrill' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron") == 0) 
-                                            or (self.stationBuilder.buildingStation == 'cocoaFarm' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") == 0) then
-                                                self.stationBuilder.buildingStation = nil
-                                            else
-                                                local stationIndex = #self.stations + 1
-                                                self.stations[stationIndex] = self.stationBuilder:placeStation(mouseCoords, station, self, stationIndex)
-                                            end
-                                        end
-                                    end,
-                                }
-                            )
+                "New" .. stationName .. "Button",
+                NewStationButton(
+                    {
+                        position = Vector(0, love.graphics.getHeight() - 64 * index),
+                        tag = "New" .. stationName .. "Button",
+                        targetStation = station,
+                        startCallback = function()
+                            self.stationBuilder:startBuild(stationName)
+                        end,
+                        missCallback = function()
+                            local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
+                            if self.stationBuilder.buildingStation == stationName then
+                                if
+                                    (self.stationBuilder.buildingStation == "oreDrill" and
+                                        self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron") == 0) or
+                                        (self.stationBuilder.buildingStation == "cocoaFarm" and
+                                            self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") == 0)
+                                 then
+                                    self.stationBuilder.buildingStation = nil
+                                else
+                                    local stationIndex = #self.stations + 1
+                                    self.stations[stationIndex] =
+                                        self.stationBuilder:placeStation(mouseCoords, station, self, stationIndex)
+                                end
+                            end
+                        end
+                    }
+                )
             )
             index = index + 1
         end
@@ -147,16 +150,19 @@ function World:draw()
         ship:draw()
     end
 
-
     local mouseCoords = self:getMouseCoords()
     love.graphics.pop()
     self.uiManager:draw()
-    love.graphics.print(string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")), 2, 16)
-    love.graphics.print(string.format("Resource ice: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice")), 2, 32)
-
-    love.graphics.print(string.format(
-        "Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")),
-    2, 16)
+    love.graphics.print(
+        string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")),
+        2,
+        16
+    )
+    love.graphics.print(
+        string.format("Resource ice: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice")),
+        2,
+        32
+    )
 end
 
 function World:wheelmoved(x, y)
@@ -197,7 +203,7 @@ function World:zoom(screenPoint, zoomSize)
     local zoomUnit = -config.camera.zoomRate
     local pointInWorldCoordinates = self:getFromScreenCoord(screenPoint)
     self.camera.position = self.camera.position - (pointInWorldCoordinates - self.camera.position) * zoomUnit * zoomSize
-    self.camera.zoom = self.camera.zoom / (1 + zoomSize * zoomUnit);
+    self.camera.zoom = self.camera.zoom / (1 + zoomSize * zoomUnit)
 end
 
 function World:handleInputMove()
@@ -213,15 +219,13 @@ function World:move(dPos)
 end
 
 function World:getFromScreenCoord(screenPoint)
-    local unitsPerPixel = 1/self.camera.zoom
+    local unitsPerPixel = 1 / self.camera.zoom
     return self.camera.position + (screenPoint * unitsPerPixel)
 end
 
 function World:attachCamera()
     local transform = love.math.newTransform()
-    transform
-        :scale( self.camera.zoom )
-        :translate( (-self.camera.position):unpack() )
+    transform:scale(self.camera.zoom):translate((-self.camera.position):unpack())
     love.graphics.applyTransform(transform)
 end
 

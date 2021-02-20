@@ -1,5 +1,3 @@
-local log = require 'engine.logger' ("stationsInnerDebug")
-local Station      = require "game.station.station"
 local BuildingStation      = require "game.station.building_station"
 
 -- Абстрактная станция с ресурсом

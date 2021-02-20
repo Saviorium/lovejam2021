@@ -20,7 +20,9 @@ vardump = function(...)
         print(serpent.block(args))
     else
         for key, value in pairs(args) do
-            if key then print(key..':') end
+            if key then
+                print(key .. ":")
+            end
             print(serpent.block(value))
         end
     end
