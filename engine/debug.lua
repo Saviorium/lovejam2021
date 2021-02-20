@@ -1,16 +1,9 @@
 local serpent = require "lib.debug.serpent"
 Debug = {
-    showFps = 0,
+    showFps = 1,
     showStatesLoadSave = 0,
-    netcodeLog = 0,
-    desyncDebugLog = 0,
-    netcodeDebugWidget = 0,
-    ballSpeedLog = 0,
-    replayDebug = 0,
-    visualDesyncDebug = 0,
-    networkSocket = 0,
-    stationsInnerDebug = 4,
-    stationsDrawDebug = false,
+    stationsInnerDebug = 0,
+    stationsDrawDebug = true,
     storagesInnerDebug = 0,
     storagesDrawDebug = false,
 }

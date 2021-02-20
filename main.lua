@@ -1,16 +1,15 @@
 require "utils"
 require "engine.debug"
 
-Class        = require "lib.hump.class"
+Class = require "lib.hump.class"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
 
-states = {
-    game = require "game.states.game",
-}
-
 function love.load()
     AssetManager:load("assets")
+    states = {
+        game = require "game.states.game",
+    }
     StateManager.switch(states.game)
 end
 

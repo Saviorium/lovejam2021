@@ -5,6 +5,8 @@ ignore = {
 globals = {
   "love",
   "config",
+  "Debug",
+  "Class",
   "StateManager",
   "AssetManager",
   "states",

@@ -1,5 +1,3 @@
-local Class = require("lib.hump.class")
-
 local MapGrid = Class {
     init = function(self, width, height, parameters, seed)
         self.size = { width = width, height = height }

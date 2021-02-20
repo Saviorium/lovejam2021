@@ -1,14 +1,9 @@
-local MapGrid           = require("game.map_grid")
-local ResourcesData     = require("data.resources_grid_data")
-local Stations          = require("game.station.stations")
+local World = require("game.world")
 
-local Game = {
-    map = MapGrid(100, 100, ResourcesData)
-}
+local Game = {}
 
 function Game:enter()
-    self.ship = AssetManager:getImage("ship")
-    self.station = Stations.oreDrill(100, 100)
+    self.gameWorld = World()
 end
 
 function Game:mousepressed(x, y)
@@ -21,13 +16,15 @@ function Game:keypressed(key)
 end
 
 function Game:draw()
-    love.graphics.draw(self.ship, 10, 10)
-    self.map:draw()
-    self.station:draw()
+    self.gameWorld:draw()
+    -- draw ui
+    if Debug and Debug.showFps == 1 then
+        love.graphics.print(""..tostring(love.timer.getFPS( )), 2, 2)
+    end
 end
 
 function Game:update(dt)
-
+    self.gameWorld:update(dt)
 end
 
 return Game
