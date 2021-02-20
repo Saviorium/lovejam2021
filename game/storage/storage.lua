@@ -1,3 +1,6 @@
+
+local log = require 'engine.logger' ("storagesInnerDebug")
+
 -- Абстрактный склад с ресурсом
 local Storage = Class {
     init = function(self, max, initial, resource, loadSpeed, direction)
@@ -6,7 +9,6 @@ local Storage = Class {
         self.resource = resource
         self.shipsQueue = {}
 
-        --- @type Ship
         self.port = nil
 
         self.loadSpeed = nvl(loadSpeed, 0)
@@ -52,11 +54,13 @@ function Storage:canPut(units)
 end
 
 function Storage:addShipToQueue(ship)
+    log(2, "Storage added ship " .. vardump(ship) .. " in queue")
     table.insert(self.shipsQueue, ship)
 end
 
 function Storage:getShipToPort()
     if not self.port then
+        log(2, "Storage ported ship " .. vardump(ship))
         self.port = self.shipsQueue[1]
     end
 end

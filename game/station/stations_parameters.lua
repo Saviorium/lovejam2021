@@ -1,3 +1,5 @@
+local Storage      = require "game.storage.storage"
+
 local StationsParameters = {
     oreDrill = {
         inResources  = {},

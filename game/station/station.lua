@@ -1,6 +1,10 @@
+local log = require 'engine.logger' ("stationsInnerDebug")
+local serpent = require "lib.debug.serpent"
+
 -- Абстрактная станция с ресурсом
 local Station = Class {
     init = function(self, x, y, width, height, inResources, outResources, image, focusedImage)
+        log(4, "Station resource parameters" .. serpent:block(inResources) .. ":" .. serpent:block(outResources))
         self.x = nvl(x, 0)
         self.y = nvl(y, 0)
         self.width = nvl(width, image:getWidth())
@@ -15,7 +19,6 @@ local Station = Class {
 }
 
 function Station:loadParameters(x, y, params)
-    print(params.image)
     return self(x,
                 y,
                 params.width,
@@ -29,15 +32,19 @@ end
 function Station:onTick()
 
     local canProduce = true
-    for _, resource in pairs(self.inResources) do
-        canProduce = resource.storage:canGet(resource.consume) and canProduce or false
+    for name, resource in pairs(self.inResources) do
+        local canGet = resource.storage:canGet(resource.consume)
+        log(3, "Station storege of" .. name .. " check of get is " .. canGet)
+        canProduce = canGet and canProduce or false
     end
     if canProduce then
-        for _, resource in pairs(self.inResources) do
-           resource.storage:addAndGetExcess(-resource.consume)
+        for name, resource in pairs(self.inResources) do
+           local result = resource.storage:addAndGetExcess(-resource.consume)
+           log(3, "Station storage of" .. name .. " consumed " .. resource.consume .. ":" .. result .. " and become " .. resource.storage.value)
         end
-        for _, resource in pairs(self.outResources) do
-           resource.storage:addAndGetExcess(resource.produce)
+        for name, resource in pairs(self.outResources) do
+            local result = resource.storage:addAndGetExcess(resource.produce)
+            log(3, "Station storage of" .. name .. " produced " .. resource.produce .. ":" .. result .. " and become " .. resource.storage.value)
         end
     end
 
@@ -48,8 +55,8 @@ function Station:draw()
     if self.isFocused then
         love.graphics.draw(self.focusedImage, self.x, self.y)
     end
-    if Debug.stationsInnerDebug then
-
+    if Debug.stationsDrawDebug then
+        print('Сфоткай типа отображаю что-то по дебагу')
     end
 end
 
