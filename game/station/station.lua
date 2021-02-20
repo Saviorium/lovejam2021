@@ -4,7 +4,6 @@ local serpent = require "lib.debug.serpent"
 -- Абстрактная станция с ресурсом
 local Station = Class {
     init = function(self, x, y, width, height, inResources, outResources, image, focusedImage)
-        log(4, "Station resource parameters" .. serpent:block(inResources) .. ":" .. serpent:block(outResources))
         self.x = nvl(x, 0)
         self.y = nvl(y, 0)
         self.width = nvl(width, image:getWidth())
@@ -15,19 +14,20 @@ local Station = Class {
 
         self.image = image
         self.focusedImage = focusedImage
+        print('Done')
     end
 }
 
-function Station:loadParameters(x, y, params)
-    return self(x,
-                y,
-                params.width,
-                params.height,
-                params.inResources,
-                params.outResources,
-                params.image,
-                params.focusedImage)
-end
+-- function Station:loadParameters(x, y, params)
+--     return self(x,
+--                 y,
+--                 params.width,
+--                 params.height,
+--                 params.inResources,
+--                 params.outResources,
+--                 params.image,
+--                 params.focusedImage)
+-- end
 
 function Station:onTick()
 
@@ -76,5 +76,5 @@ function Station:getConsumingResources()
     return result
 end
 
-return function(x, y, params) return Station:loadParameters(x, y, params) end
+return Station
 

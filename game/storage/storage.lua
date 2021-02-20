@@ -54,13 +54,13 @@ function Storage:canPut(units)
 end
 
 function Storage:addShipToQueue(ship)
-    log(2, "Storage added ship " .. vardump(ship) .. " in queue")
+    log(2, "Storage added ship " .. ship .. " in queue")
     table.insert(self.shipsQueue, ship)
 end
 
 function Storage:getShipToPort()
     if not self.port then
-        log(2, "Storage ported ship " .. vardump(ship))
+        log(2, "Storage ported ship " .. ship)
         self.port = self.shipsQueue[1]
     end
 end

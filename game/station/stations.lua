@@ -1,12 +1,20 @@
 local Storage      = require "game.storage.storage"
+local Station      = require("game.station.station")
 
-local StationsParameters = {
-    oreDrill = {
-        inResources  = {},
-        outResources = {ironOre = { product = 100, Storage(4000, 0, 'ironOre', 100, -1)} },
-        image = AssetManager:getImage('ship'),
-        focusedImage = AssetManager:getImage('ship'),
-    },
+local Stations = {
+    oreDrill = function (x, y)
+                    return Station(
+                                    x,
+                                    y,
+                                    nil,
+                                    nil,
+                                    {},
+                                    {ironOre = { product = 100, Storage(4000, 0, 'ironOre', 100, -1)} },
+                                    AssetManager:getImage('ship'),
+                                    AssetManager:getImage('ship')
+                                  )
+               end
+    ,
     -- ironAnvil = {
     --     inResources  = {ironOre = { consume = 100, Storage(4000, 0, 'ironOre', 100, 1)} },
     --     outResources = {iron = { product = 25, Storage(1000, 0, 'iron'   , 100, -1)} },
@@ -45,4 +53,4 @@ local StationsParameters = {
     -- },
 }
 
-return StationsParameters
+return Stations

@@ -1,6 +1,6 @@
 local MapGrid           = require("game.map_grid")
 local ResourcesData     = require("data.resources_grid_data")
--- local StationParameters = require("game.station.stations_parameters")
+local Stations          = require("game.station.stations")
 
 local Game = {
     map = MapGrid(100, 100, ResourcesData)
@@ -8,7 +8,7 @@ local Game = {
 
 function Game:enter()
     self.ship = AssetManager:getImage("ship")
-    self.station = require("game.station.station") (100, 100, require("game.station.stations_parameters").oreDrill)
+    self.station = Stations.oreDrill(100, 100)
 end
 
 function Game:mousepressed(x, y)
@@ -27,6 +27,7 @@ function Game:draw()
 end
 
 function Game:update(dt)
+
 end
 
 return Game
