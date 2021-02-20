@@ -13,9 +13,9 @@ local Port = Class {
 function Port:onTick()
     self:getShipToPort()
 
-    log(1, "Port checking docked ship ")
+    log(2, "Port checking docked ship ")
     if self.dockedShip then
-        log(1, "Port started transport resources")
+        log(1, "Port is transporting resources")
         self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed )
         self.storage:addAndGetExcess(self.direction * self.loadSpeed )
     --     if self.dockedShip.storage:addAndGetExcess( -self.direction * self.loadSpeed ) ~= 0

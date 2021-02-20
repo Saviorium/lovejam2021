@@ -12,6 +12,7 @@ local World = Class {
     init = function(self)
         self.resourcesGrid = MapGrid(100, 100, ResourcesData)
         self.stations = {}
+        self.routes = {}
         self.ships = {}
         self:populateOnInit()
         self.camera = {
@@ -22,14 +23,20 @@ local World = Class {
 }
 
 function World:populateOnInit()
-    table.insert( self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(100, 100)))
+    table.insert( self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(534, 234)))
     table.insert( self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(100, 200)))
     table.insert( self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
     table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
-    table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(100, 500)))
+    table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
 
-    table.insert( self.ships, Ship(150, 300, Route(self.stations[1], self.stations[2])) )
-    table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
+    table.insert( self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])) )
+    table.insert( self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])) )
+end
+
+function World:addRoute(from, to)
+    self.routes[from] = self.routes[from] or {}
+    self.routes[from][to] = self.routes[from][to] or Route(from, to)
+    return self.routes[from][to]
 end
 
 function World:update(dt)
@@ -49,6 +56,11 @@ function World:draw()
     self:attachCamera()
     -- draw background
     self.resourcesGrid:draw()
+    for _, routesFrom in pairs(self.routes) do
+        for routeTo, route in pairs(routesFrom) do
+            route:draw()
+        end
+    end
     for _, station in pairs(self.stations) do
         station:draw()
     end

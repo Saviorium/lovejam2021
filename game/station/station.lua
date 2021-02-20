@@ -100,5 +100,9 @@ function Station:getConsumingResources()
     return result
 end
 
+function Station:getCenter()
+    return Vector(self.x + self.width/2, self.y + self.height/2)
+end
+
 return Station
 

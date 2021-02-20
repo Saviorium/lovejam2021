@@ -8,6 +8,7 @@ globals = {
   "Debug",
   "Class",
   "Vector",
+  "nvl",
   "StateManager",
   "AssetManager",
   "states",

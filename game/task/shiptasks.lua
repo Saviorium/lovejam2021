@@ -4,20 +4,19 @@ local Task = require "game.task.task"
 local Tasks = {}
 Tasks['goTo'] =
     function(ship, destination, destinationStorage)
-        log(1, "Adding goto to ship")
-        log(4, "Adding goto to ship",ship )
+        log(1, "Adding goto " .. destination:getCenter():__tostring() .." to ship " .. ship.name )
         return Task(
             "goto",
             function(dt)
-                log(1, "Going to destignation in")
+                log(3, ship.name .. ": going to destination")
                 ship:moveTo(dt, destination)
             end,
             function()
-                log(1, "Checking if near destignation")
+                log(3, ship.name .. ": checking if near destination")
                 return ship:isNear(destination)
             end,
             function()
-                log(1, "Ship trying to get in queue ")
+                log(1, ship.name .. ": ship trying to get in queue")
                 destinationStorage.port:addShipToQueue(ship)
                 ship.tasks:addTask(Tasks.waitUntilPortRelease(ship, destinationStorage))
             end
@@ -25,7 +24,7 @@ Tasks['goTo'] =
     end
 Tasks['waitUntilPortRelease'] =
     function(ship, storage)
-        log(1, "Waiting until port will be released")
+        log(3, ship.name .. ": Waiting until port will be released")
         return Task(
             "wait_until_port_will_be_released",
             function(dt)
@@ -44,7 +43,7 @@ Tasks['waitUntilPortRelease'] =
     end
 Tasks['waitUntilFullLoad'] =
     function(ship, storage)
-        log(1, "Waiting until full load")
+        log(3, ship.name .. ": Waiting until full load")
         return Task(
             "wait_until_full_load",
             function(dt)
@@ -61,7 +60,7 @@ Tasks['waitUntilFullLoad'] =
     end
 Tasks['waitUntilFullUnLoad'] =
     function(ship, storage)
-        log(1, "Waiting until full unload")
+        log(1, ship.name .. ": Waiting until full unload")
         return Task(
             "wait_until_full_unload",
             function(dt)

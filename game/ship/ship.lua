@@ -5,17 +5,14 @@ local Tasks    = require "game.task.shiptasks"
 
 -- Абстрактный корабль с ресурсом
 local Ship = Class {
-    init = function(self, x, y, route)
-        self.x = nvl(x, 0)
-        self.y = nvl(y, 0)
+    init = function(self, x, y, name)
+        self.position = Vector(x, y)
         self.storage = Storage(1000, 0, 'any', 100, 0)
         self.speed   = 30
 
-        self.route = route
-        local target = self.route.startStation
-        self.tasks = TaskList( function ()
-                                    self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage)) 
-                               end )
+        self.name = name or "Ship #"..love.math.random( 1000 )
+
+        self.tasks = TaskList()
 
         self.image        = AssetManager:getImage('ship')
         self.focusedImage = AssetManager:getImage('ship')
@@ -24,27 +21,35 @@ local Ship = Class {
     end
 }
 
+function Ship:setRoute(route)
+    self.route = route
+    local target = self.route.startStation
+    self.tasks.onEmpty = function ()
+        self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage))
+    end
+    return self
+end
+
 function Ship:update(dt)
     self.tasks:runTask(dt)
 end
 
 function Ship:draw()
     if self.tasks.currentTask and self.tasks.currentTask.name == 'goto' then
-        love.graphics.draw(self.image, self.x, self.y)
+        love.graphics.draw(self.image, self.position.x, self.position.y)
     end
 end
 
 function Ship:isNear( target )
-    local result = Vector(target.x - self.x, target.y - self.y):len()
+    local result = (target:getCenter() - self.position):len()
     log(1, "Ship checking distance to target", result)
     return result <= target.width
 end
 
 function Ship:moveTo( dt, target )
-    local direction = Vector(target.x - self.x, target.y - self.y):normalized()
+    local direction = (target:getCenter()-self.position):normalized()
     log(1, "Ship moving in direction ", direction)
-    self.x = self.x + self.speed*dt*direction.x
-    self.y = self.y + self.speed*dt*direction.y
+    self.position = self.position + direction * self.speed * dt
 end
 
 

@@ -1,6 +1,6 @@
 local log  = require 'engine.logger' ("taskInnerDebug")
 
-TaskList = Class {
+local TaskList = Class {
     init = function(self, onEmpty)
         self:clear()
         self.onEmpty = onEmpty
@@ -33,7 +33,7 @@ function TaskList:runTask(dt)
     if self.currentTask.run then
 
         self.currentTask.run(dt)
-        log(1, "Doing task"..self.currentTask.name)
+        log(2, "Doing task"..self.currentTask.name)
 
         if self.currentTask:isDone() then
             self.currentTask:onDone()
