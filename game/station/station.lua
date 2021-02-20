@@ -66,18 +66,18 @@ function Station:draw()
         for _, res in pairs(self:getProductingResources()) do
             love.graphics.print(self.outResources[res].storage.value, self.x - self.width - 48, self.y + ind * 8)
             love.graphics.print(res, self.x - self.width, self.y + ind * 8)
-            if self.outResources[res].storage.port then
+            if self.outResources[res].storage.port.dockedShip then
                 love.graphics.print('ship', self.x + self.width, self.y + ind * 8)
-                love.graphics.print(self.outResources[res].storage.port.storage.value, self.x + self.width + 6, self.y + ind * 8)
+                love.graphics.print(self.outResources[res].storage.port.dockedShip.storage.value, self.x + self.width + 48, self.y + ind * 8)
             end
             ind = ind + 1
         end
         for _, res in pairs(self:getConsumingResources()) do
             love.graphics.print(self.inResources[res].storage.value, self.x - self.width - 48, self.y + ind * 8 + 16)
             love.graphics.print(res, self.x - self.width, self.y + ind * 8 + 16)
-            if self.inResources[res].storage.port then
+            if self.inResources[res].storage.port.dockedShip then
                 love.graphics.print('ship', self.x + self.width, self.y + ind * 8 + 16)
-                love.graphics.print(self.inResources[res].storage.port.storage.value, self.x + self.width + 6, self.y + ind * 8 + 16)
+                love.graphics.print(self.inResources[res].storage.port.dockedShip.storage.value, self.x + self.width + 48, self.y + ind * 8 + 16)
             end
             ind = ind + 1
         end

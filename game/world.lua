@@ -4,7 +4,7 @@ local MapGrid       = require("game.map_grid")
 local ResourcesData = require("data.resources_grid_data")
 local Stations      = require("game.station.stations")
 local Ship          = require("game.ship.ship")
-local Way           = require("game.way")
+local Route         = require("game.route")
 
 -- local StationParameters = require("game.station.stations_parameters")
 
@@ -28,8 +28,8 @@ function World:populateOnInit()
     table.insert( self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
     table.insert( self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(100, 500)))
 
-    table.insert( self.ships, Ship(150, 300, Way(self.stations[1], self.stations[2])) )
-    table.insert( self.ships, Ship(150, 350, Way(self.stations[3], self.stations[5])) )
+    table.insert( self.ships, Ship(150, 300, Route(self.stations[1], self.stations[2])) )
+    table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
 end
 
 function World:update(dt)

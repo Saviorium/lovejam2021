@@ -3,18 +3,18 @@ local Storage  = require "game.storage.storage"
 local TaskList = require "game.task.task_list"
 local Tasks    = require "game.task.shiptasks"
 
--- Абстрактная станция с ресурсом
+-- Абстрактный корабль с ресурсом
 local Ship = Class {
-    init = function(self, x, y, way)
+    init = function(self, x, y, route)
         self.x = nvl(x, 0)
         self.y = nvl(y, 0)
         self.storage = Storage(1000, 0, 'any', 100, 0)
         self.speed   = 30
 
-        self.way = way
-        local target = self.way.startStation
+        self.route = route
+        local target = self.route.startStation
         self.tasks = TaskList( function ()
-                                    self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.way.resourceTaking].storage)) 
+                                    self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage)) 
                                end )
 
         self.image        = AssetManager:getImage('ship')

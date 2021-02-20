@@ -1,4 +1,4 @@
-Way = Class {
+Route = Class {
     init = function(self, startStation, endStation)
         self.startStation   = startStation
         self.endStation     = endStation
@@ -12,4 +12,4 @@ Way = Class {
     end
 }
 
-return Way
+return Route

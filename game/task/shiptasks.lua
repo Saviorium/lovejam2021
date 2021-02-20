@@ -18,7 +18,7 @@ Tasks['goTo'] =
             end,
             function()
                 log(1, "Ship trying to get in queue ")
-                destinationStorage:addShipToQueue(ship)
+                destinationStorage.port:addShipToQueue(ship)
                 ship.tasks:addTask(Tasks.waitUntilPortRelease(ship, destinationStorage))
             end
         )
@@ -31,20 +31,19 @@ Tasks['waitUntilPortRelease'] =
             function(dt)
             end,
             function()
-                log(1, storage.port == ship)
-                return storage.port == ship
+                return storage.port.dockedShip == ship
             end,
             function()
-                if storage.direction == 1 then
-                    ship.tasks:addTask(Tasks.waitUntilFullLoad(ship))
-                elseif storage.direction == -1 then
-                    ship.tasks:addTask(Tasks.waitUntilFullUnLoad(ship))
+                if storage.port.direction == -1 then
+                    ship.tasks:addTask(Tasks.waitUntilFullLoad(ship, storage))
+                elseif storage.port.direction == 1 then
+                    ship.tasks:addTask(Tasks.waitUntilFullUnLoad(ship, storage))
                 end
             end
         )
     end
 Tasks['waitUntilFullLoad'] =
-    function(ship)
+    function(ship, storage)
         log(1, "Waiting until full load")
         return Task(
             "wait_until_full_load",
@@ -54,13 +53,14 @@ Tasks['waitUntilFullLoad'] =
                 return ship.storage.value == ship.storage.max
             end,
             function()
-                local target = ship.way.endStation
-                ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.way.resourceTaking]))
+                storage.port.dockedShip = nil
+                local target = ship.route.endStation
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
             end
         )
     end
 Tasks['waitUntilFullUnLoad'] =
-    function(ship)
+    function(ship, storage)
         log(1, "Waiting until full unload")
         return Task(
             "wait_until_full_unload",
@@ -70,8 +70,9 @@ Tasks['waitUntilFullUnLoad'] =
                 return ship.storage.value == 0
             end,
             function()
-                local target = ship.way.startStation
-                ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.way.resourceTaking]))
+                storage.port.dockedShip = nil
+                local target = ship.route.startStation
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             end
         )
     end

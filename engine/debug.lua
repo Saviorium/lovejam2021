@@ -8,7 +8,7 @@ Debug = {
     storagesDrawDebug = false,
     shipInnerDebug = 0,
     shipDrawDebug = false,
-    taskInnerDebug = 0,
+    taskInnerDebug = 1,
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})
