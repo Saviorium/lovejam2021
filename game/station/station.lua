@@ -56,7 +56,7 @@ function Station:draw()
         love.graphics.draw(self.focusedImage, self.x, self.y)
     end
     if Debug.stationsDrawDebug then
-        print('Сфоткай типа отображаю что-то по дебагу')
+        love.graphics.circle('fill', self.x, self.y, self.width)
     end
 end
 

@@ -24,6 +24,11 @@ function World:populateOnInit()
 end
 
 function World:update(dt)
+    if Clock.dayChanged then
+        for _, station in pairs(self.stations) do
+            station:onTick()
+        end
+    end
 end
 
 function World:draw()

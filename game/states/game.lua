@@ -25,9 +25,6 @@ end
 
 function Game:update(dt)
     self.gameWorld:update(dt)
-    if Clock.dayChanged then
-        self.station:onTick()
-    end
 end
 
 return Game
