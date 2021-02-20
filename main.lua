@@ -9,7 +9,7 @@ states = {
 }
 
 function love.load()
-    AssetManager:load("resources")
+    AssetManager:load("assets")
     StateManager.switch(states.game)
 end
 
