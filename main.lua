@@ -5,6 +5,7 @@ Class = require "lib.hump.class"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
 Clock        = require "game.clock"
+Vector       = require "lib.hump.vector"
 
 function love.load()
     AssetManager:load("assets")

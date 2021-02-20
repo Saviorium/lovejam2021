@@ -1,4 +1,5 @@
 require 'engine.debug'
+local serpent = require "lib.debug.serpent"
 
 local function getLogger(name, converter)
     if not converter then

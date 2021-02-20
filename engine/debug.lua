@@ -6,6 +6,9 @@ Debug = {
     stationsDrawDebug = true,
     storagesInnerDebug = 0,
     storagesDrawDebug = false,
+    shipInnerDebug = 1,
+    shipDrawDebug = false,
+    taskInnerDebug = 1,
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})

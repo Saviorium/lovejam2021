@@ -45,12 +45,12 @@ end
 
 function Storage:canGet(units)
     local newValue = self.value - units
-    return newValue < 0
+    return not (newValue < 0)
 end
 
 function Storage:canPut(units)
     local newValue = self.value + units
-    return newValue > self.max
+    return not (newValue > self.max)
 end
 
 function Storage:addShipToQueue(ship)
@@ -61,7 +61,7 @@ end
 function Storage:getShipToPort()
     if not self.port then
         log(2, "Storage ported ship " .. ship)
-        self.port = self.shipsQueue[1]
+        self.port = table.remove(self.tasks)
     end
 end
 

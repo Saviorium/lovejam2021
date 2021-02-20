@@ -1,4 +1,4 @@
-local World = require("game.world")
+World = require("game.world")
 
 local Game = {}
 

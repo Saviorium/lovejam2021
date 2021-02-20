@@ -1,8 +1,10 @@
 local Vector = require("lib.hump.vector")
 
-local MapGrid = require("game.map_grid")
+local MapGrid       = require("game.map_grid")
 local ResourcesData = require("data.resources_grid_data")
-local Stations = require("game.station.stations")
+local Stations      = require("game.station.stations")
+local Ship          = require("game.ship.ship")
+local Way           = require("game.way")
 
 -- local StationParameters = require("game.station.stations_parameters")
 
@@ -21,6 +23,13 @@ local World = Class {
 
 function World:populateOnInit()
     table.insert( self.stations, Stations.oreDrill(100, 100) )
+    table.insert( self.stations, Stations.ironAnvil(100, 200) )
+    table.insert( self.stations, Stations.milkStation(100, 300) )
+    table.insert( self.stations, Stations.cocoaFarm(100, 400) )
+    table.insert( self.stations, Stations.chocolateFabric(100, 500) )
+
+    table.insert( self.ships, Ship(500, 500, Way(self.stations[1], self.stations[2])) )
+    table.insert( self.ships, Ship(800, 800, Way(self.stations[3], self.stations[5])) )
 end
 
 function World:update(dt)
@@ -30,6 +39,9 @@ function World:update(dt)
         end
     end
     self:handleInputMove()
+    for _, ship in pairs(self.ships) do
+        ship:update(dt)
+    end
 end
 
 function World:draw()

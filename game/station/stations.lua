@@ -1,5 +1,5 @@
 local Storage      = require "game.storage.storage"
-local Station      = require("game.station.station")
+local Station      = require "game.station.station"
 
 local Stations = {
     oreDrill = function (x, y)
@@ -10,10 +10,83 @@ local Stations = {
                                     nil,
                                     {},
                                     {ironOre = { produce = 100, storage = Storage(1000, 0, 'ironOre', 100, -1)} },
-                                    AssetManager:getImage('ship'),
-                                    AssetManager:getImage('ship')
+                                    AssetManager:getImage('ore_drill'),
+                                    AssetManager:getImage('focused_ore_drill')
                                   )
                end
+    ,
+    ironAnvil = function (x, y)
+                        return Station(
+                                        x,
+                                        y,
+                                        nil,
+                                        nil,
+                                        {ironOre = { consume = 100, storage = Storage(4000, 1000, 'ironOre', 100, 1) } },
+                                        {iron    = { produce = 25 , storage = Storage(1000, 0, 'iron'   , 100, -1)} },
+                                        AssetManager:getImage('ore_drill'),
+                                        AssetManager:getImage('focused_ore_drill')
+                                    )
+                end
+    ,
+    milkStation = function (x, y)
+                        return Station(
+                                        x,
+                                        y,
+                                        nil,
+                                        nil,
+                                        {},
+                                        {milk    = { produce = 100 , storage = Storage(1000, 0, 'milk'   , 100, -1)} },
+                                        AssetManager:getImage('ore_drill'),
+                                        AssetManager:getImage('focused_ore_drill')
+                                    )
+                end
+    ,
+    cocoaFarm = function (x, y)
+                        return Station(
+                                        x,
+                                        y,
+                                        nil,
+                                        nil,
+                                        {},
+                                        {cocoa    = { produce = 100 , storage = Storage(1000, 0, 'cocoa'   , 100, -1)} },
+                                        AssetManager:getImage('ore_drill'),
+                                        AssetManager:getImage('focused_ore_drill')
+                                    )
+                end
+    ,
+    chocolateFabric = function (x, y)
+                        return Station(
+                                        x,
+                                        y,
+                                        nil,
+                                        nil,
+                                        {
+                                            cocoa     = { consume = 100 , storage = Storage(4000, 1000, 'cocoa'   , 100, 1)},
+                                            milk      = { consume = 100 , storage = Storage(4000, 1000, 'milk'    , 100, 1)}, 
+                                        },
+                                        {
+                                            chocolate = { produce = 50  , storage = Storage(1000, 0, 'chocolate', 100, -1)} 
+                                        },
+                                        AssetManager:getImage('ore_drill'),
+                                        AssetManager:getImage('focused_ore_drill')
+                                    )
+                end
+    ,
+    cityStation = function (x, y)
+                        return Station(
+                                        x,
+                                        y,
+                                        nil,
+                                        nil,
+                                        {
+                                            iron      = { consume = 0 , storage = Storage(10000, 0, 'iron'      , 100, 1)},
+                                            chocolate = { consume = 0 , storage = Storage(10000, 0, 'chocolate' , 100, 1)}, 
+                                        },
+                                        {},
+                                        AssetManager:getImage('ore_drill'),
+                                        AssetManager:getImage('focused_ore_drill')
+                                    )
+                end
     ,
     -- ironAnvil = {
     --     inResources  = {ironOre = { consume = 100, Storage(4000, 0, 'ironOre', 100, 1)} },
