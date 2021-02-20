@@ -25,41 +25,7 @@ local World = Class {
         }
         self.stationBuilder = StationBuilder()
         self.uiManager = WindowManager()
-        local index = 1
-        for stationName, station in pairs(Stations) do
-            if stationName ~= 'cityStation' and stationName ~= 'buildShipsStation' then
-                self.uiManager:registerObject(
-                'New' .. stationName .. 'Button',
-                NewStationButton(
-                                    {
-                                    position = Vector(0, love.graphics.getHeight() - 64*index),
-                                    tag = 'New' .. stationName .. 'Button',
-                                    targetStation = station,
-                                    startCallback =
-                                        function ()
-                                            print('Im here')
-                                            self.stationBuilder:startBuild( stationName )
-                                        end,
-                                    missCallback  =
-                                        function ()
-                                            print('Now im not')
-                                            local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
-                                            if self.stationBuilder.buildingStation == stationName then
-                                                if (self.stationBuilder.buildingStation == 'oreDrill' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron") == 0) 
-                                                or (self.stationBuilder.buildingStation == 'cocoaFarm' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") == 0) then
-                                                    self.stationBuilder.buildingStation = nil
-                                                else
-                                                    local stationIndex = #self.stations + 1
-                                                    self.stations[stationIndex] = self.stationBuilder:placeStation(mouseCoords, station, self, stationIndex)
-                                                end
-                                            end
-                                        end,
-                                    }
-                                )
-                )
-                index = index + 1
-            end
-        end
+        self:initUI()
     end
 }
 
@@ -73,6 +39,45 @@ function World:populateOnInit()
     table.insert( self.ships, Ship(150, 300, Route(self.stations[1], self.stations[2])) )
     table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
     table.insert( self.ships, Ship(150, 350, Route(self.stations[3], self.stations[5])) )
+end
+
+
+function World:initUI()
+    local index = 1
+    for stationName, station in pairs(Stations) do
+        if stationName ~= 'cityStation' and stationName ~= 'buildShipsStation' then
+            self.uiManager:registerObject(
+            'New' .. stationName .. 'Button',
+            NewStationButton(
+                                {
+                                position = Vector(0, love.graphics.getHeight() - 64*index),
+                                tag = 'New' .. stationName .. 'Button',
+                                targetStation = station,
+                                startCallback =
+                                    function ()
+                                        print('Im here')
+                                        self.stationBuilder:startBuild( stationName )
+                                    end,
+                                missCallback  =
+                                    function ()
+                                        print('Now im not')
+                                        local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
+                                        if self.stationBuilder.buildingStation == stationName then
+                                            if (self.stationBuilder.buildingStation == 'oreDrill' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron") == 0) 
+                                            or (self.stationBuilder.buildingStation == 'cocoaFarm' and self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") == 0) then
+                                                self.stationBuilder.buildingStation = nil
+                                            else
+                                                local stationIndex = #self.stations + 1
+                                                self.stations[stationIndex] = self.stationBuilder:placeStation(mouseCoords, station, self, stationIndex)
+                                            end
+                                        end
+                                    end,
+                                }
+                            )
+            )
+            index = index + 1
+        end
+    end
 end
 
 function World:update(dt)

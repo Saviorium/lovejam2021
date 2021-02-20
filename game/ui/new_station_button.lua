@@ -1,6 +1,5 @@
 local UIobject = require "game.ui.uiobject"
 
--- Кнопка, умеет нажиматься и писать при этом в лог, все кнопки по хорошему должны наследоваться от этого класса и накидывать кастомные действия и картинки
 NewStationButton = Class {
     __includes = UIobject,
     init = function(self, parameters)

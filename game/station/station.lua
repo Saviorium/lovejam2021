@@ -1,4 +1,5 @@
 local log = require 'engine.logger' ("stationsInnerDebug")
+local ProgressBar = require "game.ui.progress_bar"
 
 -- Абстрактная станция с ресурсом
 local Station = Class {
@@ -9,7 +10,20 @@ local Station = Class {
         self.height = nvl(height, image:getHeight())
 
         self.inResources = inResources
+        self.inProgressBars = {}
+        local index = 1
+        for _, res in pairs(inResources) do
+            table.insert(self.inProgressBars, ProgressBar(self.x - 5*index, self.y, 4, self.height, res.storage))
+            index = index + 1
+        end
+
         self.outResources = outResources
+        self.outProgressBars = {}
+        local index = 1
+        for _, res in pairs(outResources) do
+            table.insert(self.outProgressBars, ProgressBar(self.x + self.width + 4*index, self.y, 4, self.height, res.storage))
+            index = index + 1
+        end
 
         self.image = image
         self.focusedImage = focusedImage
@@ -54,6 +68,12 @@ end
 
 function Station:draw()
     love.graphics.draw(self.image, self.x, self.y)
+    for _, progressBar in pairs(self.inProgressBars) do
+        progressBar:draw()
+    end
+    for _, progressBar in pairs(self.outProgressBars) do
+        progressBar:draw()
+    end
     if self.isFocused then
         love.graphics.draw(self.focusedImage, self.x, self.y)
     end

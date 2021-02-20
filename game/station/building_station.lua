@@ -12,12 +12,14 @@ local BuildingStation = Class {
                      world.resourcesGrid:clampToGrid(position.x, position.y),
                      0,
                      0,
-                     {iron = { required = 100, consume = 100, storage = Storage(1000, 0, 'iron', 100, 1)} },
+                     {iron = { required = 1000, consume = 100, storage = Storage(1000, 0, 'iron', 100, 1)} },
                      {},
                      self.targetStation.image,
                      self.targetStation.imageFocused)
         self.world = world
         self.index = index
+
+        self.fadeLevel = 0.8
     end
 }
 
@@ -42,7 +44,10 @@ function BuildingStation:onTick()
 end
 
 function BuildingStation:draw()
+    love.graphics.setColor(1,1,1,self.fadeLevel)
     love.graphics.draw(self.image, self.x, self.y)
+    love.graphics.setColor(1,1,1,1)
+
     if Debug.stationsDrawDebug then
         local ind = 0
         for _, res in pairs(self:getConsumingResources()) do
