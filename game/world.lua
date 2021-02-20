@@ -43,8 +43,11 @@ function World:draw()
     for _, ship in pairs(self.ships) do
         ship:draw()
     end
-    love.graphics.circle("line", self:getFromScreenCoord(Vector(love.mouse.getPosition())).x, self:getFromScreenCoord(Vector(love.mouse.getPosition())).y, 20)
+
+    local mouseCoords = self:getFromScreenCoord(Vector(love.mouse.getPosition()))
     love.graphics.pop()
+
+    love.graphics.print(string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords.x, mouseCoords.y, "iron")), 2, 16)
 end
 
 function World:wheelmoved(x, y)
@@ -52,7 +55,7 @@ function World:wheelmoved(x, y)
 end
 
 function World:zoom(screenPoint, zoomSize)
-    local zoomUnit = -0.1
+    local zoomUnit = -0.2
     local pointInWorldCoordinates = self:getFromScreenCoord(screenPoint)
     self.camera.position = self.camera.position - (pointInWorldCoordinates - self.camera.position) * zoomUnit * zoomSize
     self.camera.zoom = self.camera.zoom / (1 + zoomSize * zoomUnit);

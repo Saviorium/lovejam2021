@@ -27,10 +27,22 @@ function MapGrid:initResources()
                     math.max(0, love.math.noise(
                         grid.noiseStart.x + x * resource.frequency,
                         grid.noiseStart.y + y * resource.frequency )
-                    - resource.threshold ) * resource.multiplier
+                    - resource.threshold ) / (1 - resource.threshold) * resource.multiplier
             end
         end
     end
+end
+
+function MapGrid:getResourceTypes()
+    return self.resources
+end
+
+function MapGrid:getResourcesAtCoords(x, y, resourceName)
+    cell = { x = math.floor(x/self.gridSize), y = math.floor(y/self.gridSize) }
+    if not self.grid[resourceName].cells[cell.x] or not self.grid[resourceName].cells[cell.x][cell.y] then
+        return 0
+    end
+    return self.grid[resourceName].cells[cell.x][cell.y]
 end
 
 function MapGrid:draw()
@@ -51,7 +63,7 @@ function MapGrid:drawResource(x, y, resourceName)
     love.graphics.circle('fill',
         x * self.gridSize + self.gridSize / 2,
         y * self.gridSize + self.gridSize / 2,
-        self.gridSize * (resourceCell / resource.multiplier)
+        self.gridSize * (resourceCell / resource.multiplier) / 2
     )
 end
 

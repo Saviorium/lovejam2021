@@ -1,5 +1,4 @@
 local log = require 'engine.logger' ("stationsInnerDebug")
-local serpent = require "lib.debug.serpent"
 
 -- Абстрактная станция с ресурсом
 local Station = Class {

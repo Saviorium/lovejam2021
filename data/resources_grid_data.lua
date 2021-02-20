@@ -3,7 +3,7 @@ return {
     resources = {
         iron = {
             frequency = 0.03,
-            threshold = 0.75,
+            threshold = 0.75, -- 0 < threshold <= 1
             multiplier = 1000,
             sprite = "resource_iron",
             color = { 1, 0.6, 0.45 }
