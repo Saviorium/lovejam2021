@@ -1,6 +1,7 @@
 local log = require "engine.logger"("stationsInnerDebug")
 local ProgressBar = require "game.ui.progress_bar"
 local Resources = require "data.resources"
+local InformationBoard = require "game.ui.information_board"
 
 -- Абстрактная станция с ресурсом
 local Station = Class {
@@ -41,6 +42,8 @@ local Station = Class {
         self.isHovered = false
 
         self.population = 1
+
+        self.informationBoard = InformationBoard(self, parameters.description)
     end
 }
 
@@ -131,6 +134,7 @@ function Station:draw()
             ind = ind + 1
         end
     end
+
 end
 
 function Station:drawSelected()
@@ -157,6 +161,8 @@ function Station:drawHovered()
     love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
+
+    self.informationBoard:draw()
 end
 
 function Station:canBuildRouteFrom()

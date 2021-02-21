@@ -8,9 +8,9 @@ Debug = {
     storagesDrawDebug = false,
     shipInnerDebug = 0,
     shipDrawDebug = false,
-    taskInnerDebug = 1,
-    routeBuilder = 1,
-    shipAssigner = 1
+    taskInnerDebug = 0,
+    routeBuilder = 0,
+    shipAssigner = 0
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})

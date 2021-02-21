@@ -4,14 +4,15 @@ local UIobject = require "game.ui.uiobject"
 local ResourceBar =
     Class {
     __includes = UIobject,
-    init = function(self, rightX, rightY, scale, resourceSources, world)
-        self.iconSize = 16
-        self.textHeight = 8
-        self.margin = 8
+    init = function(self, rightX, rightY, scale, resourceSources, world, iconSize, textWidth, textHeight, margin)
+        self.iconSize    = nvl(iconSize, 16)
+        self.textWidth   = nvl(textWidth, 16)
+        self.textHeight  = nvl(textHeight, 8)
+        self.margin      = nvl(margin, 12)
 
         self.scale = scale
-        self.cellWidth = (self.iconSize + self.margin) * self.scale
-        self.cellHeight = (self.iconSize + self.textHeight + self.margin) * self.scale
+        self.cellWidth = ((self.iconSize > self.textWidth and self.iconSize or self.textWidth) + self.margin) * self.scale
+        self.cellHeight = ((self.iconSize > self.textWidth and self.iconSize or self.textWidth) + self.textHeight + self.margin) * self.scale
         self.width = #resourceSources * self.cellWidth
         self.height = self.cellHeight
 
@@ -40,7 +41,15 @@ function ResourceBar:render()
     for ind, res in pairs(self.resources) do
         local iconX, iconY = self.x + self.cellWidth * (ind - 1), self.y
         local textX, textY = iconX, self.y + self.cellWidth
-        love.graphics.draw(Resources[res.resource].icon, iconX, iconY, 0, self.scale, self.scale)
+        local icon = Resources[res.resource].icon
+        love.graphics.draw(
+                           Resources[res.resource].icon,
+                           iconX + (self.cellWidth  - icon:getWidth() * self.scale)/2,
+                           iconY + (self.cellHeight - (icon:getHeight() + self.textHeight) * self.scale)/2,
+                           0,
+                           self.scale,
+                           self.scale
+                          )
 
         if res.resourceSource then
             local value, max = res.resourceSource.storage.value, res.resourceSource.storage.max

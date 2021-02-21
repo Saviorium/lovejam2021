@@ -2,15 +2,16 @@ local Storage = require "game.storage.storage"
 
 local StationsData = {
     oreDrill = {
-            inResources  = {},
-            outResources = {ironOre = { produce = 100, storage = Storage(1000, 0, 'ironOre', 100, -1)} },
-            image        = AssetManager:getImage('ore_drill'),
-            selectedImage   = AssetManager:getImage('focused_ore_drill'),
-            conditionToBuild =
-            function (world)
-                local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
-                return world.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre") ~= 0 and world:isThereLeftAnyDudes()
-            end
+        inResources  = {},
+        outResources = {ironOre = { produce = 100, storage = Storage(1000, 0, 'ironOre', 100, -1)} },
+        image        = AssetManager:getImage('ore_drill'),
+        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        conditionToBuild =
+        function (world)
+            local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
+            return world.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre") ~= 0 and world:isThereLeftAnyDudes()
+        end,
+        description = 'Text to test stations description'
     },
     ironAnvil = {
         inResources  = {ironOre = { consume = 100, storage = Storage(1000, 1000, 'ironOre', 100, 1) } },
@@ -20,7 +21,8 @@ local StationsData = {
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     },
     milkStation = {
         inResources  = {},
@@ -30,7 +32,8 @@ local StationsData = {
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     },
     cocoaFarm = {
         inResources  = {},
@@ -41,7 +44,8 @@ local StationsData = {
         function (world)
             local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
             return world.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") ~= 0 and world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     },
     chocolateFabric = {
         inResources  = {
@@ -54,7 +58,8 @@ local StationsData = {
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     },
     hubStation = {
         inResources  = {
@@ -67,7 +72,8 @@ local StationsData = {
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     },
     buildShipsStation = {
         inResources  = {iron = { consume = 50  , storage = Storage(5000, 1000, 'iron' , 100, 1)}},
@@ -77,7 +83,8 @@ local StationsData = {
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
-        end
+        end,
+        description = 'Text to test stations description'
     }
 }
 
