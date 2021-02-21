@@ -9,13 +9,13 @@ local Resources = {
     },
     ironOre = {
         name = 'Iron ore',
-        icon = AssetManager:getImage('ship_icon'),
+        icon = AssetManager:getImage('ironore_icon'),
         color = { 1, 0.6, 0.45 },
         bgColor = {1, 1, 1}
     },
     ice = {
         name = 'Ice',
-        icon = AssetManager:getImage('ship_icon'),
+        icon = AssetManager:getImage('ice_icon'),
         color = { 0.3, 0.6, 1 },
         bgColor = {1, 1, 1}
     },
@@ -27,13 +27,13 @@ local Resources = {
     },
     cocoa = {
         name = 'Cocoa beans',
-        icon = AssetManager:getImage('ship_icon'),
+        icon = AssetManager:getImage('cocoa_icon'),
         color = {0.9, 0.8, 0.2},
         bgColor = {1, 1, 1}
     },
     milk = {
         name = 'Milk',
-        icon = AssetManager:getImage('ship_icon'),
+        icon = AssetManager:getImage('milk_icon'),
         color = {1, 1, 1},
         bgColor = {0, 0, 0}
     },
