@@ -84,7 +84,7 @@ function World:initUI()
             index = index + 1
         end
     end
-    
+
     local resources = {}
     table.insert(resources, {resource = 'iron', resourceSource = self.stations['HubStation'].inResources.iron})
     table.insert(resources, {resource = 'dude', resourceSource = self.stations['HubStation'].outResources.dude})

@@ -70,6 +70,10 @@ Tasks['waitUntilFullUnLoad'] =
             end,
             function()
                 storage.port.dockedShip = nil
+                if ship.newRoute then
+                    ship.route    = ship.newRoute
+                    ship.newRoute = nil
+                end
                 local target = ship.route.startStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             end

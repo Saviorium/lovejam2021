@@ -22,15 +22,19 @@ local Ship = Class {
         self.height = self.image:getHeight()
 
         self:addComponent("selectable")
+        self.newRoute = nil
     end
 }
 
 function Ship:setRoute(route)
-    self.route = route
-    log(1, "Set ship "..self:tostring().." to route "..route:tostring())
-    local target = self.route.startStation
-    self.tasks.onEmpty = function ()
-        self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage))
+    if not self.route then
+        self.route = route
+        local target = self.route.startStation
+        self.tasks.onEmpty = function ()
+            self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage))
+        end
+    else
+        self.newRoute = route
     end
     return self
 end
