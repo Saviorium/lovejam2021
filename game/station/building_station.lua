@@ -1,4 +1,5 @@
 local Station = require "game.station.station"
+local Stations = require "game.station.stations"
 local StationsData = require "data.stations_data"
 local Storage = require "game.storage.storage"
 
@@ -6,16 +7,16 @@ local BuildingStation =
     Class {
     __includes = Station,
     init = function(self, position, targetStation, world, index)
-        self.targetStation = StationsData[targetStation]
+        self.targetStation = targetStation
         Station.init(
             self,
             world.resourcesGrid:clampToGrid(position.x, position.y),
             {
                 inResources  = {iron = {required = 1000, consume = 100, storage = Storage(1000, 0, "iron", 100, 1)}},
                 outResources = {},
-                image        = self.targetStation.image,
-                selectedImage = self.targetStation.selectedImage,
-                description  = self.targetStation.description
+                image        = StationsData[self.targetStation].image,
+                selectedImage = StationsData[self.targetStation].selectedImage,
+                description  = StationsData[self.targetStation].description
             }
         )
         self.world = world
@@ -41,7 +42,7 @@ function BuildingStation:onTick()
         resource.storage:onTick()
     end
     if ready then
-        self.world.stations[self.index] = Station( Vector(self.x, self.y), self.targetStation)
+        self.world.stations[self.index] = Stations[self.targetStation]( Vector(self.x, self.y))
     end
 end
 

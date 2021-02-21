@@ -6,6 +6,7 @@ Entity = require "game.components.entity"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
 Vector = require "lib.hump.vector"
+Timer = require "lib.hump.timer"
 
 function love.load()
     AssetManager:load("assets")

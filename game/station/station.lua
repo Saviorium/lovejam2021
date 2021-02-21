@@ -101,10 +101,10 @@ function Station:draw()
         progressBar:draw()
     end
     if self.isSelected then
+        self.informationBoard.isVisible = true
         self:drawSelected()
     else
         if self.isHovered then
-            self.informationBoard.isVisible = true
             self:drawHovered()
         else
             self.informationBoard.isVisible = false
