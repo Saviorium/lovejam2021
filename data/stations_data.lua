@@ -9,7 +9,7 @@ local StationsData = {
             local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
             return world.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre") ~= 0 and world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'A huge drill that mines ore for iron, piercing and ravaging the cosmos'
     },
     iceDrill = {
         image            = AssetManager:getImage('ore_drill'),
@@ -19,7 +19,7 @@ local StationsData = {
             local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
             return world.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice") ~= 0 and world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'Hot stuff, it is not afraid of the cold of space and even more so not afraid of these rocks full of ice'
     },
     ironAnvil = {
         image        = AssetManager:getImage('ore_drill'),
@@ -28,7 +28,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'A place where iron is forged for your ships and your victory'
     },
     milkStation = {
         image        = AssetManager:getImage('ore_drill'),
@@ -37,7 +37,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'For excellent milk, you only need this farm, a little water and cocoa beans, as well as space cows of course'
     },
     cocoaFarm = {
         image        = AssetManager:getImage('ore_drill'),
@@ -46,7 +46,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'There are endless plantations of precious cocoa that need only water obtained from ice'
     },
     chocolateFabric = {
         image        = AssetManager:getImage('ore_drill'),
@@ -55,7 +55,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'The most important resource of the galaxy and the survival of the people in the HUB is made here from milk and cocoa'
     },
     hubStation = {
         image        = AssetManager:getImage('ore_drill'),
@@ -64,7 +64,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'A haven for all people in space who want chocolate, for the population to grow, it is necessary to meet its needs for this product'
     },
     buildShipsStation = {
         image        = AssetManager:getImage('ore_drill'),
@@ -73,7 +73,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'Text to test stations description'
+        description = 'An incredible shipyard where new iron ships are made'
     }
 }
 

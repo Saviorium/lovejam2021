@@ -60,11 +60,14 @@ function Station:onTick(world)
         if resource.takingFromGrid then
             canProduce =
                 world:canGetResourceInRange(
-                world.resourcesGrid:getGridCellAtCoords(Vector(self.x, self.y)),
+                Vector(self.x, self.y),
                 name,
                 1,
                 resource.takingFromGrid
             )
+            if not canProduce then
+                world:deleteStationAt(Vector(self.x, self.y))
+            end
         end
         local canPut = resource.storage:canPut(resource.produce * productivity)
         log(3, "Station storage of " .. name .. " check of can put is " .. (canPut and 1 or 0))
@@ -85,7 +88,7 @@ function Station:onTick(world)
         for name, resource in pairs(self.outResources) do
             if resource.takingFromGrid then
                 world:getResourceInRange(
-                    world.resourcesGrid:getGridCellAtCoords(Vector(self.x, self.y)),
+                    Vector(self.x, self.y),
                     name,
                     1,
                     resource.takingFromGrid

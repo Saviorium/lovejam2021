@@ -1,15 +1,15 @@
 local Vector = require("lib.hump.vector")
 
-local MapGrid          = require("game.map_grid")
-local ResourcesData    = require("data.resources_grid_data")
-local Stations         = require("game.station.stations")
-local Ship             = require("game.ship.ship")
-local Route            = require("game.route")
-local WindowManager    = require("game.ui.window_manager")
+local MapGrid = require("game.map_grid")
+local ResourcesData = require("data.resources_grid_data")
+local Stations = require("game.station.stations")
+local Ship = require("game.ship.ship")
+local Route = require("game.route")
+local WindowManager = require("game.ui.window_manager")
 local NewStationButton = require("game.ui.new_station_button")
-local ResourceBar      = require("game.ui.resource_bar")
-local BuildingStation  = require("game.station.station")
-local Clock            = require("game.clock")
+local ResourceBar = require("game.ui.resource_bar")
+local BuildingStation = require("game.station.station")
+local Clock = require("game.clock")
 
 local StationBuilder = require("game.station.station_builder")
 local RouteBuilder = require "game.route_builder"
@@ -43,18 +43,18 @@ local World =
 }
 
 function World:populateOnInit()
-    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 200)), 'ironOre', 1)
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 200)), "ironOre", 1)
     table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(100, 200)))
     table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(300, 200)))
     table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(500, 200)))
 
-    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 450)), 'ice', 1)
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 450)), "ice", 1)
     table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(100, 450)))
     table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(300, 400)))
     table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(300, 500)))
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(500, 450)))
 
-    self.stations['HubStation'] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
+    self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
 
     table.insert(self.ships, Ship(150, 200):setRoute(self:addRoute(self.stations[1], self.stations[2])))
     table.insert(self.ships, Ship(250, 200):setRoute(self:addRoute(self.stations[2], self.stations[3])))
@@ -63,8 +63,7 @@ function World:populateOnInit()
     table.insert(self.ships, Ship(100, 500):setRoute(self:addRoute(self.stations[4], self.stations[6])))
     table.insert(self.ships, Ship(250, 400):setRoute(self:addRoute(self.stations[5], self.stations[7])))
     table.insert(self.ships, Ship(250, 500):setRoute(self:addRoute(self.stations[6], self.stations[7])))
-    table.insert(self.ships, Ship(500, 500):setRoute(self:addRoute(self.stations[7], self.stations['HubStation'])))
-
+    table.insert(self.ships, Ship(500, 500):setRoute(self:addRoute(self.stations[7], self.stations["HubStation"])))
 end
 
 function World:addRoute(from, to)
@@ -102,8 +101,12 @@ function World:initUI()
                         position = Vector(0, love.graphics.getHeight() - 64 * index),
                         tag = "New" .. stationName .. "Button",
                         targetStation = station,
-                        startCallback = function() self.stationBuilder:startBuild(stationName) end,
-                        endCallback = function() return self.stationBuilder:placeStation( stationName, self ) end
+                        startCallback = function()
+                            self.stationBuilder:startBuild(stationName)
+                        end,
+                        endCallback = function()
+                            return self.stationBuilder:placeStation(stationName, self)
+                        end
                     }
                 )
             )
@@ -112,11 +115,11 @@ function World:initUI()
     end
 
     local resources = {}
-    table.insert(resources, {resource = 'iron', resourceSource = self.stations['HubStation'].inResources.iron})
-    table.insert(resources, {resource = 'dude', resourceSource = self.stations['HubStation'].outResources.dude})
-    table.insert(resources, {resource = 'ship', resourceSource = nil})
-    table.insert(resources, {resource = 'life', resourceSource = nil})
-    self.uiManager:registerObject('Global resource bar', ResourceBar(love.graphics.getWidth(), 0, 3, resources, self))
+    table.insert(resources, {resource = "iron", resourceSource = self.stations["HubStation"].inResources.iron})
+    table.insert(resources, {resource = "dude", resourceSource = self.stations["HubStation"].outResources.dude})
+    table.insert(resources, {resource = "ship", resourceSource = nil})
+    table.insert(resources, {resource = "life", resourceSource = nil})
+    self.uiManager:registerObject("Global resource bar", ResourceBar(love.graphics.getWidth(), 0, 3, resources, self))
 end
 
 function World:update(dt)
@@ -227,8 +230,8 @@ function World:mousepressed(x, y, button)
             if station:canBuildRouteFrom() then
                 self.builders.route:startBuilding(station)
             else
-                if station:isProducing('ship') then
-                    local newShip = station:getProduct('ship')
+                if station:isProducing("ship") then
+                    local newShip = station:getProduct("ship")
                     if newShip then
                         table.insert(self.ships, newShip)
                         self.shipAssigner:setShip(newShip)
@@ -300,6 +303,28 @@ function World:selectStationAt(point)
     end
 end
 
+function World:deleteStationAt(point)
+    for ind, station in pairs(self.stations) do
+        if (station:getCenter() - point):len() < config.selection.stationSize then
+            self:deleteStation(ind, station)
+        end
+    end
+end
+
+function World:deleteStation(ind, station)
+    table.remove(self.stations, ind)
+    for _, route in pairs(self.routes[station]) do
+        self:deleteRoute(route)
+    end
+    for routeFrom, routesFrom in pairs(self.routes) do
+        for routeTo, route in pairs(routesFrom) do
+            if routeTo == station then
+                self:deleteRoute(route)
+            end
+        end
+    end
+end
+
 function World:selectShipAt(point)
     for _, ship in pairs(self.ships) do
         if (ship:getCenter() - point):len() < config.selection.shipSize then
@@ -344,18 +369,19 @@ function World:addResourceInRange(position, resource, range)
     for i = -range, range, 1 do
         for j = -range, range, 1 do
             self.resourcesGrid:setResources(position.x + i, position.y + j, 1000, resource)
-            print('Set '..resource..' at ',Vector(position.x + i, position.y + j))
+            print("Set " .. resource .. " at ", Vector(position.x + i, position.y + j))
         end
     end
 end
 
 function World:canGetResourceInRange(position, resource, range, unitsToGet)
-    print('Checking ', resource)
+    print("Checking ", resource)
     local result = false
     for i = -range, range, 1 do
         for j = -range, range, 1 do
-            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(Vector(position.x + i, position.y + j), resource)
-            print('On ', Vector(position.x + i, position.y + j), ' left ', resourcesLeft, unitsToGet, resource)
+            local pos = Vector(position.x + i * self.resourcesGrid.gridSize, position.y + j * self.resourcesGrid.gridSize)
+            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(pos, resource)
+            print("On ", pos, " left ", resourcesLeft, unitsToGet, resource)
             if resourcesLeft > unitsToGet then
                 result = true
             end
@@ -367,9 +393,13 @@ end
 function World:getResourceInRange(position, resource, range, unitsToGet)
     for i = -range, range, 1 do
         for j = -range, range, 1 do
-            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(Vector(position.x + i, position.y + j), resource)
+            local pos = Vector(position.x + i * self.resourcesGrid.gridSize, position.y + j * self.resourcesGrid.gridSize)
+            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords( pos, resource )
             if resourcesLeft > unitsToGet then
-                self.resourcesGrid:setResources(position.x + i, position.y + j, resourcesLeft - unitsToGet, resource)
+                local cellCoords = self.resourcesGrid:getGridCellAtCoords(pos)
+                self.resourcesGrid:setResources(cellCoords.x, cellCoords.y, resourcesLeft - unitsToGet, resource)
+                print("Descreased resource to ", resourcesLeft - unitsToGet,' At ', pos)
+                return true
             end
         end
     end
@@ -379,10 +409,13 @@ function World:findStationsInRange(position, range)
     for _, station in pairs(self.stations) do
         local stationCellCoords = self.resourcesGrid:getGridCellAtCoords(Vector(station.x, station.y))
         print(stationCellCoords, position)
-        if stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range
-       and stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range then
+        if
+            stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
+                stationCellCoords.y >= position.y - range and
+                stationCellCoords.y <= position.y + range
+         then
             return station
-       end
+        end
     end
     return nil
 end
