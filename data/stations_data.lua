@@ -34,12 +34,12 @@ local StationsData = {
         image        = AssetManager:getImage('ore_drill'),
         selectedImage   = AssetManager:getImage('focused_ore_drill')
     },
-    cityStation = {
+    hubStation = {
         inResources  = {
                         iron      = { consume = 0 , storage = Storage(10000, 0, 'iron' , 100, 1)},
-                        chocolate = { consume = 0 , storage = Storage(10000, 0, 'chocolate' , 100, 1)},
+                        chocolate = { dudeConsuming = 100, consume = 0 , storage = Storage(10000, 1000, 'chocolate' , 100, 1)},
                        },
-        outResources = { dude = { consume = 0 , storage = Storage(10000, 0, 'dude' , 100, 1)},},
+        outResources = { dude = { inMonthProducing = 1, produce = 0 , storage = Storage(10000, 5, 'dude' , 100, 1)},},
         image        = AssetManager:getImage('ore_drill'),
         selectedImage   = AssetManager:getImage('focused_ore_drill')
     },

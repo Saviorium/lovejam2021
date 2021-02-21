@@ -25,7 +25,6 @@ function Port:onTick()
             (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or
                 (self.direction == -1 and self.storage:canGet(self.loadSpeed))
          then
-            print(self.storage:canPut(self.loadSpeed), self.storage:canGet(self.loadSpeed))
             self.dockedShip.storage:addAndGetExcess(-self.direction * self.loadSpeed)
             self.storage:addAndGetExcess(self.direction * self.loadSpeed)
         end

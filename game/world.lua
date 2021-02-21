@@ -34,6 +34,8 @@ local World =
         self.stationBuilder = StationBuilder(self)
         self.uiManager = WindowManager()
         self:initUI()
+
+        self.lives = 10
     end
 }
 
@@ -43,6 +45,8 @@ function World:populateOnInit()
     table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
     table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
+
+    self.stations['HubStation'] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
 
     table.insert(self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])))
     table.insert(self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])))
@@ -84,6 +88,13 @@ function World:update(dt)
     if self.clock.dayChanged then
         for _, station in pairs(self.stations) do
             station:onTick()
+        end
+    end
+    if self.clock.monthChanged then
+        for _, station in pairs(self.stations) do
+            if station.onMonthTick then
+                station:onMonthTick()
+            end
         end
     end
 
@@ -211,6 +222,13 @@ function World:attachCamera()
     local transform = love.math.newTransform()
     transform:scale(self.camera.zoom):translate((-self.camera.position):unpack())
     love.graphics.applyTransform(transform)
+end
+
+function World:descreaseLives()
+    self.lives = self.lives - 1
+    if self.lives then
+        self.gameOver = true
+    end
 end
 
 return World
