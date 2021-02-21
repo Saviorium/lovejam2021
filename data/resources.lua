@@ -1,7 +1,7 @@
 local Resources = {
     iron = {
         name = 'Iron bars',
-        icon = nil,
+        icon = AssetManager:getImage('iron_icon'),
         color = {0.3, 0.3, 0.3},
         bgColor = {1, 1, 1}
     },
@@ -18,8 +18,8 @@ local Resources = {
         bgColor = {1, 1, 1}
     },
     chocolate = {
-        name = 'Chockolate bars',
-        icon = nil,
+        name = 'Chocolate bars',
+        icon = AssetManager:getImage('chocolate_icon'),
         color = {0.7, 0.5, 0.1},
         bgColor = {1, 1, 1}
     },
@@ -37,14 +37,20 @@ local Resources = {
     },
     ship = {
         name = 'Ship',
-        icon = nil,
+        icon = AssetManager:getImage('ship_icon'),
         color = {0.2, 0.2, 0.2},
         bgColor = {1, 1, 1}
     },
     dude = {
         name = 'Peoples',
-        icon = nil,
+        icon = AssetManager:getImage('dudes_icon'),
         color = {0.1, 0.7, 0.1},
+        bgColor = {1, 1, 1}
+    },
+    life = {
+        name = 'Life',
+        icon = AssetManager:getImage('lifes_icon'),
+        color = {1, 0, 0},
         bgColor = {1, 1, 1}
     },
 }

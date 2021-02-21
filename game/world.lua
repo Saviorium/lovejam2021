@@ -1,14 +1,15 @@
 local Vector = require("lib.hump.vector")
 
-local MapGrid = require("game.map_grid")
-local ResourcesData = require("data.resources_grid_data")
-local Stations = require("game.station.stations")
-local Ship = require("game.ship.ship")
-local Route = require("game.route")
-local WindowManager = require("game.ui.window_manager")
+local MapGrid          = require("game.map_grid")
+local ResourcesData    = require("data.resources_grid_data")
+local Stations         = require("game.station.stations")
+local Ship             = require("game.ship.ship")
+local Route            = require("game.route")
+local WindowManager    = require("game.ui.window_manager")
 local NewStationButton = require("game.ui.new_station_button")
-local BuildingStation = require("game.station.station")
-local Clock = require("game.clock")
+local ResourceBar      = require("game.ui.resource_bar")
+local BuildingStation  = require("game.station.station")
+local Clock            = require("game.clock")
 
 local StationBuilder = require("game.station.station_builder")
 local RouteBuilder = require "game.route_builder"
@@ -35,7 +36,7 @@ local World =
         self.uiManager = WindowManager()
         self:initUI()
 
-        self.lives = 10
+        self.lifes = 10
     end
 }
 
@@ -81,6 +82,13 @@ function World:initUI()
             index = index + 1
         end
     end
+    
+    local resources = {}
+    table.insert(resources, {resource = 'iron', resourceSource = self.stations['HubStation'].inResources.iron})
+    table.insert(resources, {resource = 'dude', resourceSource = self.stations['HubStation'].outResources.dude})
+    table.insert(resources, {resource = 'ship', resourceSource = nil})
+    table.insert(resources, {resource = 'life', resourceSource = nil})
+    self.uiManager:registerObject('Global resource bar', ResourceBar(love.graphics.getWidth(), 0, 3, resources, self))
 end
 
 function World:update(dt)
@@ -225,8 +233,8 @@ function World:attachCamera()
 end
 
 function World:descreaseLives()
-    self.lives = self.lives - 1
-    if self.lives then
+    self.lifes = self.lifes - 1
+    if self.lifes then
         self.gameOver = true
     end
 end
