@@ -65,7 +65,7 @@ end
 function World:initUI()
     local index = 1
     for stationName, station in pairs(Stations) do
-        if stationName ~= "cityStation" then
+        if stationName ~= "hubStation" then
             self.uiManager:registerObject(
                 "New" .. stationName .. "Button",
                 NewStationButton(
@@ -229,6 +229,10 @@ function World:descreaseLives()
     if self.lives then
         self.gameOver = true
     end
+end
+
+function World:isThereLeftAnyDudes()
+    return (self.stations.HubStation.outResources.dude.storage.value - #self.stations) > 0
 end
 
 return World
