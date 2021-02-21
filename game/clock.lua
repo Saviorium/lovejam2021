@@ -1,6 +1,4 @@
-Class = require "lib.hump.class"
-
-Clock = Class {
+local Clock = Class {
     init = function(self, secsInDay, daysInMonth)
 
         self.secsInDay = secsInDay

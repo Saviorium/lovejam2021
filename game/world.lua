@@ -136,7 +136,7 @@ function World:draw()
     love.graphics.pop()
     self.uiManager:draw()
     love.graphics.print(
-        string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "iron")),
+        string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
         2,
         16
     )
