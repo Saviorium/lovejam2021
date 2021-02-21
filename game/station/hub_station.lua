@@ -1,30 +1,24 @@
 local Station = require "game.station.station"
-local StationsData = require "data.stations_data"
 local Storage = require "game.storage.storage"
 
-local BuildingStation =
+local HubStation =
     Class {
     __includes = Station,
-    init = function(self, position, targetStation, world, index)
-        self.targetStation = StationsData[targetStation]
+    init = function(self, position)
         Station.init(
             self,
             world.resourcesGrid:clampToGrid(position.x, position.y),
-            {
-                inResources  = {iron = {required = 1000, consume = 100, storage = Storage(1000, 0, "iron", 100, 1)}},
-                outResources = {},
-                image        = self.targetStation.image,
-                selectedImage = self.targetStation.selectedImage
-            }
+            0,
+            0,
+            {iron = {required = 1000, consume = 100, storage = Storage(1000, 0, "iron", 100, 1)}},
+            {},
+            self.targetStation.image,
+            self.targetStation.imageFocused
         )
-        self.world = world
-        self.index = index
-
-        self.fadeLevel = 0.8
     end
 }
 
-function BuildingStation:onTick()
+function HubStation:onTick()
     local ready = true
     for _, resource in pairs(self.inResources) do
         if resource.required > 0 then
@@ -40,11 +34,11 @@ function BuildingStation:onTick()
         resource.storage:onTick()
     end
     if ready then
-        self.world.stations[self.index] = Station( Vector(self.x, self.y), self.targetStation)
+        self.world.stations[self.index] = self.targetStation
     end
 end
 
-function BuildingStation:draw()
+function HubStation:draw()
     love.graphics.setColor(1, 1, 1, self.fadeLevel)
     love.graphics.draw(self.image, self.x, self.y)
     love.graphics.setColor(1, 1, 1, 1)
@@ -69,4 +63,4 @@ function BuildingStation:draw()
     end
 end
 
-return BuildingStation
+return HubStation

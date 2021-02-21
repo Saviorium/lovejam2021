@@ -1,29 +1,30 @@
 local log = require "engine.logger"("stationsInnerDebug")
 local ProgressBar = require "game.ui.progress_bar"
+local Resources = require "data.resources"
 
 -- Абстрактная станция с ресурсом
 local Station = Class {
-    init = function(self, position, width, height, inResources, outResources, image, selectedImage)
+    init = function(self, position, parameters)
         self.x = position.x
         self.y = position.y
-        self.width = nvl(width, image:getWidth())
-        self.height = nvl(height, image:getHeight())
+        self.width = nvl(parameters.width, parameters.image:getWidth())
+        self.height = nvl(parameters.height, parameters.image:getHeight())
 
-        self.inResources = inResources
+        self.inResources = parameters.inResources
         self.inProgressBars = {}
         local index = 1
-        for _, res in pairs(inResources) do
-            table.insert(self.inProgressBars, ProgressBar(self.x - 5 * index, self.y, 4, self.height, res.storage))
+        for _, res in pairs(parameters.inResources) do
+            table.insert(self.inProgressBars, ProgressBar(self.x - 5 * index, self.y, self.height, res.storage))
             index = index + 1
         end
 
-        self.outResources = outResources
+        self.outResources = parameters.outResources
         self.outProgressBars = {}
         index = 1
-        for _, res in pairs(outResources) do
+        for _, res in pairs(parameters.outResources) do
             table.insert(
                 self.outProgressBars,
-                ProgressBar(self.x + self.width + 4 * index, self.y, 4, self.height, res.storage)
+                ProgressBar(self.x + self.width + 4 * index, self.y, self.height, res.storage)
             )
             index = index + 1
         end
@@ -33,10 +34,9 @@ local Station = Class {
             self.name = name .. " " .. self.name
         end
 
+        self.image = parameters.image
 
-        self.image = image
-
-        self.selectedImage = selectedImage
+        self.selectedImage = parameters.selectedImage
         self.isSelected = false
         self.isHovered = false
     end
@@ -101,26 +101,26 @@ function Station:draw()
     love.graphics.draw(self.image, self.x, self.y)
     if Debug.stationsDrawDebug then
         local ind = 0
-        for _, res in pairs(self:getProductingResources()) do
-            love.graphics.print(self.outResources[res].storage.value, self.x - self.width - 48, self.y + ind * 8)
-            love.graphics.print(res, self.x - self.width, self.y + ind * 8)
-            if self.outResources[res].storage.port.dockedShip then
+        for i, res in pairs(self:getProductingResources()) do
+            love.graphics.print(self.outResources[i].storage.value, self.x - self.width - 48, self.y + ind * 8)
+            love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8)
+            if self.outResources[i].storage.port.dockedShip then
                 love.graphics.print("ship", self.x + self.width, self.y + ind * 8)
                 love.graphics.print(
-                    self.outResources[res].storage.port.dockedShip.storage.value,
+                    self.outResources[i].storage.port.dockedShip.storage.value,
                     self.x + self.width + 48,
                     self.y + ind * 8
                 )
             end
             ind = ind + 1
         end
-        for _, res in pairs(self:getConsumingResources()) do
-            love.graphics.print(self.inResources[res].storage.value, self.x - self.width - 48, self.y + ind * 8 + 16)
-            love.graphics.print(res, self.x - self.width, self.y + ind * 8 + 16)
-            if self.inResources[res].storage.port.dockedShip then
+        for i, res in pairs(self:getConsumingResources()) do
+            love.graphics.print(self.inResources[i].storage.value, self.x - self.width - 48, self.y + ind * 8 + 16)
+            love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8 + 16)
+            if self.inResources[i].storage.port.dockedShip then
                 love.graphics.print("ship", self.x + self.width, self.y + ind * 8 + 16)
                 love.graphics.print(
-                    self.inResources[res].storage.port.dockedShip.storage.value,
+                    self.inResources[i].storage.port.dockedShip.storage.value,
                     self.x + self.width + 48,
                     self.y + ind * 8 + 16
                 )
@@ -165,16 +165,16 @@ end
 
 function Station:getProductingResources()
     local result = {}
-    for name, _ in pairs(self.outResources) do
-        table.insert(result, name)
+    for ind, storage in pairs(self.outResources) do
+        result[ind] = storage.storage.resource
     end
     return result
 end
 
 function Station:getConsumingResources()
     local result = {}
-    for name, _ in pairs(self.inResources) do
-        table.insert(result, name)
+    for ind, storage in pairs(self.inResources) do
+        result[ind] = storage.storage.resource
     end
     return result
 end

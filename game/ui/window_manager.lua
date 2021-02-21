@@ -61,9 +61,11 @@ function WindowManager:mousepressed(x, y)
         if object:getCollision(x, y) then
             if object.startClickInteraction then
                 object.startClickInteraction(object, x, y)
+                object.isPressed = true
             end
             if object.mousepressed then
                 object.mousepressed(object, x, y)
+                object.isPressed = true
             end
             result = true
         elseif object.misClickInteraction then

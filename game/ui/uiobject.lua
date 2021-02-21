@@ -1,5 +1,5 @@
 
-UIobject = Class {
+local UIobject = Class {
     init = function(self, x, y, width, height, tag, position)
         self.x = nvl(x, 0)
         self.y = nvl(y, 0)

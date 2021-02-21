@@ -1,4 +1,3 @@
-local log = require 'engine.logger' ("storagesInnerDebug")
 local Port = require "game.storage.port"
 
 -- Абстрактный склад с ресурсом

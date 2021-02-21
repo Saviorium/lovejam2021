@@ -2,11 +2,11 @@ local Resources = require "data.resources"
 
 local ProgressBar =
     Class {
-    init = function(self, x, y, width, height, parentStorage)
+    init = function(self, x, y, height, parentStorage)
         self.x = x
         self.y = y
 
-        self.width = width
+        self.width = 4
         self.height = height
 
         self.color = Resources[parentStorage.resource].color

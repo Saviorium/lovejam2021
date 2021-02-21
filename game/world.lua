@@ -31,7 +31,7 @@ local World =
             position = Vector(0, 0),
             zoom = 1
         }
-        self.stationBuilder = StationBuilder()
+        self.stationBuilder = StationBuilder(self)
         self.uiManager = WindowManager()
         self:initUI()
     end
@@ -70,7 +70,7 @@ function World:initUI()
                         tag = "New" .. stationName .. "Button",
                         targetStation = station,
                         startCallback = function() self.stationBuilder:startBuild(stationName) end,
-                        misCallback = function() return self.stationBuilder:placeStation( stationName, station, self ) end
+                        endCallback = function() return self.stationBuilder:placeStation( stationName, self ) end
                     }
                 )
             )
@@ -135,6 +135,7 @@ function World:draw()
     local mouseCoords = self:getMouseCoords()
     love.graphics.pop()
     self.uiManager:draw()
+    self.stationBuilder:draw()
     love.graphics.print(
         string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
         2,
