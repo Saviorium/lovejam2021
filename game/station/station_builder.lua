@@ -11,7 +11,7 @@ local StationBuilder = Class {
 
 function StationBuilder:draw()
     if self.buildingStation then
-        local mouseCoords = Vector(love.mouse.getPosition())
+        local mouseCoords = self.world:getMouseCoords()
         local position = self.world.resourcesGrid:clampToGrid(mouseCoords.x, mouseCoords.y)
         love.graphics.draw(self.stationImage, position.x, position.y )
     end

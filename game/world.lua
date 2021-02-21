@@ -156,11 +156,11 @@ function World:draw()
     for _, ship in pairs(self.ships) do
         ship:draw()
     end
+    self.stationBuilder:draw()
 
     local mouseCoords = self:getMouseCoords()
     love.graphics.pop()
     self.uiManager:draw()
-    self.stationBuilder:draw()
     self.shipAssigner:draw()
     love.graphics.print(
         string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
