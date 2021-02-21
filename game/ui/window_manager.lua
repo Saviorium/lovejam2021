@@ -84,7 +84,10 @@ function WindowManager:mousereleased(x, y)
             if object.stopClickInteraction then
                 object.stopClickInteraction(object, x, y)
             end
-            result = true
+            if object.isPressed then
+                result = true
+            end
+            object.isPressed = false
         end
     end
     return result
