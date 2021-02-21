@@ -199,8 +199,7 @@ function Station:tostring()
 end
 
 function Station:calculateProductivity()
-    print(math.log10(self.population*10 * self.population*10))
-    return math.log10(self.population*10 * self.population*10)
+    return math.sqrt(self.population)
 end
 
 return Station

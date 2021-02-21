@@ -43,14 +43,30 @@ function ResourceBar:render()
         love.graphics.draw(Resources[res.resource].icon, iconX, iconY, 0, self.scale, self.scale)
 
         if res.resourceSource then
+            local value, max = res.resourceSource.storage.value, res.resourceSource.storage.max
+            if res.resource == 'dude' then
+                value = 0
+                max = res.resourceSource.storage.value
+                for _, station in pairs(self.world.stations) do
+                    value = value + station.population
+                end
+            end
             love.graphics.printf(
-                res.resourceSource.storage.value .. " / " .. res.resourceSource.storage.max,
+                value .. " / " .. max,
                 textX,
                 textY,
                 self.cellWidth,
                 'center'
             )
-        elseif res.resource ~= 'life' then
+        elseif res.resource == 'life' then
+            love.graphics.printf(
+                self.world.lifes .. " / " .. 10,
+                textX,
+                textY,
+                self.cellWidth,
+                'center'
+            )
+        else
             local overallValue, overallMax = 0, 0
             for _, station in pairs(self.world.stations) do
                 if count( station:getProductingResources(), function(obj) return obj == res.resource end) > 0 then
@@ -60,14 +76,6 @@ function ResourceBar:render()
             end
             love.graphics.printf(
                 overallValue .. " / " .. overallMax,
-                textX,
-                textY,
-                self.cellWidth,
-                'center'
-            )
-        else
-            love.graphics.printf(
-                self.world.lifes .. " / " .. 10,
                 textX,
                 textY,
                 self.cellWidth,
