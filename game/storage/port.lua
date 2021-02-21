@@ -8,18 +8,17 @@ local Port =
         self.loadSpeed = nvl(loadSpeed, 100)
         self.direction = direction -- in = 1, out = -1
         self.storage = storage
+        self.name = "Port #"..love.math.random( 1000 )
     end
 }
 
 function Port:onTick()
     self:getShipToPort()
 
-    log(1, "Port checking docked ship")
     if self.dockedShip then
         log(
             1,
-            "Port started transport resources",
-            self.direction == 1 and self.storage:canPut(self.loadSpeed) or self.storage:canGet(self.loadSpeed)
+            "Port ".. self.name .." started transport resources to "..self.dockedShip.name
         )
         if
             (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or
@@ -41,7 +40,7 @@ function Port:getShipToPort()
     if not self.dockedShip then
         self.dockedShip = table.remove(self.shipsQueue, 1)
         if self.dockedShip then
-            log(1, "Port docked ship ")
+            log(1, "Port ".. self.name .." docked ship ")
         end
     end
 end

@@ -4,7 +4,8 @@ local Resources = require "data.resources"
 local InformationBoard = require "game.ui.information_board"
 
 -- Абстрактная станция с ресурсом
-local Station = Class {
+local Station =
+    Class {
     init = function(self, position, parameters)
         self.x = position.x
         self.y = position.y
@@ -30,7 +31,7 @@ local Station = Class {
             index = index + 1
         end
 
-        self.name = "station #" .. love.math.random( 100 )
+        self.name = "station #" .. love.math.random(100)
         for name, _ in pairs(self.outResources) do
             self.name = name .. " " .. self.name
         end
@@ -67,7 +68,8 @@ function Station:onTick()
                 3,
                 "Station storage of " ..
                     name ..
-                        " consumed " .. resource.consume * productivity .. ":" .. result .. " and become " .. resource.storage.value
+                        " consumed " ..
+                            resource.consume * productivity .. ":" .. result .. " and become " .. resource.storage.value
             )
             resource.storage:onTick()
         end
@@ -77,7 +79,8 @@ function Station:onTick()
                 3,
                 "Station storage of " ..
                     name ..
-                        " produced " .. resource.produce * productivity .. ":" .. result .. " and become " .. resource.storage.value
+                        " produced " ..
+                            resource.produce * productivity .. ":" .. result .. " and become " .. resource.storage.value
             )
         end
     end
@@ -111,7 +114,11 @@ function Station:draw()
     if Debug.stationsDrawDebug then
         local ind = 0
         for i, res in pairs(self:getProductingResources()) do
-            love.graphics.print(self.outResources[i].storage.value, self.x - self.width - 48, self.y + ind * 8)
+            love.graphics.print(
+                math.clamp(0, math.floor(self.outResources[i].storage.value), 9999),
+                self.x - self.width - 48,
+                self.y + ind * 8
+            )
             love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8)
             if self.outResources[i].storage.port.dockedShip then
                 love.graphics.print("ship", self.x + self.width, self.y + ind * 8)
@@ -124,7 +131,11 @@ function Station:draw()
             ind = ind + 1
         end
         for i, res in pairs(self:getConsumingResources()) do
-            love.graphics.print(self.inResources[i].storage.value, self.x - self.width - 48, self.y + ind * 8 + 16)
+            love.graphics.print(
+                math.clamp(0, math.floor(self.inResources[i].storage.value), 9999),
+                self.x - self.width - 48,
+                self.y + ind * 8 + 16
+            )
             love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8 + 16)
             if self.inResources[i].storage.port.dockedShip then
                 love.graphics.print("ship", self.x + self.width, self.y + ind * 8 + 16)
@@ -137,37 +148,66 @@ function Station:draw()
             ind = ind + 1
         end
     end
-
 end
 
 function Station:drawSelected()
-    local scale = Vector(
-        (self.width + config.selection.border*2) / self.width,
-        (self.height + config.selection.border*2) / self.height
+    local scale =
+        Vector(
+        (self.width + config.selection.border * 2) / self.width,
+        (self.height + config.selection.border * 2) / self.height
     )
     love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.selected)
-    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
-    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
-    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(
+        self.image,
+        self.x - config.selection.border,
+        self.y - config.selection.border,
+        0,
+        scale.x,
+        scale.y
+    )
+    love.graphics.draw(
+        self.image,
+        self.x - config.selection.border,
+        self.y - config.selection.border,
+        0,
+        scale.x,
+        scale.y
+    )
+    love.graphics.draw(
+        self.image,
+        self.x - config.selection.border,
+        self.y - config.selection.border,
+        0,
+        scale.x,
+        scale.y
+    )
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
 
 function Station:drawHovered()
-    local scale = Vector(
-        (self.width + config.selection.border*2) / self.width,
-        (self.height + config.selection.border*2) / self.height
+    local scale =
+        Vector(
+        (self.width + config.selection.border * 2) / self.width,
+        (self.height + config.selection.border * 2) / self.height
     )
     love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.hover)
-    love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(
+        self.image,
+        self.x - config.selection.border,
+        self.y - config.selection.border,
+        0,
+        scale.x,
+        scale.y
+    )
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
 
 function Station:canBuildRouteFrom()
-    if self:isProducing('ship') then
+    if self:isProducing("ship") then
         return false
     end
     return true

@@ -71,8 +71,10 @@ Tasks["waitAroundStation"] = function(ship, target)
         end,
         function()
             ship.storage.value = 0
-            local target = ship.route.startStation
-            ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
+            local targetStation = ship.route.startStation
+            ship.tasks:addTask(
+                Tasks.goTo(ship, targetStation, targetStation.outResources[ship.route.resourceTaking].storage)
+            )
         end
     )
 end
@@ -87,16 +89,15 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
         end,
         function()
             local target
+            storage.port.dockedShip = nil
             if ship.newRoute then
                 ship.storage.value = 0
                 ship.route = ship.newRoute
                 ship.newRoute = nil
-                storage.port.dockedShip = nil
                 target = ship.route.startStation
             else
                 target = ship.route.endStation
             end
-            storage.port.dockedShip = nil
             ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
             ship:setVisible(true)
         end

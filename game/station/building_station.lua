@@ -14,7 +14,8 @@ local BuildingStation =
                 inResources  = {iron = {required = 1000, consume = 100, storage = Storage(1000, 0, "iron", 100, 1)}},
                 outResources = {},
                 image        = self.targetStation.image,
-                selectedImage = self.targetStation.selectedImage
+                selectedImage = self.targetStation.selectedImage,
+                description  = self.targetStation.description
             }
         )
         self.world = world
