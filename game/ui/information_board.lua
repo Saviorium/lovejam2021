@@ -25,8 +25,9 @@ local InformationBoard =
                                         resources,
                                         self,
                                         36,
-                                        self.font:getHeight(),
-                                        12
+                                        48,
+                                        self.font:getHeight()*2,
+                                        16
                                       )
 
         self.width = self.resourceBar.width > 48 and self.resourceBar.width or 128
@@ -47,16 +48,20 @@ local InformationBoard =
                         self.height,
                         'Information board',
                         'fixed')
+        self.isVisible = false
     end
 }
 
 function InformationBoard:render()
-    love.graphics.setFont(self.font)
-    love.graphics.setColor(0.8, 0.8, 0.8)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height + 10)
-    love.graphics.setColor(1,1,1)
-    love.graphics.printf(self.description, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')
-    self.resourceBar:draw()
+    if self.isVisible then
+        love.graphics.translate( 0, 0 )
+        love.graphics.setFont(self.font)
+        love.graphics.setColor(0.8, 0.8, 0.8)
+        love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+        love.graphics.setColor(1,1,1)
+        love.graphics.printf(self.description, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')
+        self.resourceBar:draw()
+    end
 end
 
 return InformationBoard

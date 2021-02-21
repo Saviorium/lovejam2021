@@ -182,6 +182,9 @@ function World:draw()
     end
     self.stationBuilder:draw()
 
+    for _, station in pairs(self.stations) do
+        station.informationBoard:draw()
+    end
     local mouseCoords = self:getMouseCoords()
     love.graphics.pop()
     self.uiManager:draw()

@@ -101,7 +101,10 @@ function Station:draw()
         self:drawSelected()
     else
         if self.isHovered then
+            self.informationBoard.isVisible = true
             self:drawHovered()
+        else
+            self.informationBoard.isVisible = false
         end
     end
     love.graphics.draw(self.image, self.x, self.y)
@@ -161,8 +164,6 @@ function Station:drawHovered()
     love.graphics.draw(self.image, self.x-config.selection.border, self.y-config.selection.border, 0, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
-
-    self.informationBoard:draw()
 end
 
 function Station:canBuildRouteFrom()
