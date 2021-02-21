@@ -6,7 +6,10 @@ local InformationBoard =
     __includes = UIobject,
     init = function(self, station, description)
         self.station = station
-        self.description = description
+        self.description = 'Station '..station:tostring()..'\n'..
+                           description.. '\n' ..
+                           'Population is '..station.population.. '\n' ..
+                           'Resources:'
 
         local resources = {}
         for name, resource in pairs(self.station.inResources) do
@@ -30,7 +33,7 @@ local InformationBoard =
                                         16
                                       )
 
-        self.width = self.resourceBar.width > 48 and self.resourceBar.width or 128
+        self.width = self.resourceBar.width > 128 and self.resourceBar.width or 128
 
         self.textWidth, self.wrappedtext = self.font:getWrap( self.description, self.width )
         self.textHeight = self.font:getHeight() * #self.wrappedtext
