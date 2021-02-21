@@ -1,7 +1,7 @@
 local Resources = require "data.resources"
 
 return {
-    gridSize = 16, -- pixel per cell
+    gridSize = 32, -- pixel per cell
     resources = {
         ironOre = {
             frequency = 0.03,

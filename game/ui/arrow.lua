@@ -21,6 +21,10 @@ function Arrow:setTo( point )
     return self
 end
 
+function Arrow:setColor( color )
+    self.params.color = color
+end
+
 function Arrow:draw()
     if not self.from or not self.to then
         return

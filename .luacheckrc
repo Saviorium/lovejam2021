@@ -7,6 +7,7 @@ globals = {
   "config",
   "Debug",
   "Class",
+  "Entity",
   "Vector",
   "nvl",
   "merge",

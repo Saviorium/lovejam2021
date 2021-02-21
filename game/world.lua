@@ -13,6 +13,7 @@ local Clock            = require("game.clock")
 
 local StationBuilder = require("game.station.station_builder")
 local RouteBuilder = require "game.route_builder"
+local ShipAssigner = require "game.ship.ship_assigner"
 
 -- local StationParameters = require("game.station.stations_parameters")
 
@@ -33,6 +34,7 @@ local World =
             zoom = 1
         }
         self.stationBuilder = StationBuilder(self)
+        self.shipAssigner = ShipAssigner(self)
         self.uiManager = WindowManager()
         self:initUI()
 
@@ -111,26 +113,30 @@ function World:update(dt)
     for _, station in pairs(self.stations) do
         station:setHover(false)
     end
+    for _, ship in pairs(self.ships) do
+        ship:setHover(false)
+    end
     local stationSelected = self:selectStationAt(self:getMouseCoords())
-    if stationSelected then
-        stationSelected:setHover(true)
+    local routeSelected = self:selectRouteAt(self:getMouseCoords())
+    local shipSelected = self:selectShipAt(self:getMouseCoords())
+    if shipSelected then
+        shipSelected:setHover(true)
+    else
+        if stationSelected and not self.shipAssigner:isActive() then
+            stationSelected:setHover(true)
+        end
     end
     if self.builders.route:isBuilding() then
         self.builders.route:setDestination(stationSelected)
+    end
+    if self.shipAssigner:isActive() then
+        self.shipAssigner:setRoute(routeSelected)
     end
 
     for _, ship in pairs(self.ships) do
         ship:update(dt)
     end
     self.uiManager:update(dt)
-end
-
-function World:selectStationAt(point)
-    for _, station in pairs(self.stations) do
-        if (station:getCenter() - point):len() < config.selection.stationSize then
-            return station
-        end
-    end
 end
 
 function World:draw()
@@ -155,6 +161,7 @@ function World:draw()
     love.graphics.pop()
     self.uiManager:draw()
     self.stationBuilder:draw()
+    self.shipAssigner:draw()
     love.graphics.print(
         string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
         2,
@@ -173,6 +180,11 @@ end
 
 function World:mousepressed(x, y)
     if not self.uiManager:mousepressed(x, y) then
+        local ship = self:selectShipAt(self:getFromScreenCoord(Vector(x, y)))
+        if ship and not self.shipAssigner:isActive() and ship:canBeAssigned() then
+            self.shipAssigner:setShip(ship)
+            return
+        end
         local station = self:selectStationAt(self:getFromScreenCoord(Vector(x, y)))
         if station and not self.builders.route:isBuilding() and station:canBuildRouteFrom() then
             self.builders.route:startBuilding(station)
@@ -188,7 +200,14 @@ function World:mousereleased(x, y)
             local from, to = self.builders.route:finishBuilding()
             self:addRoute(from, to)
         end
+        if self.shipAssigner:canAssign() then
+            local ship, route = self.shipAssigner:assign()
+            if ship and route then
+                ship:setRoute(route)
+            end
+        end
     end
+    self.shipAssigner:reset()
     self.builders.route:stopBuilding()
 end
 
@@ -219,6 +238,32 @@ end
 
 function World:move(dPos)
     self.camera.position = self.camera.position - dPos / self.camera.zoom
+end
+
+function World:selectStationAt(point)
+    for _, station in pairs(self.stations) do
+        if (station:getCenter() - point):len() < config.selection.stationSize then
+            return station
+        end
+    end
+end
+
+function World:selectShipAt(point)
+    for _, ship in pairs(self.ships) do
+        if (ship:getCenter() - point):len() < config.selection.shipSize then
+            return ship
+        end
+    end
+end
+
+function World:selectRouteAt(point)
+    for _, routesFrom in pairs(self.routes) do
+        for routeTo, route in pairs(routesFrom) do
+            if route:getDistanceTo(point) < config.selection.routeDistance then
+                return route
+            end
+        end
+    end
 end
 
 function World:getFromScreenCoord(screenPoint)
