@@ -1,16 +1,25 @@
 local UIobject    = require "game.ui.uiobject"
-local ResourceBar = require("game.ui.resource_bar")
+local ResourceBar = require "game.ui.resource_bar"
+local Resources   = require "data.resources"
 
 local InformationBoard =
     Class {
     __includes = UIobject,
     init = function(self, station, description)
         self.station = station
-        self.description =
-            'Station '..station:tostring()..'\n'..
-            (description or "").. '\n' ..
-            'Population is '..station.population.. '\n' ..
-            'Resources:'
+        local inResources, outResources = '',''
+        for ind, res in pairs(self.station:getConsumingResources()) do
+            inResources = inResources..Resources[res].name..', '
+        end
+        for ind, res in pairs(self.station:getProductingResources()) do
+            outResources = outResources..Resources[res].name..', '
+        end
+        local fullText = 'Station '..self.station:tostring()..'\n'..
+                         (description or "").. '\n' ..
+                         'Resources:'.. '\n' ..
+                         'In: ' ..inResources.. '\n' ..
+                         'Out: ' ..outResources
+        self.description = fullText
 
         local resources = {}
         for name, resource in pairs(self.station.inResources) do
