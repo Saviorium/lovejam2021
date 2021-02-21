@@ -55,6 +55,7 @@ Tasks['waitUntilFullLoad'] =
                 storage.port.dockedShip = nil
                 local target = ship.route.endStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
+                ship.offset = love.math.random(ship.maxOffset*2) - ship.maxOffset
             end
         )
     end
@@ -76,6 +77,7 @@ Tasks['waitUntilFullUnLoad'] =
                 end
                 local target = ship.route.startStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
+                ship.offset = love.math.random(ship.maxOffset*2) - ship.maxOffset
             end
         )
     end
