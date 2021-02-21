@@ -48,7 +48,7 @@ local Station =
     end
 }
 
-function Station:onTick()
+function Station:onTick(world)
     local productivity = self:calculateProductivity()
     local canProduce = true
     for name, resource in pairs(self.inResources) do
@@ -57,6 +57,15 @@ function Station:onTick()
         canProduce = canGet and canProduce or false
     end
     for name, resource in pairs(self.outResources) do
+        if resource.takingFromGrid then
+            canProduce =
+                world:canGetResourceInRange(
+                world.resourcesGrid:getGridCellAtCoords(Vector(self.x, self.y)),
+                name,
+                1,
+                resource.takingFromGrid
+            )
+        end
         local canPut = resource.storage:canPut(resource.produce * productivity)
         log(3, "Station storage of " .. name .. " check of can put is " .. (canPut and 1 or 0))
         canProduce = canPut and canProduce or false
@@ -74,6 +83,14 @@ function Station:onTick()
             resource.storage:onTick()
         end
         for name, resource in pairs(self.outResources) do
+            if resource.takingFromGrid then
+                world:getResourceInRange(
+                    world.resourcesGrid:getGridCellAtCoords(Vector(self.x, self.y)),
+                    name,
+                    1,
+                    resource.takingFromGrid
+                )
+            end
             local result = resource.storage:addAndGetExcess(resource.produce * productivity)
             log(
                 3,

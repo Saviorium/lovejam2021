@@ -6,6 +6,7 @@ local ResourceBar =
     __includes = UIobject,
     init = function(self, rightX, rightY, scale, resourceSources, world, iconSize, textWidth, textHeight, margin)
         self.iconSize    = nvl(iconSize, 16)
+        self.iconBackgroudSize    = 26
         self.textWidth   = nvl(textWidth, 16)
         self.textHeight  = nvl(textHeight, 8)
         self.margin      = nvl(margin, 12)
@@ -43,8 +44,8 @@ function ResourceBar:render()
         love.graphics.setColor(color)
         love.graphics.draw(
             self.iconBgImage,
-            iconX,
-            iconY,
+            iconX + (self.cellWidth  - (icon:getWidth() + self.iconBackgroudSize/2) * self.scale)/2,
+            iconY + (self.cellHeight - (icon:getHeight() + self.textHeight + self.iconBackgroudSize/2) * self.scale)/2,
             0,
             self.scale,
             self.scale

@@ -43,18 +43,28 @@ local World =
 }
 
 function World:populateOnInit()
-    table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(534, 234)))
-    table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(100, 200)))
-    table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
-    table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
-    table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
-    table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(345, 345)))
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 200)), 'ironOre', 1)
+    table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(100, 200)))
+    table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(300, 200)))
+    table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(500, 200)))
+
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 450)), 'ice', 1)
+    table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(100, 450)))
+    table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(300, 400)))
+    table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(300, 500)))
+    table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(500, 450)))
 
     self.stations['HubStation'] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
 
-    table.insert(self.ships, Ship(150, 300):setRoute(self:addRoute(self.stations[1], self.stations[2])))
-    table.insert(self.ships, Ship(150, 350):setRoute(self:addRoute(self.stations[3], self.stations[5])))
-    table.insert(self.ships, Ship(150, 500):setRoute(self:addRoute(self.stations[3], self.stations[5])))
+    table.insert(self.ships, Ship(150, 200):setRoute(self:addRoute(self.stations[1], self.stations[2])))
+    table.insert(self.ships, Ship(250, 200):setRoute(self:addRoute(self.stations[2], self.stations[3])))
+
+    table.insert(self.ships, Ship(100, 400):setRoute(self:addRoute(self.stations[4], self.stations[5])))
+    table.insert(self.ships, Ship(100, 500):setRoute(self:addRoute(self.stations[4], self.stations[6])))
+    table.insert(self.ships, Ship(250, 400):setRoute(self:addRoute(self.stations[5], self.stations[7])))
+    table.insert(self.ships, Ship(250, 500):setRoute(self:addRoute(self.stations[6], self.stations[7])))
+    table.insert(self.ships, Ship(500, 500):setRoute(self:addRoute(self.stations[7], self.stations['HubStation'])))
+
 end
 
 function World:addRoute(from, to)
@@ -113,7 +123,7 @@ function World:update(dt)
     self.clock:update(dt)
     if self.clock.dayChanged then
         for _, station in pairs(self.stations) do
-            station:onTick()
+            station:onTick(self)
         end
     end
     if self.clock.monthChanged then
@@ -328,6 +338,53 @@ end
 
 function World:isThereLeftAnyDudes()
     return (self.stations.HubStation.outResources.dude.storage.value - #self.stations) > 0
+end
+
+function World:addResourceInRange(position, resource, range)
+    for i = -range, range, 1 do
+        for j = -range, range, 1 do
+            self.resourcesGrid:setResources(position.x + i, position.y + j, 1000, resource)
+            print('Set '..resource..' at ',Vector(position.x + i, position.y + j))
+        end
+    end
+end
+
+function World:canGetResourceInRange(position, resource, range, unitsToGet)
+    print('Checking ', resource)
+    local result = false
+    for i = -range, range, 1 do
+        for j = -range, range, 1 do
+            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(Vector(position.x + i, position.y + j), resource)
+            print('On ', Vector(position.x + i, position.y + j), ' left ', resourcesLeft, unitsToGet, resource)
+            if resourcesLeft > unitsToGet then
+                result = true
+            end
+        end
+    end
+    return result
+end
+
+function World:getResourceInRange(position, resource, range, unitsToGet)
+    for i = -range, range, 1 do
+        for j = -range, range, 1 do
+            local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(Vector(position.x + i, position.y + j), resource)
+            if resourcesLeft > unitsToGet then
+                self.resourcesGrid:setResources(position.x + i, position.y + j, resourcesLeft - unitsToGet, resource)
+            end
+        end
+    end
+end
+
+function World:findStationsInRange(position, range)
+    for _, station in pairs(self.stations) do
+        local stationCellCoords = self.resourcesGrid:getGridCellAtCoords(Vector(station.x, station.y))
+        print(stationCellCoords, position)
+        if stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range
+       and stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range then
+            return station
+       end
+    end
+    return nil
 end
 
 return World

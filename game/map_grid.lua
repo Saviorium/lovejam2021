@@ -84,4 +84,8 @@ function MapGrid:drawResource(x, y, resourceName)
     )
 end
 
+function MapGrid:setResources(x, y, units, resource)
+    self.grid[resource].cells[x][y] = units
+end
+
 return MapGrid

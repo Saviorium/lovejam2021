@@ -7,11 +7,21 @@ local Stations = {
         local newStorage
         local inResources  = {}
         local outResources = {}
-        newStorage = Storage(1000, 0, 'ironOre', 100, -1)
-        outResources['ironOre'] = { produce = 100 , storage = newStorage}
+        newStorage = Storage(4000, 0, 'ironOre', 100, -1)
+        outResources['ironOre'] = { takingFromGrid = 5, produce = 100 , storage = newStorage}
         StationsData.oreDrill.inResources = inResources
         StationsData.oreDrill.outResources = outResources
         return Station(position, StationsData.oreDrill)
+    end,
+    iceDrill = function(position)
+        local newStorage
+        local inResources  = {}
+        local outResources = {}
+        newStorage = Storage(4000, 0, 'ice', 100, -1)
+        outResources['ice'] = { takingFromGrid = 5, produce = 200 , storage = newStorage}
+        StationsData.iceDrill.inResources = inResources
+        StationsData.iceDrill.outResources = outResources
+        return Station(position, StationsData.iceDrill)
     end,
     ironAnvil = function(position)
         local newStorage
@@ -29,8 +39,10 @@ local Stations = {
         local newStorage
         local inResources  = {}
         local outResources = {}
+        newStorage = Storage(1000, 0, 'ice', 100, 1)
+        inResources['ice'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 0, 'milk', 100, -1)
-        outResources['milk'] = { produce = 100 , storage = newStorage} 
+        outResources['milk'] = { produce = 50 , storage = newStorage}
         StationsData.milkStation.inResources = inResources
         StationsData.milkStation.outResources = outResources
         return Station(position, StationsData.milkStation)
@@ -39,8 +51,10 @@ local Stations = {
         local newStorage
         local inResources  = {}
         local outResources = {}
+        newStorage = Storage(1000, 0, 'ice', 100, 1)
+        inResources['ice'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 0, 'cocoa', 100, -1)
-        outResources['cocoa'] = { produce = 100 , storage = newStorage} 
+        outResources['cocoa'] = { produce = 75 , storage = newStorage}
         StationsData.cocoaFarm.inResources = inResources
         StationsData.cocoaFarm.outResources = outResources
         return Station(position, StationsData.cocoaFarm)
