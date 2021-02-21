@@ -141,6 +141,7 @@ function World:update(dt)
 
     for _, station in pairs(self.stations) do
         station:setHover(false)
+        station:update(dt)
     end
     for _, ship in pairs(self.ships) do
         ship:setHover(false)

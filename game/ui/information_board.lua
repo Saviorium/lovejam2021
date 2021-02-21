@@ -62,8 +62,13 @@ local InformationBoard =
                         'Information board',
                         'fixed')
         self.isVisible = false
+        self.showTimer = Timer.new()
     end
 }
+
+function InformationBoard:update(dt)
+    self.showTimer:update(dt)
+end
 
 function InformationBoard:render()
     if self.isVisible then

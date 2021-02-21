@@ -47,6 +47,9 @@ local Station =
         self.informationBoard = InformationBoard(self, parameters.description)
     end
 }
+function Station:update(dt)
+    self.informationBoard:update(dt)
+end
 
 function Station:onTick(world)
     local productivity = self:calculateProductivity()
@@ -121,12 +124,15 @@ function Station:draw()
         progressBar:draw()
     end
     if self.isSelected then
-        self.informationBoard.isVisible = true
         self:drawSelected()
+        self.informationBoard.showTimer:clear()
+        self.informationBoard.isVisible = false
     else
         if self.isHovered then
+            self.informationBoard.showTimer:after(1, function() self.informationBoard.isVisible = true end)
             self:drawHovered()
         else
+            self.informationBoard.showTimer:clear()
             self.informationBoard.isVisible = false
         end
     end
