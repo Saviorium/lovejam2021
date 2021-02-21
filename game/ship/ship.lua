@@ -50,7 +50,7 @@ end
 function Ship:draw()
     Entity.draw(self)
     if self.tasks.currentTask and self.tasks.currentTask.name == 'goto' then
-        love.graphics.draw(self.image, self.position.x, self.position.y)
+        love.graphics.draw(self.image, self.position.x, self.position.y, self.angle )
     end
 end
 
@@ -61,9 +61,9 @@ function Ship:drawSelected()
     )
     love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.selection.colorSelected)
-    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, 0, scale.x, scale.y)
-    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, 0, scale.x, scale.y)
-    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
+    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
+    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
@@ -75,7 +75,7 @@ function Ship:drawHovered()
     )
     love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.selection.colorHover)
-    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, 0, scale.x, scale.y)
+    love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
@@ -87,9 +87,10 @@ function Ship:isNear( target )
 end
 
 function Ship:moveTo( dt, target )
-    local direction = (target:getCenter()-self.position):normalized()
-    log(1, "Ship moving in direction ", direction)
-    self.position = self.position + direction * self.speed * dt
+    self.direction = (target:getCenter()-self.position):normalized()
+    self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
+    log(1, "Ship moving in direction ", self.direction)
+    self.position = self.position + self.direction * self.speed * dt
 end
 
 function Ship:getCenter()
