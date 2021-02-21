@@ -18,16 +18,17 @@ Tasks['goTo'] =
             function()
                 log(1, ship.name .. ": ship trying to get in queue")
                 destinationStorage.port:addShipToQueue(ship)
-                ship.tasks:addTask(Tasks.waitUntilPortRelease(ship, destinationStorage))
+                ship.tasks:addTask(Tasks.waitUntilPortRelease(ship, destination, destinationStorage))
             end
         )
     end
 Tasks['waitUntilPortRelease'] =
-    function(ship, storage)
+    function(ship, target, storage)
         log(3, ship.name .. ": Waiting until port will be released")
         return Task(
             "wait_until_port_will_be_released",
             function(dt)
+                ship:moveAroundStation(dt, target)
             end,
             function()
                 return storage.port.dockedShip == ship

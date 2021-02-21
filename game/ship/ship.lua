@@ -52,7 +52,8 @@ end
 
 function Ship:draw()
     Entity.draw(self)
-    if self.tasks.currentTask and self.tasks.currentTask.name == 'goto' then
+    local name = self.tasks.currentTask and self.tasks.currentTask.name or nil
+    if name and (name == 'goto' or name =='wait_until_port_will_be_released') then
         love.graphics.draw(self.image, self.position.x, self.position.y, self.angle )
     end
 end
@@ -94,6 +95,13 @@ function Ship:moveTo( dt, target )
     self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
     self.direction = self.direction:rotated(self.driftAngle)
     log(1, "Ship moving in direction ", self.direction)
+    self.position = self.position + self.direction * self.speed * dt
+end
+
+function Ship:moveAroundStation( dt, target )
+    self.direction = (target:getCenter()-self.position):normalized():rotateInplace(math.pi/2)
+    self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
+    log(1, "Ship moving around station", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
 
