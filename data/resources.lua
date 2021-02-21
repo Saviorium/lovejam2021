@@ -1,3 +1,5 @@
+local Ship = require "game.ship.ship"
+
 local Resources = {
     iron = {
         name = 'Iron bars',
@@ -39,7 +41,11 @@ local Resources = {
         name = 'Ship',
         icon = AssetManager:getImage('ship_icon'),
         color = {0.2, 0.2, 0.2},
-        bgColor = {1, 1, 1}
+        bgColor = {1, 1, 1},
+        productConstructor = function(station)
+            local initPoint = station:getCenter()
+            return Ship(initPoint.x, initPoint.y):flyAroundStation(station)
+        end
     },
     dude = {
         name = 'Peoples',

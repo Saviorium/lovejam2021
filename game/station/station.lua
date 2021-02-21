@@ -160,10 +160,42 @@ function Station:drawHovered()
 end
 
 function Station:canBuildRouteFrom()
-    if self.outResources == 'ship' then
+    if self:isProducing('ship') then
         return false
     end
     return true
+end
+
+function Station:getProduct(resourceName)
+    local resource = Resources[resourceName]
+    local storage = self:getStorage(resourceName)
+    if not self:isProducing(resourceName) or not resource or not resource.productConstructor or storage.value < 1 then
+        return false
+    end
+    storage.value = storage.value - 1
+    return resource.productConstructor(self)
+end
+
+function Station:isProducing(resourceName)
+    for ind, _ in pairs(self.outResources) do
+        if ind == resourceName then
+            return true
+        end
+    end
+    return false
+end
+
+function Station:getStorage(resourceName)
+    for ind, storage in pairs(self.outResources) do
+        if ind == resourceName then
+            return storage.storage
+        end
+    end
+    for ind, storage in pairs(self.inResources) do
+        if ind == resourceName then
+            return storage.storage
+        end
+    end
 end
 
 function Station:getProductingResources()

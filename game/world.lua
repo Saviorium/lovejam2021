@@ -48,6 +48,7 @@ function World:populateOnInit()
     table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(100, 300)))
     table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(100, 400)))
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(457, 500)))
+    table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(345, 345)))
 
     self.stations['HubStation'] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
 
@@ -186,8 +187,18 @@ function World:mousepressed(x, y)
             return
         end
         local station = self:selectStationAt(self:getFromScreenCoord(Vector(x, y)))
-        if station and not self.builders.route:isBuilding() and station:canBuildRouteFrom() then
-            self.builders.route:startBuilding(station)
+        if station and not self.builders.route:isBuilding() then
+            if station:canBuildRouteFrom() then
+                self.builders.route:startBuilding(station)
+            else
+                if station:isProducing('ship') then
+                    local newShip = station:getProduct('ship')
+                    if newShip then
+                        table.insert(self.ships, newShip)
+                        self.shipAssigner:setShip(newShip)
+                    end
+                end
+            end
             return
         end
     end

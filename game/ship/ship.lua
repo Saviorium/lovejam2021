@@ -41,6 +41,10 @@ function Ship:setRoute(route)
     return self
 end
 
+function Ship:flyAroundStation(station)
+    return self
+end
+
 function Ship:canBeAssigned()
     return true
 end
@@ -92,8 +96,7 @@ end
 
 function Ship:moveTo( dt, target )
     self.direction = (target:getCenter()-self.position):normalized()
-    self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
-    self.direction = self.direction:rotated(self.driftAngle)
+    self.direction = self.direction:rotateInplace(self.driftAngle)
     log(1, "Ship moving in direction ", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
