@@ -61,7 +61,7 @@ function ResourceBar:render()
                 end
             end
             love.graphics.printf(
-                string.format("%04d", value) .. " / " .. max,
+                string.format("%d", value) .. " / " .. max,
                 textX,
                 textY,
                 self.cellWidth,
@@ -69,7 +69,7 @@ function ResourceBar:render()
             )
         elseif res.resource == 'life' then
             love.graphics.printf(
-                string.format("%02d", self.world.lifes)  .. " / " .. 10,
+                string.format("%d", self.world.lifes)  .. " / " .. 10,
                 textX,
                 textY,
                 self.cellWidth,
@@ -84,7 +84,7 @@ function ResourceBar:render()
                 end
             end
             love.graphics.printf(
-                string.format("%04d", overallValue) .. " / " .. overallMax,
+                string.format("%d", overallValue) .. " / " .. overallMax,
                 textX,
                 textY,
                 self.cellWidth,
