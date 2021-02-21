@@ -70,7 +70,7 @@ local StationsData = {
         end
     },
     buildShipsStation = {
-        inResources  = {iron      = { consume = 50 , storage = Storage(5000, 0,   'iron' , 100, 1)}},
+        inResources  = {iron      = { consume = 50 , storage = Storage(5000, 1000,   'iron' , 100, 1)}},
         outResources = {ship      = { produce = 0.05    , storage = Storage(5, 0, 'ship' , 1, -1)}},
         image        = AssetManager:getImage('ore_drill'),
         selectedImage   = AssetManager:getImage('focused_ore_drill'),

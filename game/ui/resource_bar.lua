@@ -53,9 +53,9 @@ function ResourceBar:render()
         elseif res.resource ~= 'life' then
             local overallValue, overallMax = 0, 0
             for _, station in pairs(self.world.stations) do
-                if table.remove(station:getProductingResources()) == "ship" then
-                    overallValue = overallValue + station.outResources.ship.storage.value
-                    overallMax   = overallMax + station.outResources.ship.storage.max
+                if count( station:getProductingResources(), function(obj) return obj == res.resource end) > 0 then
+                    overallValue = overallValue + station.outResources[res.resource].storage.value
+                    overallMax   = overallMax + station.outResources[res.resource].storage.max
                 end
             end
             love.graphics.printf(
