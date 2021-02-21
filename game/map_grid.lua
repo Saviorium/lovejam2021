@@ -73,7 +73,10 @@ end
 function MapGrid:drawResource(x, y, resourceName)
     local resource = self.resources[resourceName]
     local resourceCell = self.grid[resourceName].cells[x][y]
-    love.graphics.setColor(resource.color)
+    local fadedColor = resource.color
+    fadedColor[4] = 0.8
+    love.graphics.setColor(fadedColor)
+    fadedColor[4] = 1 -- i'm sorry
     love.graphics.circle('fill',
         x * self.gridSize + self.gridSize / 2,
         y * self.gridSize + self.gridSize / 2,

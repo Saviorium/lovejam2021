@@ -6,10 +6,11 @@ local InformationBoard =
     __includes = UIobject,
     init = function(self, station, description)
         self.station = station
-        self.description = 'Station '..station:tostring()..'\n'..
-                           description.. '\n' ..
-                           'Population is '..station.population.. '\n' ..
-                           'Resources:'
+        self.description =
+            'Station '..station:tostring()..'\n'..
+            (description or "").. '\n' ..
+            'Population is '..station.population.. '\n' ..
+            'Resources:'
 
         local resources = {}
         for name, resource in pairs(self.station.inResources) do
@@ -59,7 +60,7 @@ function InformationBoard:render()
     if self.isVisible then
         love.graphics.translate( 0, 0 )
         love.graphics.setFont(self.font)
-        love.graphics.setColor(0.8, 0.8, 0.8)
+        love.graphics.setColor(config.colors.uiBackground)
         love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
         love.graphics.setColor(1,1,1)
         love.graphics.printf(self.description, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')

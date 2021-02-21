@@ -34,7 +34,7 @@ local ResourceBar =
 
 function ResourceBar:render()
 
-    love.graphics.setColor(0.7, 0.7, 0.7)
+    love.graphics.setColor(config.colors.uiBackgroundDarker)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     love.graphics.setColor(1, 1, 1)
 

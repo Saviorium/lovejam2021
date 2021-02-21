@@ -19,7 +19,7 @@ local NewStationButton = Class {
 }
 
 function NewStationButton:render()
-    love.graphics.setColor(0.7,0.7,0.7)
+    love.graphics.setColor(config.colors.uiBackgroundDarker)
     love.graphics.rectangle('fill', self.x, self.y, 64, 64)
     love.graphics.setColor(1,1,1)
 	love.graphics.draw(self.image, self.x, self.y, 0, 2, 2)
