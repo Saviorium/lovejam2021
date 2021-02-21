@@ -4,10 +4,13 @@ config = {
         zoomMin = 0.5,
         zoomMax = 5
     },
+    colors = {
+        selected = {0.5, 0.9, 0.2, 1},
+        hover = {0.6, 1, 0.4, 1},
+        delete = {0.8, 0.2, 0.2},
+        noResource = {0.1, 0.1, 0.1}
+    },
     selection = {
-        colorSelected = {0.5, 0.9, 0.2, 1},
-        colorHover = {0.6, 1, 0.4, 1},
-        colorDelete = {0.8, 0.2, 0.2},
         border = 4,
         stationSize = 50,
         shipSize = 10,

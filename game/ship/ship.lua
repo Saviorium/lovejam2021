@@ -45,11 +45,15 @@ end
 
 function Ship:flyAroundStation(station)
     self.tasks:clear()
+    self.route = nil
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
     return self
 end
 
 function Ship:canBeAssigned()
+    if not self.visible then
+        return false
+    end
     return true
 end
 
@@ -59,8 +63,8 @@ function Ship:update(dt)
 end
 
 function Ship:draw()
-    Entity.draw(self)
     if self.visible then
+        Entity.draw(self)
         love.graphics.draw(self.image, self.position.x, self.position.y, self.angle )
     end
 end
@@ -71,7 +75,7 @@ function Ship:drawSelected()
         (self.height + config.selection.border*2) / self.height
     )
     love.graphics.setBlendMode("add", "alphamultiply")
-    love.graphics.setColor(config.selection.colorSelected)
+    love.graphics.setColor(config.colors.selected)
     love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
@@ -90,7 +94,7 @@ function Ship:drawHovered()
         (self.height + config.selection.border*2) / self.height
     )
     love.graphics.setBlendMode("add", "alphamultiply")
-    love.graphics.setColor(config.selection.colorHover)
+    love.graphics.setColor(config.colors.hover)
     love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)

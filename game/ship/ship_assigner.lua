@@ -13,7 +13,7 @@ function ShipAssigner:isActive()
 end
 
 function ShipAssigner:canAssign()
-    return self.ship and self.route
+    return self.ship and self.route and self.route:canAssign(self.ship)
 end
 
 function ShipAssigner:setShip(ship)

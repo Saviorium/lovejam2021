@@ -1,5 +1,7 @@
 local Arrow = require "game.ui.arrow"
 
+local Resources = require "data.resources"
+
 local Route =
     Class {
     init = function(self, startStation, endStation)
@@ -11,6 +13,12 @@ local Route =
                     self.resourceTaking = resourceTo
                 end
             end
+        end
+
+        if self.resourceTaking then
+            self.resourceColor = Resources[self.resourceTaking].color
+        else
+            self.resourceColor = config.colors.noResource
         end
 
         self.arrow = Arrow():setFrom(self.startStation:getCenter()):setTo(self.endStation:getCenter())
@@ -33,6 +41,13 @@ local function distFromPointToLineSegment(point, lineStart, lineEnd)
     return (lineStart + projectionOnSegment):dist2(point)
 end
 
+function Route:canAssign(ship)
+    if self.resourceTaking then
+        return true
+    end
+    return false
+end
+
 function Route:getDistanceTo(point)
     return distFromPointToLineSegment(point, self.startStation:getCenter(), self.endStation:getCenter())
 end
@@ -50,10 +65,10 @@ function Route:setHover(bool)
 end
 
 function Route:draw()
-    self.arrow:setColor(config.selection.colorSelected)
-    if self.isHovered then self.arrow:setColor(config.selection.colorHover) end
-    if self.isSelected then self.arrow:setColor(config.selection.colorHover) end
-    if self.isSelectedToDelete then self.arrow:setColor(config.selection.colorDelete) end
+    self.arrow:setColor(self.resourceColor)
+    if self.isHovered then self.arrow:setColor(config.colors.hover) end
+    if self.isSelected then self.arrow:setColor(config.colors.hover) end
+    if self.isSelectedToDelete then self.arrow:setColor(config.colors.delete) end
     self.arrow:draw()
 end
 
