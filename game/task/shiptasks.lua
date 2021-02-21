@@ -42,6 +42,23 @@ Tasks['waitUntilPortRelease'] =
             end
         )
     end
+Tasks['waitAroundStation'] =
+        function(ship, target, storage)
+            log(3, ship.name .. ": Waiting until port will be released")
+            return Task(
+                "wait_until_port_will_be_released",
+                function(dt)
+                    ship:moveAroundStation(dt, target)
+                end,
+                function()
+                    return ship.route
+                end,
+                function()
+                    local target = ship.route.startStation
+                    ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
+                end
+            )
+        end
 Tasks['waitUntilFullLoad'] =
     function(ship, storage)
         log(3, ship.name .. ": Waiting until full load")

@@ -39,39 +39,42 @@ local Station = Class {
         self.selectedImage = parameters.selectedImage
         self.isSelected = false
         self.isHovered = false
+
+        self.population = 1
     end
 }
 
 function Station:onTick()
+    local productivity = self:calculateProductivity()
     local canProduce = true
     for name, resource in pairs(self.inResources) do
-        local canGet = resource.storage:canGet(resource.consume)
+        local canGet = resource.storage:canGet(resource.consume * productivity)
         log(3, "Station storage of " .. name .. " check of can get is " .. (canGet and 1 or 0))
         canProduce = canGet and canProduce or false
     end
     for name, resource in pairs(self.outResources) do
-        local canPut = resource.storage:canPut(resource.produce)
+        local canPut = resource.storage:canPut(resource.produce * productivity)
         log(3, "Station storage of " .. name .. " check of can put is " .. (canPut and 1 or 0))
         canProduce = canPut and canProduce or false
     end
     if canProduce then
         for name, resource in pairs(self.inResources) do
-            local result = resource.storage:addAndGetExcess(-resource.consume)
+            local result = resource.storage:addAndGetExcess(-resource.consume * productivity)
             log(
                 3,
                 "Station storage of " ..
                     name ..
-                        " consumed " .. resource.consume .. ":" .. result .. " and become " .. resource.storage.value
+                        " consumed " .. resource.consume * productivity .. ":" .. result .. " and become " .. resource.storage.value
             )
             resource.storage:onTick()
         end
         for name, resource in pairs(self.outResources) do
-            local result = resource.storage:addAndGetExcess(resource.produce)
+            local result = resource.storage:addAndGetExcess(resource.produce * productivity)
             log(
                 3,
                 "Station storage of " ..
                     name ..
-                        " produced " .. resource.produce .. ":" .. result .. " and become " .. resource.storage.value
+                        " produced " .. resource.produce * productivity .. ":" .. result .. " and become " .. resource.storage.value
             )
         end
     end
@@ -193,6 +196,11 @@ end
 
 function Station:tostring()
     return self.name
+end
+
+function Station:calculateProductivity()
+    print(math.log10(self.population*10 * self.population*10))
+    return math.log10(self.population*10 * self.population*10)
 end
 
 return Station
