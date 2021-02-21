@@ -8,7 +8,7 @@ Debug = {
     storagesDrawDebug = false,
     shipInnerDebug = 0,
     shipDrawDebug = false,
-    taskInnerDebug = 5,
+    taskInnerDebug = 1,
     routeBuilder = 1,
     shipAssigner = 1
 }

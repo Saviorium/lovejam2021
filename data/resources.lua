@@ -43,7 +43,7 @@ local Resources = {
         color = {0.2, 0.2, 0.2},
         bgColor = {1, 1, 1},
         productConstructor = function(station)
-            local initPoint = station:getCenter()
+            local initPoint = station:getCenter()+Vector(station.width, 0):rotateInplace(love.math.random(2*math.pi))
             return Ship(initPoint.x, initPoint.y):flyAroundStation(station)
         end
     },

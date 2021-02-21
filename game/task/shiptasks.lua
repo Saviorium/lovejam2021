@@ -34,6 +34,7 @@ Tasks['waitUntilPortRelease'] =
                 return storage.port.dockedShip == ship
             end,
             function()
+                ship:setVisible(false)
                 if storage.port.direction == -1 then
                     ship.tasks:addTask(Tasks.waitUntilFullLoad(ship, storage))
                 elseif storage.port.direction == 1 then
@@ -43,10 +44,10 @@ Tasks['waitUntilPortRelease'] =
         )
     end
 Tasks['waitAroundStation'] =
-        function(ship, target, storage)
-            log(3, ship.name .. ": Waiting until port will be released")
+        function(ship, target)
+            log(3, ship.name .. ": Waiting around station" .. target:tostring())
             return Task(
-                "wait_until_port_will_be_released",
+                "wait_around_station",
                 function(dt)
                     ship:moveAroundStation(dt, target)
                 end,
@@ -73,6 +74,7 @@ Tasks['waitUntilFullLoad'] =
                 storage.port.dockedShip = nil
                 local target = ship.route.endStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
+                ship:setVisible(true)
             end
         )
     end
@@ -94,6 +96,7 @@ Tasks['waitUntilFullUnLoad'] =
                 end
                 local target = ship.route.startStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
+                ship:setVisible(true)
             end
         )
     end

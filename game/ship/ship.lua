@@ -11,6 +11,7 @@ local Ship = Class {
         self.position = Vector(x, y)
         self.storage = Storage(1000, 0, 'any', 100, 0)
         self.speed   = 30
+        self.direction = Vector()
 
         self.name = name or "Ship #"..love.math.random( 1000 )
 
@@ -20,6 +21,7 @@ local Ship = Class {
         self.focusedImage = AssetManager:getImage('ship')
         self.width = self.image:getWidth()
         self.height = self.image:getHeight()
+        self.visible = true
 
         self:addComponent("selectable")
 
@@ -42,6 +44,7 @@ function Ship:setRoute(route)
 end
 
 function Ship:flyAroundStation(station)
+    self.tasks:addTask(Tasks.waitAroundStation(self, station))
     return self
 end
 
@@ -56,8 +59,7 @@ end
 
 function Ship:draw()
     Entity.draw(self)
-    local name = self.tasks.currentTask and self.tasks.currentTask.name or nil
-    if name and (name == 'goto' or name =='wait_until_port_will_be_released') then
+    if self.visible then
         love.graphics.draw(self.image, self.position.x, self.position.y, self.angle )
     end
 end
@@ -74,6 +76,11 @@ function Ship:drawSelected()
     love.graphics.draw(self.image, self.position.x-config.selection.border, self.position.y-config.selection.border, self.angle, scale.x, scale.y)
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
+end
+
+function Ship:setVisible(boolean)
+    self.visible = boolean
+    return self
 end
 
 function Ship:drawHovered()
