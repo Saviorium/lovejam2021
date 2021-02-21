@@ -32,7 +32,7 @@ local Route =
 
 local function distFromPointToLineSegment(point, lineStart, lineEnd)
     local length2 = lineStart:dist2(lineEnd)
-    if (length2 <= 0) then return Vector.dist(point, lineStart) end -- lineStart == lineEnd case
+    if (length2 <= 0) then return point:dist2(lineStart) end -- lineStart == lineEnd case
     local lineVector = lineEnd - lineStart
     local pointToStartVector = (point - lineStart)
     local prjScalar = (pointToStartVector.x * lineVector.x + pointToStartVector.y * lineVector.y) / (lineVector.x * lineVector.x + lineVector.y * lineVector.y)

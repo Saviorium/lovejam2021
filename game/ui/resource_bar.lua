@@ -16,6 +16,8 @@ local ResourceBar =
         self.width = #resourceSources * self.cellWidth
         self.height = self.cellHeight
 
+        self.iconBgImage = AssetManager:getImage('icon_bg')
+
         self.x = rightX - self.width
         self.y = rightY
 
@@ -33,23 +35,29 @@ local ResourceBar =
 }
 
 function ResourceBar:render()
-
-    love.graphics.setColor(config.colors.uiBackgroundDarker)
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    love.graphics.setColor(1, 1, 1)
-
     for ind, res in pairs(self.resources) do
         local iconX, iconY = self.x + self.cellWidth * (ind - 1), self.y
         local textX, textY = iconX, self.y + self.cellWidth
         local icon = Resources[res.resource].icon
+        local color = Resources[res.resource].color
+        love.graphics.setColor(color)
         love.graphics.draw(
-                           Resources[res.resource].icon,
-                           iconX + (self.cellWidth  - icon:getWidth() * self.scale)/2,
-                           iconY + (self.cellHeight - (icon:getHeight() + self.textHeight) * self.scale)/2,
-                           0,
-                           self.scale,
-                           self.scale
-                          )
+            self.iconBgImage,
+            iconX,
+            iconY,
+            0,
+            self.scale,
+            self.scale
+        )
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(
+            Resources[res.resource].icon,
+            iconX + (self.cellWidth  - icon:getWidth() * self.scale)/2,
+            iconY + (self.cellHeight - (icon:getHeight() + self.textHeight) * self.scale)/2,
+            0,
+            self.scale,
+            self.scale
+        )
 
         if res.resourceSource then
             local value, max = res.resourceSource.storage.value, res.resourceSource.storage.max
