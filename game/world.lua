@@ -66,6 +66,21 @@ function World:addRoute(from, to)
     return self.routes[from][to]
 end
 
+function World:deleteRoute(routeToDel)
+    for routeFrom, routesFrom in pairs(self.routes) do
+        for routeTo, route in pairs(routesFrom) do
+            if routeToDel == route then
+                self.routes[routeFrom][routeTo] = nil
+            end
+        end
+    end
+    for _, ship in pairs(self.ships) do
+        if ship.route == routeToDel then
+            ship:flyAroundStation(routeToDel.endStation)
+        end
+    end
+end
+
 function World:initUI()
     local index = 1
     for stationName, station in pairs(Stations) do
@@ -117,6 +132,11 @@ function World:update(dt)
     for _, ship in pairs(self.ships) do
         ship:setHover(false)
     end
+    for _, routesFrom in pairs(self.routes) do
+        for _, route in pairs(routesFrom) do
+            route:setSelectedToDelete(false)
+        end
+    end
     local stationSelected = self:selectStationAt(self:getMouseCoords())
     local routeSelected = self:selectRouteAt(self:getMouseCoords())
     local shipSelected = self:selectShipAt(self:getMouseCoords())
@@ -126,6 +146,9 @@ function World:update(dt)
         if stationSelected and not self.shipAssigner:isActive() then
             stationSelected:setHover(true)
         end
+    end
+    if routeSelected and love.mouse.isDown(2) then
+        routeSelected:setSelectedToDelete(true)
     end
     if self.builders.route:isBuilding() then
         self.builders.route:setDestination(stationSelected)
@@ -179,7 +202,7 @@ function World:wheelmoved(x, y)
     self:zoom(Vector(love.mouse.getPosition()), y)
 end
 
-function World:mousepressed(x, y)
+function World:mousepressed(x, y, button)
     if not self.uiManager:mousepressed(x, y) then
         local ship = self:selectShipAt(self:getFromScreenCoord(Vector(x, y)))
         if ship and not self.shipAssigner:isActive() and ship:canBeAssigned() then
@@ -204,9 +227,10 @@ function World:mousepressed(x, y)
     end
 end
 
-function World:mousereleased(x, y)
+function World:mousereleased(x, y, button)
+    local mouseCoords = self:getFromScreenCoord(Vector(x, y))
     if not self.uiManager:mousereleased(x, y) then
-        local station = self:selectStationAt(self:getMouseCoords())
+        local station = self:selectStationAt(mouseCoords)
         if self.builders.route:isBuilding() then
             local from, to = self.builders.route:finishBuilding()
             self:addRoute(from, to)
@@ -216,6 +240,10 @@ function World:mousereleased(x, y)
             if ship and route then
                 ship:setRoute(route)
             end
+        end
+        local route = self:selectRouteAt(mouseCoords)
+        if button == 2 and route then
+            self:deleteRoute(route)
         end
     end
     self.shipAssigner:reset()

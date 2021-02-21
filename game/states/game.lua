@@ -6,12 +6,12 @@ function Game:enter()
     self.gameWorld = World()
 end
 
-function Game:mousepressed(x, y)
-    self.gameWorld:mousepressed(x, y)
+function Game:mousepressed(x, y, button)
+    self.gameWorld:mousepressed(x, y, button)
 end
 
-function Game:mousereleased(x, y)
-    self.gameWorld:mousereleased(x, y)
+function Game:mousereleased(x, y, button)
+    self.gameWorld:mousereleased(x, y, button)
 end
 
 function Game:wheelmoved(x, y)

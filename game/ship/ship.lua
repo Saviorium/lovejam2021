@@ -44,6 +44,7 @@ function Ship:setRoute(route)
 end
 
 function Ship:flyAroundStation(station)
+    self.tasks:clear()
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
     return self
 end
@@ -109,6 +110,10 @@ function Ship:moveTo( dt, target )
 end
 
 function Ship:moveAroundStation( dt, target )
+    if not self:isNear( target ) then
+        self:moveTo(dt, target)
+        return
+    end
     self.direction = (target:getCenter()-self.position):normalized():rotateInplace(math.pi/2)
     self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
     log(1, "Ship moving around station", self.direction)

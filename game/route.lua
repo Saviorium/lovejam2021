@@ -15,6 +15,7 @@ local Route =
 
         self.arrow = Arrow():setFrom(self.startStation:getCenter()):setTo(self.endStation:getCenter())
         self.isHovered = false
+        self.isSelectedToDelete = false
         self.isSelected = false
 
         self.name = "Route from ["..self.startStation:tostring().."] to ["..self.endStation:tostring().."]"
@@ -40,19 +41,19 @@ function Route:setSelected(bool)
     self.isSelected = bool
 end
 
+function Route:setSelectedToDelete(bool)
+    self.isSelectedToDelete = bool
+end
+
 function Route:setHover(bool)
     self.isHovered = bool
 end
 
 function Route:draw()
     self.arrow:setColor(config.selection.colorSelected)
-    if self.isSelected then
-        self.arrow:setColor(config.selection.colorHover)
-    else
-        if self.isHovered then
-            self.arrow:setColor(config.selection.colorHover)
-        end
-    end
+    if self.isHovered then self.arrow:setColor(config.selection.colorHover) end
+    if self.isSelected then self.arrow:setColor(config.selection.colorHover) end
+    if self.isSelectedToDelete then self.arrow:setColor(config.selection.colorDelete) end
     self.arrow:draw()
 end
 

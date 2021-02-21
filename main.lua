@@ -27,12 +27,12 @@ function love.keypressed(t)
     end
 end
 
-function love.mousepressed(x, y)
-    StateManager.mousepressed(x, y)
+function love.mousepressed(x, y, button)
+    StateManager.mousepressed(x, y, button)
 end
 
-function love.mousereleased(x, y)
-    StateManager.mousereleased(x, y)
+function love.mousereleased(x, y, button)
+    StateManager.mousereleased(x, y, button)
 end
 
 function love.wheelmoved(x, y)
