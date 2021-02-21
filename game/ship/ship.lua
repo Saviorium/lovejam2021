@@ -24,8 +24,7 @@ local Ship = Class {
         self:addComponent("selectable")
 
         self.newRoute = nil
-        self.maxOffset  = 16
-        self.offset = 0
+        self.driftAngle = 0
     end
 }
 
@@ -48,6 +47,7 @@ end
 
 function Ship:update(dt)
     self.tasks:runTask(dt)
+    self.driftAngle = math.clamp(-0.1, self.driftAngle + love.math.random(0.1) - 0.05, 0.1)
 end
 
 function Ship:draw()
@@ -92,14 +92,9 @@ end
 function Ship:moveTo( dt, target )
     self.direction = (target:getCenter()-self.position):normalized()
     self.angle     =-nvl(self.direction, Vector(1,1)):toPolar().x - math.pi
-    local perpendicular = self.direction:perpendicular()
-    if not self.targetOffset or (self.targetOffset and math.abs(self.targetOffset - self.offset) < 2 ) then
-        self.targetOffset = love.math.random(self.maxOffset*2) - self.maxOffset
-    end
-    local changeOffset = (self.targetOffset - self.offset)*2
-    self.offset = self.offset + changeOffset * dt
+    self.direction = self.direction:rotated(self.driftAngle)
     log(1, "Ship moving in direction ", self.direction)
-    self.position = self.position + self.direction * self.speed * dt + perpendicular * changeOffset * dt
+    self.position = self.position + self.direction * self.speed * dt
 end
 
 function Ship:getCenter()
