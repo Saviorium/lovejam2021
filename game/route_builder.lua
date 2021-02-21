@@ -44,6 +44,7 @@ function RouteBuilder:setDestination(toStation)
     if self.toStation then
         self.toStation:setSelected(true)
     end
+    self.fromStation:setSelected(true)
 end
 
 function RouteBuilder:finishBuilding()
