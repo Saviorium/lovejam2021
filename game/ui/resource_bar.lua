@@ -1,4 +1,3 @@
-local Resources = require "data.resources"
 local UIobject = require "game.ui.uiobject"
 
 local ResourceBar =

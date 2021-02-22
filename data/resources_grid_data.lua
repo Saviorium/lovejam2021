@@ -1,4 +1,3 @@
-local Resources = require "data.resources"
 
 return {
     gridSize = 74, -- pixel per cell

@@ -138,9 +138,11 @@ function Ship:drawHovered()
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 
-    self.informationBoard.showTimer:after(1, function() self.informationBoard.isVisible = true end)
+    self.informationBoard.isVisible = true
+    self.informationBoard.showTimer:clear()
     self.informationBoard.showTimer:after(3, function() self.informationBoard.isVisible = false end)
 end
+
 
 function Ship:isNear(target)
     local result = (target:getCenter() - self.position):len()

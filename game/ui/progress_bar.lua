@@ -1,4 +1,3 @@
-local Resources = require "data.resources"
 
 local ProgressBar =
     Class {

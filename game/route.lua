@@ -1,7 +1,5 @@
 local Arrow = require "game.ui.arrow"
 
-local Resources = require "data.resources"
-
 local Route =
     Class {
     init = function(self, startStation, endStation)

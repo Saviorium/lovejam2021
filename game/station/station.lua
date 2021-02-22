@@ -1,6 +1,5 @@
 local log = require "engine.logger"("stationsInnerDebug")
 local ProgressBar = require "game.ui.progress_bar"
-local Resources = require "data.resources"
 local StationInformationBoard = require "game.ui.information_boards.station_information_board"
 
 -- Абстрактная станция с ресурсом

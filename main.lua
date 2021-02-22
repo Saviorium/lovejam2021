@@ -1,15 +1,16 @@
 require "utils"
 require "engine.debug"
 
-Class = require "lib.hump.class"
-Entity = require "game.components.entity"
+Class        = require "lib.hump.class"
+Entity       = require "game.components.entity"
 StateManager = require "lib.hump.gamestate"
 AssetManager = require "engine.asset_manager"
-Vector = require "lib.hump.vector"
-Timer = require "lib.hump.timer"
+Vector       = require "lib.hump.vector"
+Timer        = require "lib.hump.timer"
 
 function love.load()
     AssetManager:load("assets")
+    Resources    = require "data.resources"
     states = {
         game = require "game.states.game",
         end_game = require "game.states.end_game_screen",

@@ -1,4 +1,6 @@
-local Resources = {
+local Ship = require("game.ship.ship")
+
+Resources = {
     iron = {
         name = 'Iron bars',
         icon = AssetManager:getImage('iron_icon'),
