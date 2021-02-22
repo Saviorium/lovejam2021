@@ -2,7 +2,7 @@ local Star = Class {
     init = function(self, mapGrid, camera)
         self.x = love.math.random(mapGrid.size.width * mapGrid.gridSize)
         self.y = love.math.random(mapGrid.size.height * mapGrid.gridSize)
-        self.distance = love.math.random()
+        self.distance = love.math.random()/2
         self.image = AssetManager:getImage('star_'..math.random(1,6))
         self.camera = camera
         self.mapGrid = mapGrid
@@ -11,8 +11,8 @@ local Star = Class {
 
 function Star:draw()
     love.graphics.draw(self.image,
-                       self.x + self.camera.position.x *  self.distance / self.camera.zoom,
-                       self.y + self.camera.position.y * self.distance / self.camera.zoom)
+                       self.x + self.camera.position.x * self.distance,
+                       self.y + self.camera.position.y * self.distance)
 end
 
 -- function Star:move(changePos)
