@@ -3,7 +3,7 @@ local Storage = require "game.storage.storage"
 local StationsData = {
     oreDrill = {
         image        = AssetManager:getImage('oredrill_station'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        selectedImage   = AssetManager:getImage('drill_station_focused'),
         conditionToBuild =
         function (world)
             local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
@@ -13,7 +13,7 @@ local StationsData = {
     },
     iceDrill = {
         image            = AssetManager:getImage('icedrill_station'),
-        selectedImage    = AssetManager:getImage('focused_ore_drill'),
+        selectedImage    = AssetManager:getImage('drill_station_focused'),
         conditionToBuild =
         function (world)
             local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
