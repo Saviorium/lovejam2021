@@ -44,5 +44,5 @@ function love.wheelmoved(x, y)
 end
 
 function love.update(dt)
-    StateManager.update(dt)
+    StateManager.update(dt * config.game.speed)
 end

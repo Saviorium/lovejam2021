@@ -69,6 +69,23 @@ function ResourceBar:render()
                     value = value + station.population
                 end
             end
+            if res.resourceSource.consume then
+                love.graphics.printf(
+                    '-'..res.resourceSource.consume,
+                    textX,
+                    textY-12,
+                    self.cellWidth,
+                    'center'
+                )
+            elseif res.resourceSource.produce then
+                love.graphics.printf(
+                    '+'..res.resourceSource.produce,
+                    textX,
+                    textY-12,
+                    self.cellWidth,
+                    'center'
+                )
+            end
             love.graphics.printf(
                 math.clamp(0, math.floor(value), 9999) .. " / " .. max,
                 textX,

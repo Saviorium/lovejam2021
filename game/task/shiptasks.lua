@@ -37,7 +37,7 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
             ship:moveAroundStation(dt, target)
         end,
         function()
-            return storage.port:isFree() or ship.newRoute
+            return storage.port:findShipInPort(ship) or ship.newRoute
         end,
         function()
             if ship.newRoute then

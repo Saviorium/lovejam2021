@@ -17,6 +17,11 @@ config = {
         stationSize = 80,
         shipSize = 30,
         routeDistance = 900 -- squared
+    },
+    game = {
+        speed = 2,
+        infobarsTimeToAppear = 0.5,
+        infobarsTimeToDisapear = 1,
     }
 }
 

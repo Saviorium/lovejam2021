@@ -122,7 +122,7 @@ function Ship:drawHovered()
 
     self.informationBoard.isVisible = true
     self.informationBoard.showTimer:clear()
-    self.informationBoard.showTimer:after(3, function() self.informationBoard.isVisible = false end)
+    self.informationBoard.showTimer:after(config.game.infobarsTimeToDisapear, function() self.informationBoard.isVisible = false end)
 end
 
 

@@ -1,4 +1,4 @@
-local log = require "engine.logger"("storagesInnerDebug")
+local log = require "engine.logger"("portInnerDebug")
 
 local Port =
     Class {
@@ -12,7 +12,6 @@ local Port =
         self.direction = direction -- in = 1, out = -1
         self.storage = storage
         self.name = "Port #"..love.math.random( 1000 )
-        self.maxDockedShips = 2
     end
 }
 
@@ -20,18 +19,16 @@ function Port:onTick()
     self:getShipToPort()
     for ind, port in pairs(self.dockedShips) do
         if port.ship then
-            log( 1, "Port ".. self.name .." started transport resources to "..port.ship.name )
-            local transferRealized = false
+            log( 3, "Port ".. self.name .." started transport resources to "..port.ship.name )
+            local result
             if self.direction == 1 then
-                local result = self.storage:addAndGetExcess(self.loadSpeed) - self.loadSpeed
-                port.ship.storage:addAndGetExcess(result)
-                transferRealized = result ~= 0
+                result =  self.loadSpeed + port.ship.storage:addAndGetExcess(-self.loadSpeed)
+                self.storage:addAndGetExcess(result)
             elseif self.direction == -1 then
-                local result = port.ship.storage.port.loadSpeed + self.storage:addAndGetExcess(-port.ship.storage.port.loadSpeed)
+                result = port.ship.storage.port.loadSpeed + self.storage:addAndGetExcess(-port.ship.storage.port.loadSpeed)
                 port.ship.storage:addAndGetExcess(result)
-                transferRealized = result ~= 0
             end
-            if transferRealized then
+            if result ~= 0 then
                 port.ship.canLeave = false
                 port.ship.loadTimer:clear()
                 port.ship.loadTimer:after(4, function() port.ship.canLeave = true end)
@@ -41,16 +38,16 @@ function Port:onTick()
 end
 
 function Port:addShipToQueue(ship)
-    log(2, "Port ".. self.name .." added ship ".. ship.name .." in queue")
+    log(3, "Port ".. self.name .." added ship ".. ship.name .." in queue")
     table.insert(self.shipsQueue, ship)
 end
 
 function Port:getShipToPort()
-    log(2, "Port ".. self.name .." docking ship in port ")
+    log(3, "Port ".. self.name .." docking ship in port ")
     for ind, port in pairs(self.dockedShips) do
         if not port.ship then
             self.dockedShips[ind].ship = table.remove(self.shipsQueue, 1)
-            if self.dockedShip then
+            if port.ship then
                 log(1, "Port ".. self.name .." docked ship "..self.dockedShips[ind].ship.name .. ' At port number '..ind)
                 return true
             end
@@ -60,7 +57,7 @@ function Port:getShipToPort()
 end
 
 function Port:isFree()
-    log(2, "Port ".. self.name .." checking if there any free docks")
+    log(3, "Port ".. self.name .." checking if there any free docks")
     for ind, port in pairs(self.dockedShips) do
         if not port.ship then
             return true
@@ -72,7 +69,8 @@ end
 function Port:undockShip(ship)
     log(2, "Port ".. self.name .." undocking ship "..ship.name)
     for ind, port in pairs(self.dockedShips) do
-        if port.ship == ship then
+        if port.ship and port.ship == ship then
+            log(2, "Port ".. self.name .." found ship "..ship.name .. " to undock at port number "..ind)
             port.ship.loadTimer:clear()
             port.ship = nil
             if not port.ship then
@@ -83,6 +81,17 @@ function Port:undockShip(ship)
     end
     return false
 end
+
+function Port:findShipInPort(ship)
+    log(2, "Port ".. self.name .." searching ship "..ship.name)
+    for ind, port in pairs(self.dockedShips) do
+        if port.ship and port.ship == ship then
+            return true
+        end
+    end
+    return false
+end
+
 function Port:getAllDockedShips()
     local result = {}
     for ind, port in pairs(self.dockedShips) do

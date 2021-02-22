@@ -5,7 +5,7 @@ local ProgressBar =
         self.x = x
         self.y = y
 
-        self.width = 4
+        self.width = 6
         self.height = height
 
         self.color = Resources[parentStorage.resource].color

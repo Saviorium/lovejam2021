@@ -128,7 +128,7 @@ function Station:draw()
         self.informationBoard.isVisible = false
     else
         if self.isHovered then
-            self.informationBoard.showTimer:after(1, function() self.informationBoard.isVisible = true end)
+            self.informationBoard.showTimer:after(config.game.infobarsTimeToAppear, function() self.informationBoard.isVisible = true end)
             self:drawHovered()
         else
             self.informationBoard.showTimer:clear()
@@ -162,11 +162,11 @@ function Station:draw()
                 self.y + ind * 8 + 16
             )
             love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8 + 16)
-            if self.inResources[i].storage.port.dockedShip then
-                love.graphics.print("ship", self.x + self.width, self.y + ind * 8 + 16)
+            for shipIndex, ship in pairs(self.inResources[i].storage.port:getAllDockedShips()) do
+                love.graphics.print("ship", self.x + self.width*shipIndex + 48*(shipIndex-1), self.y + ind * 8 + 16)
                 love.graphics.print(
-                    self.inResources[i].storage.port.dockedShip.storage.value,
-                    self.x + self.width + 48,
+                    ship.storage.value,
+                    self.x + (self.width + 48)*shipIndex,
                     self.y + ind * 8 + 16
                 )
             end

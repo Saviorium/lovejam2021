@@ -13,7 +13,12 @@ function StationBuilder:draw()
     if self.buildingStation then
         local mouseCoords = self.world:getMouseCoords()
         local position = self.world.resourcesGrid:clampToGrid(mouseCoords.x, mouseCoords.y)
+        local stationCoords = self.world.resourcesGrid:getGridCellAtCoords(Vector(mouseCoords.x, mouseCoords.y))
+        if not (StationsData[self.buildingStation].conditionToBuild(self.world) and not self.world:findStationsInRange(stationCoords, 2)) then
+            love.graphics.setColor(1, 0, 0, 0.8)
+        end
         love.graphics.draw(self.stationImage, position.x, position.y )
+        love.graphics.setColor(1, 1, 1, 1)
     end
 end
 

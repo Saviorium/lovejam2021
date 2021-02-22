@@ -12,12 +12,15 @@ local StationInformationBoard =
 }
 
 
-function StationInformationBoard:createDescription(description)
+function StationInformationBoard:getFullText(description)
+    local currentTask = self.targetObject.tasks.currentTask and self.targetObject.tasks.currentTask.name or ""
+    local endStation = self.targetObject.route and self.targetObject.route.endStation.name or ""
+    local resourceTransporting = self.targetObject.route and self.targetObject.route.resourceTaking or ""
     local fullText = 'Ship '..self.targetObject:tostring()..'\n'..
                      (description or "").. '\n' ..
-                     'Resource transporting: '.. (self.targetObject.route and self.targetObject.route.resourceTaking or "").. '\n' ..
-                     'To station: ' ..(self.targetObject.route and self.targetObject.route.endStation or "").. '\n' ..
-                     'Now doing: ' ..self.targetObject.tasks.currentTask.name
+                     'Resource transporting: '.. resourceTransporting .. '\n' ..
+                     'To station: ' ..endStation.. '\n' ..
+                     'Now doing: ' ..currentTask
     return fullText
 end
 
