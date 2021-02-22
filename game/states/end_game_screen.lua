@@ -2,7 +2,7 @@ local EndGame = {}
 
 function EndGame:enter(prev_state, world)
     print(prev_state, world)
-    self.font = fonts.smolPixelated
+    self.font = fonts.bigPixelated
     --self.font:setFilter("nearest", "nearest")
     self.gameWorld = world
     local colonists = 0

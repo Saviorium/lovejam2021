@@ -1,6 +1,7 @@
 local serpent = require "lib.debug.serpent"
 Debug = {
     showFps = 1,
+    mousePos = 1,
     showStatesLoadSave = 0,
     stationsInnerDebug = 0,
     stationsDrawDebug = false,

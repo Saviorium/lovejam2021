@@ -30,8 +30,8 @@ local World =
             route = RouteBuilder(self)
         }
         self.camera = {
-            position = Vector(-100, 800),
-            zoom = 0.4
+            position = Vector(-150, 800),
+            zoom = 0.38
         }
         self.stationBuilder = StationBuilder(self)
         self.shipAssigner = ShipAssigner(self)

@@ -10,10 +10,12 @@ Timer        = require "lib.hump.timer"
 
 fonts = {
     smolPixelated = love.graphics.newFont("assets/fonts/m3x6.ttf", 16),
+    bigPixelated = love.graphics.newFont("assets/fonts/m3x6.ttf", 32),
 }
 
 function love.load()
     fonts.smolPixelated:setFilter("nearest", "nearest")
+    fonts.bigPixelated:setFilter("nearest", "nearest")
     AssetManager:load("assets")
     Resources    = require "data.resources"
     states = {
@@ -26,6 +28,13 @@ function love.load()
 end
 
 function love.draw()
+    if Debug and Debug.showFps == 1 then
+        love.graphics.print(""..tostring(love.timer.getFPS( )), 2, 2)
+    end
+    if Debug and Debug.mousePos == 1 then
+        local x, y = love.mouse.getPosition()
+        love.graphics.print(""..tostring(x)..","..tostring(y), 2, 16)
+    end
     love.graphics.setColor(1, 1, 1)
     StateManager.draw()
 end

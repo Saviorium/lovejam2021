@@ -3,7 +3,7 @@ local World = require("game.world")
 local StartGame = {}
 
 function StartGame:enter()
-    self.font = fonts.smolPixelated
+    self.font = fonts.bigPixelated
     --self.font:setFilter("nearest", "nearest")
     self.gameWorld = World()
 end
@@ -38,14 +38,14 @@ function StartGame:draw()
     love.graphics.printf(
         "Buttons to build stations",
         0,
-        230,
+        220,
         1000,
         "left"
     )
     love.graphics.printf(
         "This is a complete ship production line. Iron ore is processed into iron bars from which ships are built",
         150,
-        100,
+        135,
         1000,
         "center"
     )
@@ -55,7 +55,7 @@ function StartGame:draw()
         "The chocolate itself is made from milk and cocoa beans\n" ..
         "After all this, chocolate must be sent to the hub",
         150,
-        400,
+        340,
         1000,
         "center"
     )
@@ -64,7 +64,7 @@ function StartGame:draw()
         "Then you need to drag a ship on a route."..'\n'..
         "The game is paused now, press ENTER to start!",
         150,
-        700,
+        670,
         1000,
         "center"
     )
@@ -72,13 +72,13 @@ function StartGame:draw()
     love.graphics.printf(
         "Press Enter to start",
         love.graphics.getWidth()/2-200,
-        love.graphics.getHeight()/2-100,
+        love.graphics.getHeight()/2-150,
         300,
         "center"
     )
 
     love.graphics.printf(
-        "Hub is right there",
+        "Hub is right there --\\/",
         love.graphics.getWidth()-300,
         love.graphics.getHeight()-50,
         1000,
