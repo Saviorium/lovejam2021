@@ -36,26 +36,24 @@ function StartGame:draw()
     end
     love.graphics.printf("In this game you need to make and deliver chocolate to the HUB", 150, 0, 1000, "center")
     love.graphics.printf(
-        "Buttons for building stations",
+        "Buttons to build stations",
         0,
         230,
         1000,
         "left"
     )
     love.graphics.printf(
-        "This is a complete ship production line the ore is processed into iron from which ships are built",
+        "This is a complete ship production line. Iron ore is processed into iron bars from which ships are built",
         150,
         100,
         1000,
         "center"
     )
     love.graphics.printf(
-        "This is a complete chocolate making line" ..
-            "\n" ..
-                "Cows and cocoa beans need ice, and cows also need cocoa beans" ..
-                    "\n" ..
-                        "The chocolate itself is made from milk and cocoa beans" ..
-                            "\n" .. "After all this, the chocolate must be sent to the hub",
+        "This is a complete chocolate making line\n" ..
+        "Cows and cocoa beans need ice, cows also need cocoa beans\n" ..
+        "The chocolate itself is made from milk and cocoa beans\n" ..
+        "After all this, chocolate must be sent to the hub",
         150,
         400,
         1000,
@@ -63,8 +61,8 @@ function StartGame:draw()
     )
     love.graphics.printf(
         "You can build paths by clicking on the station and pulling in the direction of the desired other station"..'\n'..
-        "Then you need to drag the ship to it."..'\n'..
-        "Try to do it now, but until the game has started they will not be built",
+        "Then you need to drag a ship on a route."..'\n'..
+        "The game is paused now, press ENTER to start!",
         150,
         700,
         1000,
