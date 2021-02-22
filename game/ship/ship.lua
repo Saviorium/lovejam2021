@@ -59,10 +59,11 @@ end
 function Ship:flyAroundStation(station)
     self.route = nil
     self.newRoute = nil
-    if self.tasks.currentTask then
+    if self.tasks.currentTask and not (self.tasks.currentTask.name == "go to") then
         self.tasks.currentTask:onDone()
     end
     self.tasks:clear()
+    self.tasks.onEmpty = nil
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
     return self
 end
