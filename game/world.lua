@@ -132,6 +132,10 @@ end
 function World:update(dt)
     self.clock:update(dt)
     self.Timer:update(dt)
+
+    self.camera.position.x = math.clamp( 0, self.camera.position.x, self.resourcesGrid.size.width  *self.resourcesGrid.gridSize - 1/self.camera.zoom * love.graphics.getWidth() )
+    self.camera.position.y = math.clamp( 0, self.camera.position.y, self.resourcesGrid.size.height *self.resourcesGrid.gridSize - 1/self.camera.zoom * love.graphics.getHeight())
+
     if self.clock.dayChanged then
         local dudes = self.stations.HubStation.outResources.dude.storage.value
         if (self.clock.day % self.clock.daysInMonth > self.clock.daysInMonth/2) 
