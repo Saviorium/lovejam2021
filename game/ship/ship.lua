@@ -59,12 +59,14 @@ end
 function Ship:flyAroundStation(station)
     self.route = nil
     self.newRoute = nil
-    if self.tasks.currentTask.name == "wait until port will be released" then
-        self.tasks.currentTask:onDone()
-    elseif self.tasks.currentTask.name == "wait until full load" then
-        self.tasks.currentTask:onDone()
-    elseif self.tasks.currentTask.name == "wait until full unload" then
-        self.tasks.currentTask:onDone()
+    if self.tasks.currentTask then
+        if self.tasks.currentTask.name == "wait until port will be released" then
+            self.tasks.currentTask:onDone()
+        elseif self.tasks.currentTask.name == "wait until full load" then
+            self.tasks.currentTask:onDone()
+        elseif self.tasks.currentTask.name == "wait until full unload" then
+            self.tasks.currentTask:onDone()
+        end
     end
     self.tasks:clear()
     self.tasks.onEmpty = nil
