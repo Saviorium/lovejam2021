@@ -28,11 +28,17 @@ function StationBuilder:startBuild( stationName )
 end
 
 function StationBuilder:placeStation( stationName, world )
+    local collision = false
+    for ind, ui in pairs(world.uiManager.objects) do
+        if ui:getCollision(love.graphics.transformPoint(love.mouse.getPosition())) then
+            collision = true
+        end
+    end
     if self.buildingStation == stationName then
         local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
         local stationCoords = world.resourcesGrid:getGridCellAtCoords(Vector(mouseCoords.x, mouseCoords.y))
         self.buildingStation = nil
-        if StationsData[stationName].conditionToBuild(world) and not world:findStationsInRange(stationCoords, 2) then
+        if StationsData[stationName].conditionToBuild(world) and not world:findStationsInRange(stationCoords, 2) and not collision then
             local stationIndex = #world.stations + 1
             world.stations[stationIndex] = BuildingStation( mouseCoords, stationName, world, stationIndex)
             return true

@@ -49,6 +49,9 @@ function Ship:setRoute(route)
 end
 
 function Ship:flyAroundStation(station)
+    if self.tasks.currentTask then
+        self.tasks.currentTask:onDone()
+    end
     self.tasks:clear()
     self.route = nil
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
@@ -134,19 +137,15 @@ end
 
 function Ship:moveTo(dt, target)
     self.direction = (target:getCenter() - self.position):normalized()
-    self.angle = -nvl(self.direction, Vector(1, 1)):toPolar().x - math.pi
+    self.angle = -self.direction:toPolar().x - math.pi
     self.direction = self.direction:rotateInplace(self.driftAngle)
     log(1, "Ship moving in direction ", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
 
 function Ship:moveAroundStation(dt, target)
-    if not self:isNear(target) then
-        self:moveTo(dt, target)
-        return
-    end
     self.direction = (target:getCenter() - self.position):normalized():rotateInplace(math.pi / 2)
-    self.angle = -nvl(self.direction, Vector(1, 1)):toPolar().x - math.pi
+    self.angle = -self.direction:toPolar().x - math.pi
     log(1, "Ship moving around station", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end

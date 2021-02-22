@@ -19,9 +19,12 @@ config = {
         routeDistance = 900 -- squared
     },
     game = {
-        speed = 2,
+        speed = 1,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
+    },
+    map = {
+        style = 'grid' -- circle grid image
     }
 }
 

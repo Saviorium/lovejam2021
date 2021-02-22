@@ -73,15 +73,31 @@ end
 function MapGrid:drawResource(x, y, resourceName)
     local resource = self.resources[resourceName]
     local resourceCell = self.grid[resourceName].cells[x][y]
-    local fadedColor = resource.color
-    fadedColor[4] = 0.8
-    love.graphics.setColor(fadedColor)
-    fadedColor[4] = 1 -- i'm sorry
-    love.graphics.circle('fill',
-        x * self.gridSize + self.gridSize / 2,
-        y * self.gridSize + self.gridSize / 2,
-        self.gridSize * (resourceCell / resource.multiplier) / 2
-    )
+    if config.map.style == 'circle' then
+        local fadedColor = resource.color
+        fadedColor[4] = 0.8
+        love.graphics.setColor(fadedColor)
+        fadedColor[4] = 1 -- i'm sorry
+        love.graphics.circle('fill',
+            x * self.gridSize + self.gridSize / 2,
+            y * self.gridSize + self.gridSize / 2,
+            self.gridSize * (resourceCell / resource.multiplier) / 2
+        )
+    elseif config.map.style == 'grid' then
+        local fadedColor = resource.color
+        fadedColor[4] = resourceCell/1000
+        love.graphics.setColor(fadedColor)
+        fadedColor[4] = 1 -- i'm sorry
+
+        love.graphics.rectangle('fill',
+            x * self.gridSize,
+            y * self.gridSize,
+            self.gridSize,
+            self.gridSize
+        )
+    elseif config.map.style == 'image' then
+    
+    end
 end
 
 function MapGrid:setResources(x, y, units, resource)

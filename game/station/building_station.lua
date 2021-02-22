@@ -16,7 +16,7 @@ local BuildingStation =
                 outResources = {},
                 image        = StationsData[self.targetStation].image,
                 selectedImage = StationsData[self.targetStation].selectedImage,
-                description  = StationsData[self.targetStation].description
+                description  = 'This station is building now'
             }
         )
         self.world = world
@@ -49,27 +49,17 @@ end
 
 function BuildingStation:draw()
     love.graphics.setColor(1, 1, 1, self.fadeLevel)
-    love.graphics.draw(self.image, self.x, self.y)
+    Station.draw(self)
     love.graphics.setColor(1, 1, 1, 1)
-
     if Debug.stationsDrawDebug then
         local ind = 0
         for _, res in pairs(self:getConsumingResources()) do
-            love.graphics.print(res, self.x - self.width, self.y + ind * 16 - 16)
-            love.graphics.print(self.inResources[res].storage.value, self.x - self.width - 48, self.y + ind * 16 - 16)
             love.graphics.print("Required", self.x - self.width, self.y + ind * 16)
             love.graphics.print(self.inResources[res].required, self.x - self.width - 48, self.y + ind * 16)
-            if self.inResources[res].storage.port.dockedShip then
-                love.graphics.print("ship", self.x + self.width, self.y + ind * 16 + 16)
-                love.graphics.print(
-                    self.inResources[res].storage.port.dockedShip.storage.value,
-                    self.x + self.width + 48,
-                    self.y + ind * 16
-                )
-            end
             ind = ind + 1
         end
     end
+
 end
 
 return BuildingStation

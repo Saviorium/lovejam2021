@@ -5,7 +5,7 @@ local Tasks = {}
 Tasks["goTo"] = function(ship, destination, destinationStorage)
     log(1, "Adding goto " .. destination:getCenter():__tostring() .. " to ship " .. ship.name)
     return Task(
-        "goto",
+        "go to",
         function(dt)
             log(3, ship.name .. ": going to destination")
             ship:moveTo(dt, destination)
@@ -32,7 +32,7 @@ end
 Tasks["waitUntilPortRelease"] = function(ship, target, storage)
     log(3, ship.name .. ": Waiting until port will be released")
     return Task(
-        "wait_until_port_will_be_released",
+        "wait until port will be released",
         function(dt)
             ship:moveAroundStation(dt, target)
         end,
@@ -62,7 +62,7 @@ end
 Tasks["waitAroundStation"] = function(ship, target)
     log(3, ship.name .. ": Waiting around station" .. target:tostring())
     return Task(
-        "wait_around_station",
+        "wait around station",
         function(dt)
             ship:moveAroundStation(dt, target)
         end,
@@ -81,7 +81,7 @@ end
 Tasks["waitUntilFullLoad"] = function(ship, storage)
     log(3, ship.name .. ": Waiting until full load")
     return Task(
-        "wait_until_full_load",
+        "wait until full load",
         function(dt)
         end,
         function()
@@ -106,7 +106,7 @@ end
 Tasks["waitUntilFullUnLoad"] = function(ship, storage)
     log(1, ship.name .. ": Waiting until full unload")
     return Task(
-        "wait_until_full_unload",
+        "wait until full unload",
         function(dt)
         end,
         function()
