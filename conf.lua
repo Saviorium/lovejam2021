@@ -26,7 +26,8 @@ config = {
         godMode = false
     },
     map = {
-        style = 'grid' -- circle grid image
+        style = 'grid', -- circle grid image,
+        starsCount = 10000
     }
 }
 

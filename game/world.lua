@@ -10,6 +10,7 @@ local NewStationButton = require("game.ui.new_station_button")
 local ResourceBar = require("game.ui.resource_bar")
 local BuildingStation = require("game.station.station")
 local Clock = require("game.clock")
+local Star = require("game.star")
 
 local StationBuilder = require("game.station.station_builder")
 local RouteBuilder = require "game.route_builder"
@@ -40,8 +41,18 @@ local World =
 
         self.lifes = config.game.godMode and 99999 or 10
         self.Timer = Timer.new()
+
+        self.distantStars = {}
+        self:starsInit()
     end
 }
+
+function World:starsInit()
+    for i=1, config.map.starsCount do
+        table.insert( self.distantStars, Star(self.resourcesGrid) )
+        -- print(self.distantStars[i].x, self.distantStars[i].y)
+    end
+end
 
 function World:populateOnInit()
     self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(500, 1000)), "ironOre", 1)
@@ -205,8 +216,12 @@ function World:draw()
     love.graphics.push()
     self:attachCamera()
     -- draw background
+    for _, star in pairs(self.distantStars) do
+        star:draw()
+    end
     self.resourcesGrid:draw()
     self.builders.route:draw()
+
     for _, routesFrom in pairs(self.routes) do
         for routeTo, route in pairs(routesFrom) do
             route:draw()
@@ -327,7 +342,11 @@ end
 function World:handleInputMove()
     local inputPosition = Vector(love.mouse.getPosition())
     if love.keyboard.isDown("space") or love.mouse.isDown(3) then
-        self:move(inputPosition - self.lastInputPosition)
+        local resultMove = inputPosition - self.lastInputPosition
+        self:move(resultMove)
+        for _, star in pairs(self.distantStars) do
+            star:move(resultMove)
+        end
     end
     self.lastInputPosition = inputPosition
 end
