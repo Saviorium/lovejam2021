@@ -68,7 +68,7 @@ local StationsData = {
     },
     buildShipsStation = {
         image        = AssetManager:getImage('ship_station'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        selectedImage   = AssetManager:getImage('ship_station_focused'),
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
