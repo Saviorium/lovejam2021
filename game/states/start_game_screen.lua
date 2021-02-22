@@ -20,7 +20,7 @@ function StartGame:wheelmoved(x, y)
 end
 
 function StartGame:keypressed(key)
-    if key == "enter" then
+    if key == "return" then
         StateManager.switch(states.game, self.gameWorld)
     end
 end
