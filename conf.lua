@@ -1,7 +1,7 @@
 config = {
     camera = {
         zoomRate = 0.2, -- more - faster
-        zoomMin = 0.4,
+        zoomMin = 0.3,
         zoomMax = 5
     },
     colors = {
