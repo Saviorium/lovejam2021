@@ -64,11 +64,11 @@ local Stations = {
         local inResources  = {}
         local outResources = {}
         newStorage = Storage(1000, 1000, 'cocoa', 100, 1)
-        inResources['cocoa'] = { consume = 100 , storage = newStorage} 
+        inResources['cocoa'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 1000, 'milk', 100, 1)
-        inResources['milk'] = { consume = 100 , storage = newStorage} 
+        inResources['milk'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 0, 'chocolate', 100, -1)
-        outResources['chocolate'] = { produce = 50 , storage = newStorage} 
+        outResources['chocolate'] = { produce = 50 , storage = newStorage}
         StationsData.chocolateFabric.inResources = inResources
         StationsData.chocolateFabric.outResources = outResources
         return Station(position, StationsData.chocolateFabric)
@@ -78,17 +78,16 @@ local Stations = {
         local inResources  = {}
         local outResources = {}
         newStorage = Storage(10000, 0, 'iron', 100, 1)
-        inResources['iron'] = { consume = 0 , storage = newStorage} 
-        newStorage = Storage(10000, 1000, 'chocolate', 100, 1)
-        inResources['chocolate'] = { dudeConsuming = 100, consume = 0 , storage = newStorage} 
+        inResources['iron'] = { consume = 0 , storage = newStorage}
+        newStorage = Storage(10000, 0, 'chocolate', 100, 1)
+        inResources['chocolate'] = { dudeConsuming = 100, consume = 0 , storage = newStorage}
         newStorage = Storage(10000, 10, 'dude', 100, -1)
-        outResources['dude'] = { inMonthProducing = 1, produce = 0 , storage = newStorage} 
+        outResources['dude'] = { inMonthProducing = 1, produce = 0 , storage = newStorage}
         StationsData.hubStation.inResources = inResources
         StationsData.hubStation.outResources = outResources
 
         local resultStation = Station(position, StationsData.hubStation)
         resultStation.world = world
-        resultStation.dudeConsuming = dudeConsuming
         resultStation.onMonthTick =
             function( station )
                 local peoplesConsuming = station.outResources['dude'].storage.value * station.inResources['chocolate'].dudeConsuming

@@ -51,9 +51,10 @@ function ResourceBar:render()
             self.scale
         )
         love.graphics.setColor(1, 1, 1)
+
         love.graphics.draw(
             Resources[res.resource].icon,
-            iconX + (self.cellWidth  - icon:getWidth() * self.scale)/2,
+            iconX + (self.cellWidth  - icon:getWidth() * self.scale)/2 + ((res.resource == 'life' and self.world.disapointment) and love.math.random(-2, 2) or 0),
             iconY + (self.cellHeight - (icon:getHeight() + self.textHeight) * self.scale)/2,
             0,
             self.scale,

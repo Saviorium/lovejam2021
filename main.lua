@@ -11,7 +11,9 @@ Timer = require "lib.hump.timer"
 function love.load()
     AssetManager:load("assets")
     states = {
-        game = require "game.states.game"
+        game = require "game.states.game",
+        end_game = require "game.states.end_game_screen",
+        start_game = require "game.states.start_game_screen"
     }
     StateManager.switch(states.game)
 end

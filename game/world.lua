@@ -39,6 +39,7 @@ local World =
         self:initUI()
 
         self.lifes = 10
+        self.disapointmentTimer = Timer.new()
     end
 }
 
@@ -124,6 +125,7 @@ end
 
 function World:update(dt)
     self.clock:update(dt)
+    self.disapointmentTimer:update(dt)
     if self.clock.dayChanged then
         for _, station in pairs(self.stations) do
             station:onTick(self)
@@ -200,6 +202,10 @@ function World:draw()
         station.informationBoard:draw()
     end
     local mouseCoords = self:getMouseCoords()
+    if self.disapointment then
+        love.graphics.draw(self.disapointmentIcon, self.stations.HubStation.x, self.stations.HubStation.y)
+    end
+
     love.graphics.pop()
     self.uiManager:draw()
     self.shipAssigner:draw()
@@ -357,9 +363,16 @@ end
 
 function World:descreaseLives()
     self.lifes = self.lifes - 1
-    if self.lifes then
-        self.gameOver = true
+    self:showDisapointment()
+    if self.lifes == 0 then
+        StateManager.switch(states.end_game, self)
     end
+end
+
+function World:showDisapointment()
+    self.disapointment = true
+    self.disapointmentIcon = AssetManager:getImage('disapointment_icon')
+    self.disapointmentTimer:after(3,function() self.disapointment = false end)
 end
 
 function World:isThereLeftAnyDudes()
