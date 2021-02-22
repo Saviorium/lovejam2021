@@ -2,6 +2,7 @@ local log = require "engine.logger"("shipInnerDebug")
 local Storage = require "game.storage.storage"
 local TaskList = require "game.task.task_list"
 local Tasks = require "game.task.shiptasks"
+local ProgressBar = require "game.ui.progress_bar"
 local ShipInformationBoard = require "game.ui.information_boards.ship_information_board"
 
 -- Абстрактный корабль с ресурсом
@@ -47,6 +48,13 @@ function Ship:setRoute(route)
     end
     return self
 end
+
+function Ship:setResourceBar()
+    if self.tasks.currentTask then
+        self.progressBar = ProgressBar(0, 0, 64, self.storage, self.route.resourceTaking)
+    end
+end
+
 
 function Ship:flyAroundStation(station)
     if self.tasks.currentTask then

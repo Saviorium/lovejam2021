@@ -126,7 +126,7 @@ function World:initUI()
     table.insert(resources, {resource = "dude", resourceSource = self.stations["HubStation"].outResources.dude})
     table.insert(resources, {resource = "ship", resourceSource = nil})
     table.insert(resources, {resource = "life", resourceSource = nil})
-    self.uiManager:registerObject("Global resource bar", ResourceBar(love.graphics.getWidth(), 0, 3, resources, self))
+    self.uiManager:registerObject("Global resource bar", ResourceBar(love.graphics.getWidth(), 0, 3, resources, self, nil, nil, 16, 16))
 end
 
 function World:update(dt)
@@ -162,10 +162,6 @@ function World:update(dt)
     local stationSelected = self:selectStationAt(self:getMouseCoords())
     local routeSelected = self:selectRouteAt(self:getMouseCoords())
     local shipSelected = self:selectShipAt(self:getMouseCoords())
-
-    if stationSelected and stationSelected.index and love.mouse.isDown(2) then
-        self:deleteStation(stationSelected.index, stationSelected)
-    end
 
     if shipSelected then
         shipSelected:setHover(true)
@@ -268,7 +264,13 @@ function World:mousepressed(x, y, button)
 end
 
 function World:mousereleased(x, y, button)
+
     local mouseCoords = self:getFromScreenCoord(Vector(x, y))
+    local stationSelected = self:selectStationAt(mouseCoords)
+    if stationSelected and stationSelected.index and button == 2 then
+        self:deleteStation(stationSelected.index, stationSelected)
+    end
+
     if not self.uiManager:mousereleased(x, y) then
         local station = self:selectStationAt(mouseCoords)
         if self.builders.route:isBuilding() then

@@ -1,15 +1,15 @@
 
 local ProgressBar =
     Class {
-    init = function(self, x, y, height, parentStorage)
+    init = function(self, x, y, height, parentStorage, resource)
         self.x = x
         self.y = y
 
         self.width = 6
         self.height = height
 
-        self.color = Resources[parentStorage.resource].color
-        self.bgColor = Resources[parentStorage.resource].bgColor
+        self.color = Resources[nvl(resource, parentStorage.resource)].color
+        self.bgColor = Resources[nvl(resource, parentStorage.resource)].bgColor
         self.parent = parentStorage
     end
 }

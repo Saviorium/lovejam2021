@@ -3,8 +3,8 @@ local World = require("game.world")
 local StartGame = {}
 
 function StartGame:enter()
-    self.font = fonts.bigPixelated
-    --self.font:setFilter("nearest", "nearest")
+    self.font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
+    self.font:setFilter("nearest", "nearest")
     self.gameWorld = World()
 end
 

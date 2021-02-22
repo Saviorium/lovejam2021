@@ -12,10 +12,13 @@ local Station =
         self.height = nvl(parameters.height, parameters.image:getHeight())
 
         self.inResources = parameters.inResources
+
+        self.shipPorts = {}
         self.inProgressBars = {}
         local index = 1
         for _, res in pairs(parameters.inResources) do
             table.insert(self.inProgressBars, ProgressBar(self.x - 5 * index, self.y, self.height, res.storage))
+            table.insert(self.shipPorts, res.storage.port)
             index = index + 1
         end
 
@@ -27,8 +30,10 @@ local Station =
                 self.outProgressBars,
                 ProgressBar(self.x + self.width + 4 * index, self.y, self.height, res.storage)
             )
+            table.insert(self.shipPorts, res.storage.port)
             index = index + 1
         end
+
 
         self.name = "station #" .. love.math.random(100)
         for name, _ in pairs(self.outResources) do
@@ -121,6 +126,20 @@ function Station:draw()
     end
     for _, progressBar in pairs(self.outProgressBars) do
         progressBar:draw()
+    end
+    local index = 1
+    for _, port in pairs(self.shipPorts) do
+        for _, ship in pairs(port:getAllDockedShips()) do
+            love.graphics.draw(ship.image, self.x + self.width + ship.width, self.y - 4 + self.height + index*(ship.progressBar.width + 2), math.pi/2)
+
+            local transform = love.math.newTransform( self.x + self.width, self.y + self.height + index*(ship.progressBar.width + 2), math.pi/2)
+            love.graphics.applyTransform( transform )
+            ship.progressBar:draw()
+            local inverse = transform:inverse( )
+            love.graphics.applyTransform( inverse )
+
+            index = index + 1
+        end
     end
     if self.isSelected then
         self:drawSelected()

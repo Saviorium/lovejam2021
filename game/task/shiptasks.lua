@@ -80,6 +80,7 @@ Tasks["waitAroundStation"] = function(ship, target)
 end
 Tasks["waitUntilFullLoad"] = function(ship, storage)
     log(3, ship.name .. ": Waiting until full load")
+    ship:setResourceBar()
     return Task(
         "wait until full load",
         function(dt)
@@ -105,6 +106,7 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
 end
 Tasks["waitUntilFullUnLoad"] = function(ship, storage)
     log(1, ship.name .. ": Waiting until full unload")
+    ship:setResourceBar()
     return Task(
         "wait until full unload",
         function(dt)

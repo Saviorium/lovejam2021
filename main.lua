@@ -9,13 +9,13 @@ Vector       = require "lib.hump.vector"
 Timer        = require "lib.hump.timer"
 
 fonts = {
-    smolPixelated = love.graphics.newFont("assets/fonts/m3x6.ttf", 16),
-    bigPixelated = love.graphics.newFont("assets/fonts/m3x6.ttf", 32),
+    smolPixelated = { file = "assets/fonts/m3x6.ttf", size = 16},
+    bigPixelated = { file = "assets/fonts/m3x6.ttf", size = 32},
 }
 
 function love.load()
-    fonts.smolPixelated:setFilter("nearest", "nearest")
-    fonts.bigPixelated:setFilter("nearest", "nearest")
+    -- fonts.smolPixelated:setFilter("nearest", "nearest")
+    -- fonts.bigPixelated:setFilter("nearest", "nearest")
     AssetManager:load("assets")
     Resources    = require "data.resources"
     states = {

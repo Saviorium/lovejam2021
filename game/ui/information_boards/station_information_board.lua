@@ -6,8 +6,8 @@ local StationInformationBoard =
     Class {
     __includes = InformationBoard,
     init = function(self, targetObject, description)
-        self.font = fonts.smolPixelated
-        --self.font:setFilter("nearest", "nearest")
+        self.font = love.graphics.newFont(fonts.smolPixelated.file, fonts.smolPixelated.size)
+        self.font:setFilter("nearest", "nearest")
         InformationBoard.init(self, targetObject, description)
     end
 }
@@ -55,9 +55,10 @@ function StationInformationBoard:render()
     love.graphics.translate( 0, 0 )
     love.graphics.setFont(self.font)
     love.graphics.setColor(config.colors.uiBackground)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-    love.graphics.setColor(1,1,1)
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height+10)
+    love.graphics.setColor(config.colors.infoTextColor)
     love.graphics.printf(self.fullText, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')
+    love.graphics.setColor(1,1,1)
     self.resourceBar:draw()
 end
 

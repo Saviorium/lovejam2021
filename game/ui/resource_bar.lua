@@ -35,7 +35,13 @@ local ResourceBar =
 }
 
 function ResourceBar:render()
-    love.graphics.setFont(fonts.bigPixelated)
+
+    local font = love.graphics.newFont(fonts.smolPixelated.file, fonts.smolPixelated.size*self.scale)
+    font:setFilter("nearest", "nearest")
+
+    love.graphics.setFont(font)
+    love.graphics.setColor(config.colors.uiBackground)
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height, 4, 4)
     for ind, res in pairs(self.resources) do
         local iconX, iconY = self.x + self.cellWidth * (ind - 1), self.y
         local textX, textY = iconX, self.y + self.cellWidth
@@ -61,6 +67,8 @@ function ResourceBar:render()
             self.scale
         )
 
+        love.graphics.setColor(config.colors.infoTextColor)
+
         if res.resourceSource then
             local value, max = res.resourceSource.storage.value, res.resourceSource.storage.max
             if res.resource == 'dude' then
@@ -78,7 +86,7 @@ function ResourceBar:render()
                     self.cellWidth,
                     'center'
                 )
-            elseif res.resourceSource.produce then
+            elseif res.resourceSource.produce and res.resource ~= 'dude'then
                 love.graphics.printf(
                     '+'..res.resourceSource.produce,
                     textX,
@@ -118,6 +126,7 @@ function ResourceBar:render()
                 'center'
             )
         end
+        love.graphics.setColor(1,1,1)
     end
 end
 
