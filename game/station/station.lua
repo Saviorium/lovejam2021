@@ -1,7 +1,7 @@
 local log = require "engine.logger"("stationsInnerDebug")
 local ProgressBar = require "game.ui.progress_bar"
 local Resources = require "data.resources"
-local InformationBoard = require "game.ui.information_board"
+local StationInformationBoard = require "game.ui.information_boards.station_information_board"
 
 -- Абстрактная станция с ресурсом
 local Station =
@@ -44,7 +44,7 @@ local Station =
 
         self.population = 1
 
-        self.informationBoard = InformationBoard(self, parameters.description)
+        self.informationBoard = StationInformationBoard(self, parameters.description)
     end
 }
 function Station:update(dt)

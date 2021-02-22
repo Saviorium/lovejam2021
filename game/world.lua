@@ -383,19 +383,16 @@ function World:addResourceInRange(position, resource, range)
     for i = -range, range, 1 do
         for j = -range, range, 1 do
             self.resourcesGrid:setResources(position.x + i, position.y + j, 1000, resource)
-            print("Set " .. resource .. " at ", Vector(position.x + i, position.y + j))
         end
     end
 end
 
 function World:canGetResourceInRange(position, resource, range, unitsToGet)
-    print("Checking ", resource)
     local result = false
     for i = -range, range, 1 do
         for j = -range, range, 1 do
             local pos = Vector(position.x + i * self.resourcesGrid.gridSize, position.y + j * self.resourcesGrid.gridSize)
             local resourcesLeft = self.resourcesGrid:getResourcesAtCoords(pos, resource)
-            print("On ", pos, " left ", resourcesLeft, unitsToGet, resource)
             if resourcesLeft > unitsToGet then
                 result = true
             end
@@ -412,7 +409,6 @@ function World:getResourceInRange(position, resource, range, unitsToGet)
             if resourcesLeft > unitsToGet then
                 local cellCoords = self.resourcesGrid:getGridCellAtCoords(pos)
                 self.resourcesGrid:setResources(cellCoords.x, cellCoords.y, resourcesLeft - unitsToGet, resource)
-                print("Descreased resource to ", resourcesLeft - unitsToGet,' At ', pos)
                 return true
             end
         end
@@ -422,11 +418,10 @@ end
 function World:findStationsInRange(position, range)
     for _, station in pairs(self.stations) do
         local stationCellCoords = self.resourcesGrid:getGridCellAtCoords(Vector(station.x, station.y))
-        print(stationCellCoords, position)
-        if
-            stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
-                stationCellCoords.y >= position.y - range and
-                stationCellCoords.y <= position.y + range
+        print(position, stationCellCoords, stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
+        stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range)
+        if stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
+           stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range
          then
             return station
         end

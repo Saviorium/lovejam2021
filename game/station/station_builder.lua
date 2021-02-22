@@ -25,9 +25,9 @@ end
 function StationBuilder:placeStation( stationName, world )
     if self.buildingStation == stationName then
         local mouseCoords = world:getFromScreenCoord(Vector(love.mouse.getPosition()))
-        local stationCoords = world.resourcesGrid:getGridCellAtCoords(Vector(love.mouse.getPosition()))
+        local stationCoords = world.resourcesGrid:getGridCellAtCoords(Vector(mouseCoords.x, mouseCoords.y))
         self.buildingStation = nil
-        if StationsData[stationName].conditionToBuild(world) and not world:findStationsInRange(stationCoords, 1) then
+        if StationsData[stationName].conditionToBuild(world) and not world:findStationsInRange(stationCoords, 2) then
             local stationIndex = #world.stations + 1
             world.stations[stationIndex] = BuildingStation( mouseCoords, stationName, world, stationIndex)
             return true

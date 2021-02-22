@@ -28,6 +28,8 @@ local Ship =
 
         self.newRoute = nil
         self.driftAngle = 0
+
+        -- self.informationBoard = ShipsInformationBoard(self, parameters.description)
     end
 }
 
