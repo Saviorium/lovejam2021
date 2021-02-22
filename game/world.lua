@@ -55,6 +55,7 @@ function World:starsInit()
 end
 
 function World:populateOnInit()
+    local init 
     self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(500, 1000)), "ironOre", 1)
     table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(500, 1000)))
     table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(1500, 1000)))
@@ -67,19 +68,20 @@ function World:populateOnInit()
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(2500, 2200)))
 
     self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(4000, 4000), self)
+    for i = 1, 10, 1 do
+        table.insert(self.ships, Ship(500 + 50*i, 1000):setRoute(self:addRoute(self.stations[1], self.stations[2])))
+        table.insert(self.ships, Ship(1500 + 50*i, 1000):setRoute(self:addRoute(self.stations[2], self.stations[3])))
 
-    table.insert(self.ships, Ship(550, 1000):setRoute(self:addRoute(self.stations[1], self.stations[2])))
-    table.insert(self.ships, Ship(1550, 1000):setRoute(self:addRoute(self.stations[2], self.stations[3])))
+        table.insert(self.ships, Ship(500 + 50*i, 2250):setRoute(self:addRoute(self.stations[4], self.stations[5])))
+        table.insert(self.ships, Ship(500 + 50*i, 2150):setRoute(self:addRoute(self.stations[4], self.stations[6])))
 
-    table.insert(self.ships, Ship(550, 2250):setRoute(self:addRoute(self.stations[4], self.stations[5])))
-    table.insert(self.ships, Ship(550, 2150):setRoute(self:addRoute(self.stations[4], self.stations[6])))
+        table.insert(self.ships, Ship(1500 + 50*i, 2000):setRoute(self:addRoute(self.stations[5], self.stations[7])))
 
-    table.insert(self.ships, Ship(1550, 2000):setRoute(self:addRoute(self.stations[5], self.stations[7])))
+        table.insert(self.ships, Ship(1500 + 50*i, 2550):setRoute(self:addRoute(self.stations[6], self.stations[7])))
+        table.insert(self.ships, Ship(1500 + 50*i, 2450):setRoute(self:addRoute(self.stations[6], self.stations[5])))
 
-    table.insert(self.ships, Ship(1550, 2550):setRoute(self:addRoute(self.stations[6], self.stations[7])))
-    table.insert(self.ships, Ship(1550, 2450):setRoute(self:addRoute(self.stations[6], self.stations[5])))
-
-    table.insert(self.ships, Ship(2550, 2200):setRoute(self:addRoute(self.stations[7], self.stations["HubStation"])))
+        table.insert(self.ships, Ship(2500 + 50*i, 2200):setRoute(self:addRoute(self.stations[7], self.stations["HubStation"])))
+    end
 end
 
 function World:addRoute(from, to)
