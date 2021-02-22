@@ -38,7 +38,7 @@ local World =
         self.uiManager = WindowManager()
         self:initUI()
 
-        self.lifes = 10
+        self.lifes = config.game.godMode and 99999 or 10
         self.disapointmentTimer = Timer.new()
     end
 }

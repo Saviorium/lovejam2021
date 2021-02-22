@@ -32,12 +32,16 @@ function StartGame:draw()
         if ind == "Global resource bar" then
             local x, y = love.graphics.transformPoint(ui.x, ui.y + ui.height)
             love.graphics.printf("The most important global resources", x, y, ui.width, "left")
-        -- else
-        --     local x, y = love.graphics.transformPoint(ui.x + ui.width, ui.y)
-        --     love.graphics.printf(ui.description, x, y, 1000, "left")
         end
     end
     love.graphics.printf("In this game you need to make and deliver chocolate to the HUB", 150, 0, 1000, "center")
+    love.graphics.printf(
+        "Buttons for building stations",
+        0,
+        230,
+        1000,
+        "left"
+    )
     love.graphics.printf(
         "This is a complete ship production line the ore is processed into iron from which ships are built",
         150,
@@ -45,7 +49,6 @@ function StartGame:draw()
         1000,
         "center"
     )
-
     love.graphics.printf(
         "This is a complete chocolate making line" ..
             "\n" ..
@@ -57,6 +60,23 @@ function StartGame:draw()
         400,
         1000,
         "center"
+    )
+    love.graphics.printf(
+        "You can build paths by clicking on the station and pulling in the direction of the desired other station"..'\n'..
+        "Then you need to drag the ship to it."..'\n'..
+        "Try to do it now, but until the game has started they will not be built",
+        150,
+        700,
+        1000,
+        "center"
+    )
+
+    love.graphics.printf(
+        "Hub is right there",
+        love.graphics.getWidth()-300,
+        love.graphics.getHeight()-50,
+        1000,
+        "left"
     )
 end
 

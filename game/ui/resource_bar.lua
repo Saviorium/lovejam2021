@@ -95,7 +95,7 @@ function ResourceBar:render()
             )
         elseif res.resource == 'life' then
             love.graphics.printf(
-                math.clamp(0, math.floor(self.world.lifes), 999)  .. " / " .. 10,
+                math.clamp(0, math.floor(self.world.lifes), 99999)  .. " / " .. (config.game.godMode and 99999 or 10),
                 textX,
                 textY,
                 self.cellWidth,
