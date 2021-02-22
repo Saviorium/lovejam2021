@@ -191,6 +191,9 @@ function World:update(dt)
         ship:update(dt)
     end
     self.uiManager:update(dt)
+
+    if self.disapointment then Resources.life.color = {1,1,1} else Resources.life.color = {1,0,0} end -- @todo: for the love of god, delete this line
+
 end
 
 function World:draw()
@@ -392,6 +395,7 @@ end
 function World:descreaseLives()
     self.lifes = self.lifes - 1
     self:showDisapointment()
+    SoundManager:play("dudes_die")
     if self.lifes == 0 then
         StateManager.switch(states.end_game, self)
     end
