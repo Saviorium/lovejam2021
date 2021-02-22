@@ -13,7 +13,7 @@ Debug = {
     routeBuilder = 0,
     shipAssigner = 0,
     portInnerDebug = 0,
-    resourceDisplay = false
+    resourceDisplay = true
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})

@@ -23,7 +23,8 @@ config = {
         speed = 3,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
-        godMode = false
+        godMode = false,
+        startShips = 1
     },
     map = {
         style = 'grid', -- circle grid image,

@@ -66,6 +66,14 @@ function Port:isFree()
     return false
 end
 
+function Port:leavePort(ship)
+    for ind, queueShip in pairs(self.shipsQueue) do
+        if ship == queueShip then
+            table.remove(self.shipsQueue, ind)
+        end
+    end
+end
+
 function Port:undockShip(ship)
     log(2, "Port ".. self.name .." undocking ship "..ship.name)
     for ind, port in pairs(self.dockedShips) do

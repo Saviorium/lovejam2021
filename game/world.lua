@@ -67,7 +67,7 @@ function World:populateOnInit()
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(2500, 2200)))
 
     self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(4000, 4000), self)
-    for i = 1, 10, 1 do
+    for i = 1, config.game.startShips, 1 do
         table.insert(self.ships, Ship(500 + 50*i, 1000):setRoute(self:addRoute(self.stations[1], self.stations[2])))
         table.insert(self.ships, Ship(1500 + 50*i, 1000):setRoute(self:addRoute(self.stations[2], self.stations[3])))
 

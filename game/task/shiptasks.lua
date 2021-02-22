@@ -37,7 +37,7 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
             ship:moveAroundStation(dt, target)
         end,
         function()
-            return not ship.route or storage.port:findShipInPort(ship) or ship.newRoute
+            return storage.port:findShipInPort(ship) or ship.newRoute
         end,
         function()
             if ship.route then
@@ -57,6 +57,9 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
                         ship.tasks:addTask(Tasks.waitUntilFullUnLoad(ship, storage))
                     end
                 end
+            else
+                storage.port:leavePort(ship)
+                storage.port:undockShip(ship)
             end
         end
     )
@@ -69,10 +72,12 @@ Tasks["waitAroundStation"] = function(ship, target)
             ship:moveAroundStation(dt, target)
         end,
         function()
-            return ship.route
+            return ship.route or ship.newRoute
         end,
         function()
             ship.storage.value = 0
+            ship.route = nvl(ship.newRoute, ship.route)
+            ship.newRoute = nil 
             local targetStation = ship.route.startStation
             ship.tasks:addTask(
                 Tasks.goTo(ship, targetStation, targetStation.outResources[ship.route.resourceTaking].storage)
@@ -88,7 +93,7 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == ship.storage.max or ship.newRoute or ship:isLeaving() or not ship.route
+            return ship.storage.value == ship.storage.max or ship.newRoute or ship:isLeaving()
         end,
         function()
             storage.port:undockShip(ship)
@@ -116,7 +121,7 @@ Tasks["waitUntilFullUnLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == 0 or ship:isLeaving() or not ship.route
+            return ship.storage.value == 0 or ship:isLeaving()
         end,
         function()
             storage.port:undockShip(ship)
