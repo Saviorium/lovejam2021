@@ -33,9 +33,9 @@ function BuildingStation:onTick()
             ready = false
         end
     end
-    for _, resource in pairs(self.inResources) do
-        resource.storage:addAndGetExcess(100)
-    end
+    -- for _, resource in pairs(self.inResources) do
+    --     resource.storage:addAndGetExcess(100)
+    -- end
     for _, resource in pairs(self.inResources) do
         resource.storage:onTick()
     end

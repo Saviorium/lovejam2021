@@ -37,23 +37,25 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
             ship:moveAroundStation(dt, target)
         end,
         function()
-            return storage.port:findShipInPort(ship) or ship.newRoute
+            return not ship.route or storage.port:findShipInPort(ship) or ship.newRoute
         end,
         function()
-            if ship.newRoute then
-                ship.storage.value = 0
-                ship.route = ship.newRoute
-                ship.newRoute = nil
-                local targetStation = ship.route.startStation
-                ship.tasks:addTask(
-                    Tasks.goTo(ship, targetStation, targetStation.outResources[ship.route.resourceTaking].storage)
-                )
-            else
-                ship:setVisible(false)
-                if storage.port.direction == -1 then
-                    ship.tasks:addTask(Tasks.waitUntilFullLoad(ship, storage))
-                elseif storage.port.direction == 1 then
-                    ship.tasks:addTask(Tasks.waitUntilFullUnLoad(ship, storage))
+            if ship.route then
+                if ship.newRoute then
+                    ship.storage.value = 0
+                    ship.route = ship.newRoute
+                    ship.newRoute = nil
+                    local targetStation = ship.route.startStation
+                    ship.tasks:addTask(
+                        Tasks.goTo(ship, targetStation, targetStation.outResources[ship.route.resourceTaking].storage)
+                    )
+                else
+                    ship:setVisible(false)
+                    if storage.port.direction == -1 then
+                        ship.tasks:addTask(Tasks.waitUntilFullLoad(ship, storage))
+                    elseif storage.port.direction == 1 then
+                        ship.tasks:addTask(Tasks.waitUntilFullUnLoad(ship, storage))
+                    end
                 end
             end
         end
@@ -86,20 +88,22 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == ship.storage.max or ship.newRoute or ship:isLeaving()
+            return ship.storage.value == ship.storage.max or ship.newRoute or ship:isLeaving() or not ship.route
         end,
         function()
-            local target
             storage.port:undockShip(ship)
-            if ship.newRoute then
-                ship.storage.value = 0
-                ship.route = ship.newRoute
-                ship.newRoute = nil
-                target = ship.route.startStation
-            else
-                target = ship.route.endStation
+            if ship.route then
+                local target
+                if ship.newRoute then
+                    ship.storage.value = 0
+                    ship.route = ship.newRoute
+                    ship.newRoute = nil
+                    target = ship.route.startStation
+                else
+                    target = ship.route.endStation
+                end
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
             end
-            ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
             ship:setVisible(true)
         end
     )
@@ -112,16 +116,18 @@ Tasks["waitUntilFullUnLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == 0 or ship:isLeaving()
+            return ship.storage.value == 0 or ship:isLeaving() or not ship.route
         end,
         function()
             storage.port:undockShip(ship)
-            if ship.newRoute then
-                ship.route = ship.newRoute
-                ship.newRoute = nil
+            if ship.route then
+                if ship.newRoute then
+                    ship.route = ship.newRoute
+                    ship.newRoute = nil
+                end
+                local target = ship.route.startStation
+                ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             end
-            local target = ship.route.startStation
-            ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             ship:setVisible(true)
         end
     )

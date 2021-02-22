@@ -22,10 +22,10 @@ function Port:onTick()
             log( 3, "Port ".. self.name .." started transport resources to "..port.ship.name )
             local result
             if self.direction == 1 then
-                result =  self.loadSpeed + port.ship.storage:addAndGetExcess(-self.loadSpeed)
-                self.storage:addAndGetExcess(result)
+                result = math.floor(self.loadSpeed - self.storage:addAndGetExcess(self.loadSpeed))
+                port.ship.storage:addAndGetExcess(-result)
             elseif self.direction == -1 then
-                result = port.ship.storage.port.loadSpeed + self.storage:addAndGetExcess(-port.ship.storage.port.loadSpeed)
+                result = math.floor(port.ship.storage.port.loadSpeed + self.storage:addAndGetExcess(-port.ship.storage.port.loadSpeed))
                 port.ship.storage:addAndGetExcess(result)
             end
             if result ~= 0 then

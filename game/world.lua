@@ -50,7 +50,6 @@ local World =
 function World:starsInit()
     for i=1, config.map.starsCount do
         table.insert( self.distantStars, Star(self.resourcesGrid, self.camera) )
-        -- print(self.distantStars[i].x, self.distantStars[i].y)
     end
 end
 
@@ -135,7 +134,6 @@ function World:initUI()
     end
 
     local resources = {}
-    -- table.insert(resources, {resource = "iron", resourceSource = self.stations["HubStation"].inResources.iron})
     table.insert(resources, {resource = "dude", resourceSource = self.stations["HubStation"].outResources.dude})
     table.insert(resources, {resource = "ship", resourceSource = nil})
     table.insert(resources, {resource = "life", resourceSource = nil})
