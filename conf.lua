@@ -22,7 +22,7 @@ config = {
         speed = 1,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
-        godMode = true
+        godMode = false
     },
     map = {
         style = 'grid' -- circle grid image

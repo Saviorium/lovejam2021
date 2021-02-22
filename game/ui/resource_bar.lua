@@ -35,6 +35,7 @@ local ResourceBar =
 }
 
 function ResourceBar:render()
+    love.graphics.setFont(fonts.bigPixelated)
     for ind, res in pairs(self.resources) do
         local iconX, iconY = self.x + self.cellWidth * (ind - 1), self.y
         local textX, textY = iconX, self.y + self.cellWidth
