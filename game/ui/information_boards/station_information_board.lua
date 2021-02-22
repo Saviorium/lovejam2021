@@ -6,8 +6,8 @@ local StationInformationBoard =
     Class {
     __includes = InformationBoard,
     init = function(self, targetObject, description)
-        self.font = love.graphics.newFont(12)
-        self.font:setFilter("nearest", "nearest")
+        self.font = fonts.smolPixelated
+        --self.font:setFilter("nearest", "nearest")
         InformationBoard.init(self, targetObject, description)
     end
 }

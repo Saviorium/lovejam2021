@@ -2,8 +2,8 @@ local EndGame = {}
 
 function EndGame:enter(prev_state, world)
     print(prev_state, world)
-    self.font = love.graphics.newFont(24)
-    self.font:setFilter("nearest", "nearest")
+    self.font = fonts.smolPixelated
+    --self.font:setFilter("nearest", "nearest")
     self.gameWorld = world
     local colonists = 0
     for _, station in pairs(self.gameWorld.stations) do

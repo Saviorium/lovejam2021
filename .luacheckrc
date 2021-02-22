@@ -9,6 +9,8 @@ globals = {
   "Class",
   "Entity",
   "Vector",
+  "Timer",
+  "fonts"
   "nvl",
   "merge",
   "StateManager",

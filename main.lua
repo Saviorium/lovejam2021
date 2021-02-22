@@ -8,7 +8,12 @@ AssetManager = require "engine.asset_manager"
 Vector       = require "lib.hump.vector"
 Timer        = require "lib.hump.timer"
 
+fonts = {
+    smolPixelated = love.graphics.newFont("assets/fonts/m3x6.ttf", 16),
+}
+
 function love.load()
+    fonts.smolPixelated:setFilter("nearest", "nearest")
     AssetManager:load("assets")
     Resources    = require "data.resources"
     states = {

@@ -144,8 +144,12 @@ function Ship:moveTo(dt, target)
 end
 
 function Ship:moveAroundStation(dt, target)
+    if not self:isNear(target) then
+        self:moveTo(dt, target)
+    end
+    local direction = self.direction
     self.direction = (target:getCenter() - self.position):normalized():rotateInplace(math.pi / 2)
-    self.angle = -self.direction:toPolar().x - math.pi
+    self.angle = -(direction + self.direction):toPolar().x - math.pi
     log(1, "Ship moving around station", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
