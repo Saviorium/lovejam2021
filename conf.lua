@@ -14,9 +14,9 @@ config = {
     },
     selection = {
         border = 4,
-        stationSize = 50,
-        shipSize = 10,
-        routeDistance = 400 -- squared
+        stationSize = 80,
+        shipSize = 30,
+        routeDistance = 900 -- squared
     }
 }
 

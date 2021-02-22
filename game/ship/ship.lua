@@ -20,7 +20,7 @@ local Ship =
         self.tasks = TaskList()
 
         self.image = AssetManager:getImage("ship")
-        self.focusedImage = AssetManager:getImage("ship")
+        self.selectedImage = AssetManager:getImage("ship_focused")
         self.width = self.image:getWidth()
         self.height = self.image:getHeight()
         self.visible = true
@@ -91,24 +91,17 @@ function Ship:draw()
 end
 
 function Ship:drawSelected()
-    local scale =
-        Vector(
-        (self.width + config.selection.border * 2) / self.width,
-        (self.height + config.selection.border * 2) / self.height
-    )
-    love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.selected)
     love.graphics.draw(
-        self.image,
+        self.selectedImage,
         self.position.x,
         self.position.y,
         self.angle,
-        scale.x,
-        scale.y,
+        1,
+        1,
         self.width / 2,
         self.height / 2
     )
-    love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
 
@@ -118,24 +111,17 @@ function Ship:setVisible(boolean)
 end
 
 function Ship:drawHovered()
-    local scale =
-        Vector(
-        (self.width + config.selection.border * 2) / self.width,
-        (self.height + config.selection.border * 2) / self.height
-    )
-    love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.hover)
     love.graphics.draw(
-        self.image,
+        self.selectedImage,
         self.position.x,
         self.position.y,
         self.angle,
-        scale.x,
-        scale.y,
+        1,
+        1,
         self.width / 2,
         self.height / 2
     )
-    love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 
     self.informationBoard.isVisible = true

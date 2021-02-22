@@ -65,7 +65,7 @@ end
 function Route:draw()
     self.arrow:setColor(self.resourceColor)
     if self.isHovered then self.arrow:setColor(config.colors.hover) end
-    if self.isSelected then self.arrow:setColor(config.colors.hover) end
+    if self.isSelected then self.arrow:setColor(config.colors.selected) end
     if self.isSelectedToDelete then self.arrow:setColor(config.colors.delete) end
     self.arrow:draw()
 end
