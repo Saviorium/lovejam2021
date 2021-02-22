@@ -27,6 +27,7 @@ function RouteBuilder:startBuilding(fromStation)
     self.fromStation = fromStation
     fromStation:setSelected(true)
     log(3, "Building route from station " .. fromStation:tostring())
+    SoundManager:play("route_start")
 end
 
 function RouteBuilder:setDestination(toStation)
@@ -56,6 +57,7 @@ function RouteBuilder:finishBuilding()
     end
     log(1, "Building route from " .. self.fromStation:tostring() .. " -> " .. self.toStation:tostring())
     local from, to = self.fromStation, self.toStation
+    SoundManager:play("route_done")
     self:stopBuilding()
     return from, to
 end

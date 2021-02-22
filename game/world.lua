@@ -285,6 +285,7 @@ function World:mousereleased(x, y, button)
         end
         local route = self:selectRouteAt(mouseCoords)
         if button == 2 and route then
+            SoundManager:play("route_delete")
             self:deleteRoute(route)
         end
     end

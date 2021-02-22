@@ -39,6 +39,7 @@ function StationBuilder:placeStation( stationName, world )
         local stationCoords = world.resourcesGrid:getGridCellAtCoords(Vector(mouseCoords.x, mouseCoords.y))
         self.buildingStation = nil
         if StationsData[stationName].conditionToBuild(world) and not world:findStationsInRange(stationCoords, 2) and not collision then
+            SoundManager:play("build_start")
             local stationIndex = #world.stations + 1
             world.stations[stationIndex] = BuildingStation( mouseCoords, stationName, world, stationIndex)
             return true

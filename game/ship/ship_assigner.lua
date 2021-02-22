@@ -52,6 +52,7 @@ function ShipAssigner:assign()
     end
     log(1, "Assigned " .. self.ship:tostring() .. " to " .. self.route:tostring())
     local from, to = self.ship, self.route
+    SoundManager:play("ship_set_on_route")
     self:reset()
     return from, to
 end

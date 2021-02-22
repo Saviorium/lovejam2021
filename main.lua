@@ -8,6 +8,9 @@ AssetManager = require "engine.asset_manager"
 Vector       = require "lib.hump.vector"
 Timer        = require "lib.hump.timer"
 
+SoundData    = require "data.sound_data"
+SoundManager = require "engine.sound_manager" (SoundData)
+
 fonts = {
     smolPixelated = { file = "assets/fonts/m3x6.ttf", size = 16},
     bigPixelated = { file = "assets/fonts/m3x6.ttf", size = 32},

@@ -40,6 +40,7 @@ function BuildingStation:onTick()
         resource.storage:onTick()
     end
     if ready then
+        SoundManager:play("build_done")
         self.world:deleteStationAt(Vector(self.x, self.y))
         table.insert(self.world.stations, Stations[self.targetStation]( Vector(self.x, self.y)))
     end
