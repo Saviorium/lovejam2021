@@ -42,7 +42,8 @@ function BuildingStation:onTick()
         resource.storage:onTick()
     end
     if ready then
-        self.world.stations[self.index] = Stations[self.targetStation]( Vector(self.x, self.y))
+        self.world:deleteStationAt(Vector(self.x, self.y))
+        table.insert(self.world.stations, Stations[self.targetStation]( Vector(self.x, self.y)))
     end
 end
 

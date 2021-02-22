@@ -20,16 +20,21 @@ function Port:onTick()
     self:getShipToPort()
     for ind, port in pairs(self.dockedShips) do
         if port.ship then
-            log(
-                1,
-                "Port ".. self.name .." started transport resources to "..port.ship.name
-            )
-            if
-                (self.direction == 1 and self.storage:canPut(self.loadSpeed)) or
-                    (self.direction == -1 and self.storage:canGet(self.loadSpeed))
-             then
-                port.ship.storage:addAndGetExcess(-self.direction * self.loadSpeed)
-                self.storage:addAndGetExcess(self.direction * self.loadSpeed)
+            log( 1, "Port ".. self.name .." started transport resources to "..port.ship.name )
+            local transferRealized = false
+            if self.direction == 1 then
+                local result = self.storage:addAndGetExcess(self.loadSpeed) - self.loadSpeed
+                port.ship.storage:addAndGetExcess(result)
+                transferRealized = result ~= 0
+            elseif self.direction == -1 then
+                local result = port.ship.storage.port.loadSpeed + self.storage:addAndGetExcess(-port.ship.storage.port.loadSpeed)
+                port.ship.storage:addAndGetExcess(result)
+                transferRealized = result ~= 0
+            end
+            if transferRealized then
+                port.ship.canLeave = false
+                port.ship.loadTimer:clear()
+                port.ship.loadTimer:after(4, function() port.ship.canLeave = true end)
             end
         end
     end
@@ -68,6 +73,7 @@ function Port:undockShip(ship)
     log(2, "Port ".. self.name .." undocking ship "..ship.name)
     for ind, port in pairs(self.dockedShips) do
         if port.ship == ship then
+            port.ship.loadTimer:clear()
             port.ship = nil
             if not port.ship then
                 log(2, "Port ".. self.name .." undocked ship "..ship.name .. ' At port number '..ind)

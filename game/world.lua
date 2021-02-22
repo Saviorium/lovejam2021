@@ -111,7 +111,9 @@ function World:initUI()
                         end,
                         endCallback = function()
                             return self.stationBuilder:placeStation(stationName, self)
-                        end
+                        end,
+                        width = 64,
+                        height = 64
                     }
                 )
             )
@@ -327,8 +329,10 @@ end
 
 function World:deleteStation(ind, station)
     table.remove(self.stations, ind)
-    for _, route in pairs(self.routes[station]) do
-        self:deleteRoute(route)
+    if self.routes[station] then
+        for _, route in pairs(self.routes[station]) do
+            self:deleteRoute(route)
+        end
     end
     for routeFrom, routesFrom in pairs(self.routes) do
         for routeTo, route in pairs(routesFrom) do
@@ -425,8 +429,6 @@ end
 function World:findStationsInRange(position, range)
     for _, station in pairs(self.stations) do
         local stationCellCoords = self.resourcesGrid:getGridCellAtCoords(Vector(station.x, station.y))
-        print(position, stationCellCoords, stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
-        stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range)
         if stationCellCoords.x >= position.x - range and stationCellCoords.x <= position.x + range and
            stationCellCoords.y >= position.y - range and stationCellCoords.y <= position.y + range
          then

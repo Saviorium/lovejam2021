@@ -85,7 +85,7 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == ship.storage.max or ship.newRoute
+            return ship.storage.value == ship.storage.max or ship.newRoute or ship:isLeaving()
         end,
         function()
             local target
@@ -110,7 +110,7 @@ Tasks["waitUntilFullUnLoad"] = function(ship, storage)
         function(dt)
         end,
         function()
-            return ship.storage.value == 0
+            return ship.storage.value == 0 or ship:isLeaving()
         end,
         function()
             storage.port:undockShip(ship)

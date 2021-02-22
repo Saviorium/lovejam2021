@@ -31,6 +31,7 @@ local Ship =
         self.driftAngle = 0
 
         self.informationBoard = ShipInformationBoard(self, 'Little poor ship transpoting resources from one place to another')
+        self.loadTimer = Timer.new()
     end
 }
 
@@ -65,6 +66,7 @@ function Ship:update(dt)
     self.tasks:runTask(dt)
     self.driftAngle = math.clamp(-0.1, self.driftAngle + love.math.random(0.1) - 0.05, 0.1)
     self.informationBoard:update(dt)
+    self.loadTimer:update(dt)
 end
 
 function Ship:draw()
@@ -79,12 +81,6 @@ function Ship:draw()
             1,
             self.width / 2,
             self.height / 2
-        )
-        love.graphics.circle(
-            'fill',
-            self.position.x,
-            self.position.y,
-            1
         )
         self.informationBoard:draw()
     end
@@ -163,4 +159,7 @@ function Ship:tostring()
     return self.name
 end
 
+function Ship:isLeaving()
+    return (self.canLeave and self.storage.value > 0 and self.storage.value < self.storage.max)
+end
 return Ship

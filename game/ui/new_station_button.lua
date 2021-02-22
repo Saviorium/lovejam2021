@@ -19,10 +19,12 @@ local NewStationButton = Class {
 }
 
 function NewStationButton:render()
+    local scaleX = self.width / self.image:getWidth()
+    local scaleY = self.height / self.image:getHeight()
     love.graphics.setColor(config.colors.uiBackgroundDarker)
-    love.graphics.rectangle('fill', self.x, self.y, 64, 64)
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
     love.graphics.setColor(1,1,1)
-	love.graphics.draw(self.image, self.x, self.y, 0, 2, 2)
+	love.graphics.draw(self.image, self.x, self.y, 0, scaleX, scaleY)
 	love.graphics.print(self.tag, self.x, self.y)
 end
 
