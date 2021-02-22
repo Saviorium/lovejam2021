@@ -1,7 +1,7 @@
 local defaultParams = {
-    lineWidth = 5,
+    lineWidth = 8,
     color = config.colors.selected,
-    endAngle = 18,
+    endAngle = 15,
     endLength = 50
 }
 

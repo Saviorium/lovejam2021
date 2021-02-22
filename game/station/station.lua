@@ -177,58 +177,22 @@ function Station:draw()
 end
 
 function Station:drawSelected()
-    local scale =
-        Vector(
-        (self.width + config.selection.border * 2) / self.width,
-        (self.height + config.selection.border * 2) / self.height
-    )
-    love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.selected)
     love.graphics.draw(
-        self.image,
-        self.x - config.selection.border,
-        self.y - config.selection.border,
-        0,
-        scale.x,
-        scale.y
+        self.selectedImage,
+        self.x,
+        self.y
     )
-    love.graphics.draw(
-        self.image,
-        self.x - config.selection.border,
-        self.y - config.selection.border,
-        0,
-        scale.x,
-        scale.y
-    )
-    love.graphics.draw(
-        self.image,
-        self.x - config.selection.border,
-        self.y - config.selection.border,
-        0,
-        scale.x,
-        scale.y
-    )
-    love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
 
 function Station:drawHovered()
-    local scale =
-        Vector(
-        (self.width + config.selection.border * 2) / self.width,
-        (self.height + config.selection.border * 2) / self.height
-    )
-    love.graphics.setBlendMode("add", "alphamultiply")
     love.graphics.setColor(config.colors.hover)
     love.graphics.draw(
-        self.image,
-        self.x - config.selection.border,
-        self.y - config.selection.border,
-        0,
-        scale.x,
-        scale.y
+        self.selectedImage,
+        self.x,
+        self.y
     )
-    love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
 end
 

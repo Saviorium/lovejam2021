@@ -44,18 +44,18 @@ local World =
 }
 
 function World:populateOnInit()
-    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 200)), "ironOre", 1)
-    table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(100, 200)))
-    table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(300, 200)))
-    table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(500, 200)))
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(500, 1000)), "ironOre", 1)
+    table.insert(self.stations, Stations.oreDrill(self.resourcesGrid:clampToGrid(500, 1000)))
+    table.insert(self.stations, Stations.ironAnvil(self.resourcesGrid:clampToGrid(1500, 1000)))
+    table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(2500, 1000)))
 
-    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(100, 450)), "ice", 1)
-    table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(100, 450)))
-    table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(300, 400)))
-    table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(300, 500)))
-    table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(500, 450)))
+    self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(500, 2200)), "ice", 1)
+    table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(500, 4500)))
+    table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(1500, 2000)))
+    table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(1500, 2500)))
+    table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(2500, 2200)))
 
-    self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(800, 800), self)
+    self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(4000, 4000), self)
 
     table.insert(self.ships, Ship(150, 200):setRoute(self:addRoute(self.stations[1], self.stations[2])))
     table.insert(self.ships, Ship(250, 200):setRoute(self:addRoute(self.stations[2], self.stations[3])))

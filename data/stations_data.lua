@@ -31,8 +31,8 @@ local StationsData = {
         description = 'A place where iron is forged for your ships and your victory'
     },
     milkStation = {
-        image        = AssetManager:getImage('ore_drill'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        image        = AssetManager:getImage('milk_station'),
+        selectedImage   = AssetManager:getImage('milk_station_focused'),
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()

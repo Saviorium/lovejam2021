@@ -22,7 +22,7 @@ local BuildingStation =
         self.world = world
         self.index = index
 
-        self.fadeLevel = 0.8
+        self.fadeLevel = 0.5
     end
 }
 
