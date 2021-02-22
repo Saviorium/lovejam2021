@@ -2,7 +2,7 @@ local Storage = require "game.storage.storage"
 
 local StationsData = {
     oreDrill = {
-        image        = AssetManager:getImage('ore_drill'),
+        image        = AssetManager:getImage('oredrill_station'),
         selectedImage   = AssetManager:getImage('focused_ore_drill'),
         conditionToBuild =
         function (world)
@@ -12,7 +12,7 @@ local StationsData = {
         description = 'A huge drill that mines ore for iron, piercing and ravaging the cosmos'
     },
     iceDrill = {
-        image            = AssetManager:getImage('ore_drill'),
+        image            = AssetManager:getImage('icedrill_station'),
         selectedImage    = AssetManager:getImage('focused_ore_drill'),
         conditionToBuild =
         function (world)
@@ -22,7 +22,7 @@ local StationsData = {
         description = 'Hot stuff, it is not afraid of the cold of space and even more so not afraid of these rocks full of ice'
     },
     ironAnvil = {
-        image        = AssetManager:getImage('ore_drill'),
+        image        = AssetManager:getImage('ironanvil_station'),
         selectedImage   = AssetManager:getImage('focused_ore_drill'),
         conditionToBuild =
         function (world)
@@ -40,8 +40,8 @@ local StationsData = {
         description = 'For excellent milk, you only need this farm, a little water and cocoa beans, as well as space cows of course'
     },
     cocoaFarm = {
-        image        = AssetManager:getImage('ore_drill'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        image        = AssetManager:getImage('cocoa_station'),
+        selectedImage   = AssetManager:getImage('cocoa_station_focused'),
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
@@ -58,7 +58,7 @@ local StationsData = {
         description = 'The most important resource of the galaxy and the survival of the people in the HUB is made here from milk and cocoa'
     },
     hubStation = {
-        image        = AssetManager:getImage('ore_drill'),
+        image        = AssetManager:getImage('hub_station'),
         selectedImage   = AssetManager:getImage('focused_ore_drill'),
         conditionToBuild =
         function (world)
@@ -67,7 +67,7 @@ local StationsData = {
         description = 'A haven for all people in space who want chocolate, for the population to grow, it is necessary to meet its needs for this product'
     },
     buildShipsStation = {
-        image        = AssetManager:getImage('ore_drill'),
+        image        = AssetManager:getImage('ship_station'),
         selectedImage   = AssetManager:getImage('focused_ore_drill'),
         conditionToBuild =
         function (world)
