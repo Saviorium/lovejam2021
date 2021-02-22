@@ -81,7 +81,7 @@ local Stations = {
         local outResources = {}
         newStorage = Storage(10000, 0, 'iron', 100, 1)
         inResources['iron'] = { consume = 100 , storage = newStorage}
-        newStorage = Storage(10000, 10000, 'chocolate', 100, 1)
+        newStorage = Storage(10000, 0, 'chocolate', 100, 1)
         inResources['chocolate'] = { dudeConsuming = 1, consume = 0 , storage = newStorage}
         newStorage = Storage(10000, 10, 'dude', 100, -1)
         outResources['dude'] = { inMonthProducing = 1, produce = 0 , storage = newStorage}

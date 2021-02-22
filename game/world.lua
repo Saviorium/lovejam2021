@@ -135,7 +135,8 @@ function World:update(dt)
     if self.clock.dayChanged then
         local dudes = self.stations.HubStation.outResources.dude.storage.value
         if (self.clock.day % self.clock.daysInMonth > self.clock.daysInMonth/2) 
-       and (dudes*self.stations.HubStation.inResources.chocolate.dudeConsuming < self.stations.HubStation.inResources.chocolate.storage.value) 
+       and (dudes*self.stations.HubStation.inResources.chocolate.dudeConsuming > self.stations.HubStation.inResources.chocolate.storage.value) 
+       and not self.worry
        then
             self:showAlarm()
         end
@@ -408,7 +409,7 @@ function World:showDisapointment()
 end
 function World:showAlarm()
     self.worry = true
-    self.disapointmentIcon = AssetManager:getImage('disapointment_icon')
+    SoundManager:play("dudes_warning")
     self.Timer:after(self.clock.secsInDay*2,function() self.worry = false end)
 end
 
