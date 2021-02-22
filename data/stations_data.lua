@@ -49,8 +49,8 @@ local StationsData = {
         description = 'There are endless plantations of precious cocoa that need only water obtained from ice'
     },
     chocolateFabric = {
-        image        = AssetManager:getImage('ore_drill'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        image        = AssetManager:getImage('chocolate_station'),
+        selectedImage   = AssetManager:getImage('chocolate_station_focused'),
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
