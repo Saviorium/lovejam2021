@@ -64,7 +64,7 @@ local StationsData = {
         function (world)
             return world:isThereLeftAnyDudes()
         end,
-        description = 'A haven for all people in space who want chocolate, for the population to grow, it is necessary to meet its needs for this product'
+        description = 'A haven for all people in space who want chocolate. For the population to grow, it is necessary to meet its needs for this product'
     },
     buildShipsStation = {
         image        = AssetManager:getImage('ship_station'),

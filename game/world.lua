@@ -243,7 +243,7 @@ function World:wheelmoved(x, y)
 end
 
 function World:mousepressed(x, y, button)
-    if not self.uiManager:mousepressed(x, y) then
+    if not self.uiManager:mousepressed(x, y) and button == 1 then
         local ship = self:selectShipAt(self:getFromScreenCoord(Vector(x, y)))
         if ship and not self.shipAssigner:isActive() and ship:canBeAssigned() then
             self.shipAssigner:setShip(ship)
