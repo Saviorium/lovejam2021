@@ -9,8 +9,8 @@ function EndGame:enter(prev_state, world)
     for _, station in pairs(self.gameWorld.stations) do
         colonists = colonists + station.population
     end
-    self.lastWords = 'Your colonists has dies without enough chocolate in their pockets'..'\n'..
-                     'Colonists was born: '..self.gameWorld.stations["HubStation"].outResources.dude.storage.value
+    self.lastWords = 'Your colonists died without enough chocolate in their pockets'..'\n'..
+                     'Total number of colonists: '..self.gameWorld.stations["HubStation"].outResources.dude.storage.value
 
 end
 

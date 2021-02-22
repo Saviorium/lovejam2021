@@ -5,7 +5,7 @@ config = {
         zoomMax = 5
     },
     colors = {
-        uiBackground = {0.3, 0.3, 0.3},
+        uiBackground = {0.8, 0.8, 0.8},
         uiBackgroundDarker = {0.7, 0.7, 0.7},
         selected = {0.5, 0.9, 0.2, 1},
         hover = {0.6, 1, 0.4, 0.5},
