@@ -11,8 +11,8 @@ local NewStationButton = Class {
         UIobject.init(  self,
                         parameters.position.x,
                         parameters.position.y,
-                        nvl(parameters.width, self.image:getWidth()*2),
-                        nvl(parameters.height, self.image:getHeight()*2),
+                        nvl(parameters.width, self.image:getWidth()),
+                        nvl(parameters.height, self.image:getHeight()),
                         parameters.tag,
                         'fixed')
 
@@ -29,6 +29,7 @@ local NewStationButton = Class {
                 return parameters.endCallback()
             end
         self.bgTag = 'up'
+        self.description = 'Button for building a new station: '..parameters.stationName
     end
 }
 function NewStationButton:update(dt)
@@ -51,7 +52,7 @@ function NewStationButton:render()
     self.buttonImage:draw(self.x, self.y)
     love.graphics.setColor(1,1,1)
 	love.graphics.draw(self.image, self.x + margin, self.y + margin)
-	love.graphics.print(self.tag, self.x, self.y)
+	-- love.graphics.print(self.tag, self.x, self.y)
 end
 
 function NewStationButton.defaultCallback(self)

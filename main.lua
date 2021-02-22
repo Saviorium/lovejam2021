@@ -16,7 +16,8 @@ function love.load()
         end_game = require "game.states.end_game_screen",
         start_game = require "game.states.start_game_screen"
     }
-    StateManager.switch(states.game)
+    love.keyboard.setKeyRepeat( true )
+    StateManager.switch(states.start_game)
 end
 
 function love.draw()

@@ -30,8 +30,8 @@ local World =
             route = RouteBuilder(self)
         }
         self.camera = {
-            position = Vector(0, 0),
-            zoom = 1
+            position = Vector(-100, 800),
+            zoom = 0.4
         }
         self.stationBuilder = StationBuilder(self)
         self.shipAssigner = ShipAssigner(self)
@@ -112,8 +112,8 @@ function World:initUI()
                         endCallback = function()
                             return self.stationBuilder:placeStation(stationName, self)
                         end,
-                        width = 64,
-                        height = 64
+                        stationName = stationName
+
                     }
                 )
             )
@@ -122,7 +122,7 @@ function World:initUI()
     end
 
     local resources = {}
-    table.insert(resources, {resource = "iron", resourceSource = self.stations["HubStation"].inResources.iron})
+    -- table.insert(resources, {resource = "iron", resourceSource = self.stations["HubStation"].inResources.iron})
     table.insert(resources, {resource = "dude", resourceSource = self.stations["HubStation"].outResources.dude})
     table.insert(resources, {resource = "ship", resourceSource = nil})
     table.insert(resources, {resource = "life", resourceSource = nil})
@@ -162,6 +162,11 @@ function World:update(dt)
     local stationSelected = self:selectStationAt(self:getMouseCoords())
     local routeSelected = self:selectRouteAt(self:getMouseCoords())
     local shipSelected = self:selectShipAt(self:getMouseCoords())
+
+    if stationSelected and stationSelected.index and love.mouse.isDown(2) then
+        self:deleteStation(stationSelected.index, stationSelected)
+    end
+
     if shipSelected then
         shipSelected:setHover(true)
     else
@@ -175,6 +180,7 @@ function World:update(dt)
     if self.builders.route:isBuilding() then
         self.builders.route:setDestination(stationSelected)
     end
+
     if self.shipAssigner:isActive() then
         self.shipAssigner:setRoute(routeSelected)
     end
@@ -218,16 +224,18 @@ function World:draw()
     love.graphics.pop()
     self.uiManager:draw()
     self.shipAssigner:draw()
-    love.graphics.print(
-        string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
-        2,
-        16
-    )
-    love.graphics.print(
-        string.format("Resource ice: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice")),
-        2,
-        32
-    )
+    if Debug.resourceDisplay then
+        love.graphics.print(
+            string.format("Resource iron: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ironOre")),
+            2,
+            16
+        )
+        love.graphics.print(
+            string.format("Resource ice: %d", self.resourcesGrid:getResourcesAtCoords(mouseCoords, "ice")),
+            2,
+            32
+        )
+    end
 end
 
 function World:wheelmoved(x, y)

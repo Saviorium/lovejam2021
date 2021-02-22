@@ -3,7 +3,7 @@ Debug = {
     showFps = 1,
     showStatesLoadSave = 0,
     stationsInnerDebug = 0,
-    stationsDrawDebug = true,
+    stationsDrawDebug = false,
     storagesInnerDebug = 0,
     storagesDrawDebug = false,
     shipInnerDebug = 0,
@@ -11,7 +11,8 @@ Debug = {
     taskInnerDebug = 0,
     routeBuilder = 0,
     shipAssigner = 0,
-    portInnerDebug = 2
+    portInnerDebug = 0,
+    resourceDisplay = false
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})
