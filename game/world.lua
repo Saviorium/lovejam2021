@@ -103,7 +103,7 @@ function World:initUI()
                 "New" .. stationName .. "Button",
                 NewStationButton(
                     {
-                        position = Vector(0, love.graphics.getHeight() - 64 * index),
+                        position = Vector(0, love.graphics.getHeight() - 74 * index),
                         tag = "New" .. stationName .. "Button",
                         targetStation = station,
                         startCallback = function()
