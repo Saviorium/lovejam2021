@@ -56,7 +56,7 @@ local Stations = {
         newStorage = Storage(1000, 0, 'ice', 100, 1)
         inResources['ice'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 0, 'cocoa', 100, -1)
-        outResources['cocoa'] = { produce = 75 , storage = newStorage}
+        outResources['cocoa'] = { produce = 100 , storage = newStorage}
         StationsData.cocoaFarm.inResources = inResources
         StationsData.cocoaFarm.outResources = outResources
         return Station(position, StationsData.cocoaFarm)
@@ -65,12 +65,12 @@ local Stations = {
         local newStorage
         local inResources  = {}
         local outResources = {}
-        newStorage = Storage(1000, 1000, 'cocoa', 100, 1)
+        newStorage = Storage(1000, 0, 'cocoa', 100, 1)
         inResources['cocoa'] = { consume = 100 , storage = newStorage}
-        newStorage = Storage(1000, 1000, 'milk', 100, 1)
+        newStorage = Storage(1000, 0, 'milk', 100, 1)
         inResources['milk'] = { consume = 100 , storage = newStorage}
         newStorage = Storage(1000, 0, 'chocolate', 100, -1)
-        outResources['chocolate'] = { produce = 50 , storage = newStorage}
+        outResources['chocolate'] = { produce = 10 , storage = newStorage}
         StationsData.chocolateFabric.inResources = inResources
         StationsData.chocolateFabric.outResources = outResources
         return Station(position, StationsData.chocolateFabric)
@@ -81,8 +81,8 @@ local Stations = {
         local outResources = {}
         newStorage = Storage(10000, 0, 'iron', 100, 1)
         inResources['iron'] = { consume = 100 , storage = newStorage}
-        newStorage = Storage(10000, 0, 'chocolate', 100, 1)
-        inResources['chocolate'] = { dudeConsuming = 100, consume = 0 , storage = newStorage}
+        newStorage = Storage(10000, 10000, 'chocolate', 100, 1)
+        inResources['chocolate'] = { dudeConsuming = 1, consume = 0 , storage = newStorage}
         newStorage = Storage(10000, 10, 'dude', 100, -1)
         outResources['dude'] = { inMonthProducing = 1, produce = 0 , storage = newStorage}
         newStorage = Storage(10000, 0, 'iron', 100, 1)

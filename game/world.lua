@@ -39,7 +39,7 @@ local World =
         self:initUI()
 
         self.lifes = config.game.godMode and 99999 or 10
-        self.disapointmentTimer = Timer.new()
+        self.Timer = Timer.new()
     end
 }
 
@@ -131,8 +131,14 @@ end
 
 function World:update(dt)
     self.clock:update(dt)
-    self.disapointmentTimer:update(dt)
+    self.Timer:update(dt)
     if self.clock.dayChanged then
+        local dudes = self.stations.HubStation.outResources.dude.storage.value
+        if (self.clock.day % self.clock.daysInMonth > self.clock.daysInMonth/2) 
+       and (dudes*self.stations.HubStation.inResources.chocolate.dudeConsuming < self.stations.HubStation.inResources.chocolate.storage.value) 
+       then
+            self:showAlarm()
+        end
         for _, station in pairs(self.stations) do
             station:onTick(self)
         end
@@ -394,7 +400,12 @@ end
 function World:showDisapointment()
     self.disapointment = true
     self.disapointmentIcon = AssetManager:getImage('disapointment_icon')
-    self.disapointmentTimer:after(3,function() self.disapointment = false end)
+    self.Timer:after(self.clock.secsInDay*3,function() self.disapointment = false end)
+end
+function World:showAlarm()
+    self.worry = true
+    self.disapointmentIcon = AssetManager:getImage('disapointment_icon')
+    self.Timer:after(self.clock.secsInDay*2,function() self.worry = false end)
 end
 
 function World:isThereLeftAnyDudes()
