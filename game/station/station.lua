@@ -146,11 +146,11 @@ function Station:draw()
                 self.y + ind * 8
             )
             love.graphics.print(Resources[res].name, self.x - self.width, self.y + ind * 8)
-            if self.outResources[i].storage.port.dockedShip then
-                love.graphics.print("ship", self.x + self.width, self.y + ind * 8)
+            for shipIndex, ship in pairs(self.outResources[i].storage.port:getAllDockedShips()) do
+                love.graphics.print("ship", self.x + self.width*shipIndex + 48*(shipIndex-1), self.y + ind * 8)
                 love.graphics.print(
-                    self.outResources[i].storage.port.dockedShip.storage.value,
-                    self.x + self.width + 48,
+                    ship.storage.value,
+                    self.x + (self.width + 48)*shipIndex,
                     self.y + ind * 8
                 )
             end

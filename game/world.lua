@@ -50,21 +50,25 @@ function World:populateOnInit()
     table.insert(self.stations, Stations.buildShipsStation(self.resourcesGrid:clampToGrid(2500, 1000)))
 
     self:addResourceInRange(self.resourcesGrid:getGridCellAtCoords(Vector(500, 2200)), "ice", 1)
-    table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(500, 4500)))
+    table.insert(self.stations, Stations.iceDrill(self.resourcesGrid:clampToGrid(500, 2200)))
     table.insert(self.stations, Stations.milkStation(self.resourcesGrid:clampToGrid(1500, 2000)))
     table.insert(self.stations, Stations.cocoaFarm(self.resourcesGrid:clampToGrid(1500, 2500)))
     table.insert(self.stations, Stations.chocolateFabric(self.resourcesGrid:clampToGrid(2500, 2200)))
 
     self.stations["HubStation"] = Stations.hubStation(self.resourcesGrid:clampToGrid(4000, 4000), self)
 
-    table.insert(self.ships, Ship(150, 200):setRoute(self:addRoute(self.stations[1], self.stations[2])))
-    table.insert(self.ships, Ship(250, 200):setRoute(self:addRoute(self.stations[2], self.stations[3])))
+    table.insert(self.ships, Ship(550, 1000):setRoute(self:addRoute(self.stations[1], self.stations[2])))
+    table.insert(self.ships, Ship(1550, 1000):setRoute(self:addRoute(self.stations[2], self.stations[3])))
 
-    table.insert(self.ships, Ship(100, 400):setRoute(self:addRoute(self.stations[4], self.stations[5])))
-    table.insert(self.ships, Ship(100, 500):setRoute(self:addRoute(self.stations[4], self.stations[6])))
-    table.insert(self.ships, Ship(250, 400):setRoute(self:addRoute(self.stations[5], self.stations[7])))
-    table.insert(self.ships, Ship(250, 500):setRoute(self:addRoute(self.stations[6], self.stations[7])))
-    table.insert(self.ships, Ship(500, 500):setRoute(self:addRoute(self.stations[7], self.stations["HubStation"])))
+    table.insert(self.ships, Ship(550, 2250):setRoute(self:addRoute(self.stations[4], self.stations[5])))
+    table.insert(self.ships, Ship(550, 2150):setRoute(self:addRoute(self.stations[4], self.stations[6])))
+
+    table.insert(self.ships, Ship(1550, 2000):setRoute(self:addRoute(self.stations[5], self.stations[7])))
+
+    table.insert(self.ships, Ship(1550, 2550):setRoute(self:addRoute(self.stations[6], self.stations[7])))
+    table.insert(self.ships, Ship(1550, 2450):setRoute(self:addRoute(self.stations[6], self.stations[5])))
+
+    table.insert(self.ships, Ship(2550, 2200):setRoute(self:addRoute(self.stations[7], self.stations["HubStation"])))
 end
 
 function World:addRoute(from, to)
@@ -200,6 +204,9 @@ function World:draw()
 
     for _, station in pairs(self.stations) do
         station.informationBoard:draw()
+    end
+    for _, ship in pairs(self.ships) do
+        ship.informationBoard:draw()
     end
     local mouseCoords = self:getMouseCoords()
     if self.disapointment then

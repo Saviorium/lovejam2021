@@ -1,5 +1,3 @@
-local Ship = require "game.ship.ship"
-
 local Resources = {
     iron = {
         name = 'Iron bars',

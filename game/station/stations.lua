@@ -8,7 +8,7 @@ local Stations = {
         local inResources  = {}
         local outResources = {}
         newStorage = Storage(4000, 0, 'ironOre', 100, -1)
-        outResources['ironOre'] = { takingFromGrid = 5, produce = 100 , storage = newStorage}
+        outResources['ironOre'] = { takingFromGrid = 5, produce = 200 , storage = newStorage}
         StationsData.oreDrill.inResources = inResources
         StationsData.oreDrill.outResources = outResources
         return Station(position, StationsData.oreDrill)
@@ -41,6 +41,8 @@ local Stations = {
         local outResources = {}
         newStorage = Storage(1000, 0, 'ice', 100, 1)
         inResources['ice'] = { consume = 100 , storage = newStorage}
+        newStorage = Storage(1000, 0, 'cocoa', 100, 1)
+        inResources['cocoa'] = { consume = 50 , storage = newStorage}
         newStorage = Storage(1000, 0, 'milk', 100, -1)
         outResources['milk'] = { produce = 50 , storage = newStorage}
         StationsData.milkStation.inResources = inResources

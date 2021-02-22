@@ -37,7 +37,7 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
             ship:moveAroundStation(dt, target)
         end,
         function()
-            return storage.port.dockedShip == ship or ship.newRoute
+            return storage.port:isFree() or ship.newRoute
         end,
         function()
             if ship.newRoute then
@@ -89,7 +89,7 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
         end,
         function()
             local target
-            storage.port.dockedShip = nil
+            storage.port:undockShip(ship)
             if ship.newRoute then
                 ship.storage.value = 0
                 ship.route = ship.newRoute
@@ -113,7 +113,7 @@ Tasks["waitUntilFullUnLoad"] = function(ship, storage)
             return ship.storage.value == 0
         end,
         function()
-            storage.port.dockedShip = nil
+            storage.port:undockShip(ship)
             if ship.newRoute then
                 ship.route = ship.newRoute
                 ship.newRoute = nil

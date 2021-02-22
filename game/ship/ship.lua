@@ -2,6 +2,7 @@ local log = require "engine.logger"("shipInnerDebug")
 local Storage = require "game.storage.storage"
 local TaskList = require "game.task.task_list"
 local Tasks = require "game.task.shiptasks"
+local ShipInformationBoard = require "game.ui.information_boards.ship_information_board"
 
 -- Абстрактный корабль с ресурсом
 local Ship =
@@ -11,7 +12,7 @@ local Ship =
         Entity.init(self)
         self.position = Vector(x, y)
         self.storage = Storage(1000, 0, "any", 100, 0)
-        self.speed = 30
+        self.speed = 60
         self.direction = Vector()
 
         self.name = name or "Ship #" .. love.math.random(1000)
@@ -29,7 +30,7 @@ local Ship =
         self.newRoute = nil
         self.driftAngle = 0
 
-        -- self.informationBoard = ShipsInformationBoard(self, parameters.description)
+        self.informationBoard = ShipInformationBoard(self, 'Little poor ship transpoting resources from one place to another')
     end
 }
 
@@ -63,6 +64,7 @@ end
 function Ship:update(dt)
     self.tasks:runTask(dt)
     self.driftAngle = math.clamp(-0.1, self.driftAngle + love.math.random(0.1) - 0.05, 0.1)
+    self.informationBoard:update(dt)
 end
 
 function Ship:draw()
@@ -84,6 +86,7 @@ function Ship:draw()
             self.position.y,
             1
         )
+        self.informationBoard:draw()
     end
 end
 
@@ -134,6 +137,9 @@ function Ship:drawHovered()
     )
     love.graphics.setBlendMode("alpha")
     love.graphics.setColor(1, 1, 1)
+
+    self.informationBoard.showTimer:after(1, function() self.informationBoard.isVisible = true end)
+    self.informationBoard.showTimer:after(3, function() self.informationBoard.isVisible = false end)
 end
 
 function Ship:isNear(target)

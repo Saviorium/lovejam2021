@@ -5,23 +5,9 @@ local InformationBoard =
     Class {
     __includes = UIobject,
     init = function(self, targetObject, description)
-        self.font = love.graphics.newFont(12)
-        self.font:setFilter("nearest", "nearest")
-
         self.targetObject = targetObject
-        self.description = self:createDescription(description)
-        self:initResourceBar()
-
-        self.width = self.resourceBar.width > 128 and self.resourceBar.width or 128
-
-        self.textWidth, self.wrappedtext = self.font:getWrap( self.description, self.width )
-        self.textHeight = self.font:getHeight() * #self.wrappedtext
-
-        self.x = self.resourceBar.x
-        self.y = self.resourceBar.y
-
-        self.resourceBar.y = self.resourceBar.y + self.textHeight
-        self.height = self.textHeight + self.resourceBar.height
+        self.description = description
+        self:updateInformation()
 
         UIobject.init(  self,
                         self.x,
@@ -36,7 +22,7 @@ local InformationBoard =
 }
 
 
-function InformationBoard:createDescription(description)
+function InformationBoard:getFullText(description)
     return description
 end
 
@@ -54,6 +40,22 @@ function InformationBoard:update(dt)
 end
 
 function InformationBoard:render()
+end
+
+function InformationBoard:updateInformation()
+    self.fullText = self:getFullText(self.description)
+    self:initResourceBar()
+
+    self.width = self.resourceBar.width > 128 and self.resourceBar.width or 128
+
+    self.textWidth, self.wrappedtext = self.font:getWrap( self.fullText, self.width )
+    self.textHeight = self.font:getHeight() * #self.wrappedtext
+
+    self.x = self.resourceBar.x
+    self.y = self.resourceBar.y
+
+    self.resourceBar.y = self.resourceBar.y + self.textHeight
+    self.height = self.textHeight + self.resourceBar.height
 end
 
 function InformationBoard:draw()

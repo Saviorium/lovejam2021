@@ -6,12 +6,14 @@ local StationInformationBoard =
     Class {
     __includes = InformationBoard,
     init = function(self, targetObject, description)
+        self.font = love.graphics.newFont(12)
+        self.font:setFilter("nearest", "nearest")
         InformationBoard.init(self, targetObject, description)
     end
 }
 
 
-function StationInformationBoard:createDescription(description)
+function StationInformationBoard:getFullText(description)
     local inResources, outResources = '',''
     for _, res in pairs(self.targetObject:getConsumingResources()) do
         inResources = inResources..Resources[res].name..', '
@@ -55,7 +57,7 @@ function StationInformationBoard:render()
     love.graphics.setColor(config.colors.uiBackground)
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
     love.graphics.setColor(1,1,1)
-    love.graphics.printf(self.description, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')
+    love.graphics.printf(self.fullText, self.font, love.math.newTransform(self.x, self.y), self.width, 'left')
     self.resourceBar:draw()
 end
 
