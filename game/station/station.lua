@@ -130,15 +130,17 @@ function Station:draw()
     local index = 1
     for _, port in pairs(self.shipPorts) do
         for _, ship in pairs(port:getAllDockedShips()) do
-            love.graphics.draw(ship.image, self.x + self.width + ship.width, self.y - 4 + self.height + index*(ship.progressBar.width + 2), math.pi/2)
+            if ship.progressBar then
+                love.graphics.draw(ship.image, self.x + self.width + ship.width, self.y - 4 + self.height + index*(ship.progressBar.width + 2), math.pi/2)
 
-            local transform = love.math.newTransform( self.x + self.width, self.y + self.height + index*(ship.progressBar.width + 2), math.pi/2)
-            love.graphics.applyTransform( transform )
-            ship.progressBar:draw()
-            local inverse = transform:inverse( )
-            love.graphics.applyTransform( inverse )
+                local transform = love.math.newTransform( self.x + self.width, self.y + self.height + index*(ship.progressBar.width + 2), math.pi/2)
+                love.graphics.applyTransform( transform )
+                ship.progressBar:draw()
+                local inverse = transform:inverse( )
+                love.graphics.applyTransform( inverse )
 
-            index = index + 1
+                index = index + 1
+            end
         end
     end
     if self.isSelected then

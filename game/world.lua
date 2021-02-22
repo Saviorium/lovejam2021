@@ -21,7 +21,7 @@ local ShipAssigner = require "game.ship.ship_assigner"
 local World =
     Class {
     init = function(self)
-        self.clock = Clock(1, 15)
+        self.clock = Clock(2, 30)
         self.resourcesGrid = MapGrid(100, 100, ResourcesData)
         self.stations = {}
         self.routes = {}
@@ -49,7 +49,7 @@ local World =
 
 function World:starsInit()
     for i=1, config.map.starsCount do
-        table.insert( self.distantStars, Star(self.resourcesGrid) )
+        table.insert( self.distantStars, Star(self.resourcesGrid, self.camera) )
         -- print(self.distantStars[i].x, self.distantStars[i].y)
     end
 end
@@ -344,11 +344,7 @@ end
 function World:handleInputMove()
     local inputPosition = Vector(love.mouse.getPosition())
     if love.keyboard.isDown("space") or love.mouse.isDown(3) then
-        local resultMove = inputPosition - self.lastInputPosition
-        self:move(resultMove)
-        for _, star in pairs(self.distantStars) do
-            star:move(resultMove)
-        end
+        self:move(inputPosition - self.lastInputPosition)
     end
     self.lastInputPosition = inputPosition
 end
