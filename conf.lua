@@ -23,11 +23,11 @@ config = {
         speed = 3,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
-        godMode = true
+        godMode = false
     },
     map = {
         style = 'grid', -- circle grid image,
-        starsCount = 10000
+        starsCount = 1000
     }
 }
 
