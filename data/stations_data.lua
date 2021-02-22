@@ -23,7 +23,7 @@ local StationsData = {
     },
     ironAnvil = {
         image        = AssetManager:getImage('ironanvil_station'),
-        selectedImage   = AssetManager:getImage('focused_ore_drill'),
+        selectedImage   = AssetManager:getImage('ironanvil_station_focused'),
         conditionToBuild =
         function (world)
             return world:isThereLeftAnyDudes()
