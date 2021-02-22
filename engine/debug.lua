@@ -1,19 +1,19 @@
 local serpent = require "lib.debug.serpent"
 Debug = {
-    showFps = 1,
+    showFps = 0,
     mousePos = 0,
     showStatesLoadSave = 0,
     stationsInnerDebug = 0,
-    stationsDrawDebug = true,
+    stationsDrawDebug = false,
     storagesInnerDebug = 0,
-    storagesDrawDebug = true,
+    storagesDrawDebug = false,
     shipInnerDebug = 0,
-    shipDrawDebug = true,
+    shipDrawDebug = false,
     taskInnerDebug = 0,
     routeBuilder = 0,
     shipAssigner = 0,
     portInnerDebug = 0,
-    resourceDisplay = true
+    resourceDisplay = false
 }
 
 -- usage: vardump(x1, test, myVar) or vardump({ship = self, dt = dt})

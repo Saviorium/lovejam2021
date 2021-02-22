@@ -78,7 +78,7 @@ function StartGame:draw()
     )
 
     love.graphics.printf(
-        "Hub is right there --\\/",
+        "Hub is right there",
         love.graphics.getWidth()-300,
         love.graphics.getHeight()-50,
         1000,
