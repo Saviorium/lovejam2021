@@ -20,7 +20,7 @@ function StartGame:wheelmoved(x, y)
 end
 
 function StartGame:keypressed(key)
-    if key ~= "space" then
+    if key == "enter" then
         StateManager.switch(states.game, self.gameWorld)
     end
 end
@@ -68,6 +68,14 @@ function StartGame:draw()
         150,
         700,
         1000,
+        "center"
+    )
+
+    love.graphics.printf(
+        "Press Enter to start",
+        love.graphics.getWidth()/2-200,
+        love.graphics.getHeight()/2-100,
+        300,
         "center"
     )
 
