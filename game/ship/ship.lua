@@ -12,8 +12,8 @@ local Ship =
     init = function(self, x, y, name)
         Entity.init(self)
         self.position = Vector(x, y)
-        self.storage = Storage(1000, 0, "any", 100, 0)
-        self.speed = 60
+        self.storage = Storage(200, 0, "any", 100, 0)
+        self.speed = 20
         self.direction = Vector()
 
         self.name = name or "Ship #" .. love.math.random(1000)

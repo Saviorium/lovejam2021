@@ -1,4 +1,4 @@
-$appname = "aerohockey"
+$appname = "chocospace"
 $love_dir = "..\love-11.3-win64"
 $build_dir = ".\pkg"
 

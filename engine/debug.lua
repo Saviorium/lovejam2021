@@ -3,6 +3,7 @@ Debug = {
     showFps = 0,
     mousePos = 0,
     showStatesLoadSave = 0,
+    resourceGrid = 1,
     stationsInnerDebug = 0,
     stationsDrawDebug = false,
     storagesInnerDebug = 0,
