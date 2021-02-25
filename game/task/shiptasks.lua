@@ -13,14 +13,14 @@ Tasks["goTo"] = function(ship, destination, destinationStorage)
         end,
         function()
             if ship.newRoute then
-                ship.log(3, ship.name .. " ship get new route "..ship.newRoute.name)
+                ship.log(2, ship.name .. " ship get new route "..ship.newRoute.name)
                 ship.storage.value = 0
                 ship.route = ship.newRoute
                 ship.newRoute = nil
                 local target = ship.route.startStation
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             else
-                ship.log(3, ship.name .. ": ship trying to get in queue on port "..destinationStorage.port.name)
+                ship.log(2, ship.name .. ": ship trying to get in queue on port "..destinationStorage.port.name)
                 destinationStorage.port:addShipToQueue(ship)
                 ship.tasks:addTask(Tasks.waitUntilPortRelease(ship, destination, destinationStorage))
             end
@@ -40,7 +40,7 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
         function()
             if ship.route then
                 if ship.newRoute then
-                    ship.log(3, ship.name .. " ship get new route "..ship.newRoute.name)
+                    ship.log(2, ship.name .. " ship get new route "..ship.newRoute.name)
                     ship.storage.value = 0
                     ship.route = ship.newRoute
                     ship.newRoute = nil
@@ -49,7 +49,7 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
                         Tasks.goTo(ship, targetStation, targetStation.outResources[ship.route.resourceTaking].storage)
                     )
                 else
-                    ship.log(3, ship.name .. " docked to "..storage.port.name)
+                    ship.log(2, ship.name .. " docked to "..storage.port.name)
                     ship:setVisible(false)
                     if storage.port.direction == -1 then
                         ship.tasks:addTask(Tasks.waitUntilFullLoad(ship, storage))
@@ -75,7 +75,7 @@ Tasks["waitAroundStation"] = function(ship, target)
             return ship.route or ship.newRoute
         end,
         function()
-            ship.log(3, ship.name .. " got new route and going to " .. target:tostring())
+            ship.log(2, ship.name .. " got new route and going to " .. target:tostring())
             ship.storage.value = 0
             ship.route = nvl(ship.newRoute, ship.route)
             ship.newRoute = nil 
@@ -105,10 +105,10 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
                     ship.route = ship.newRoute
                     ship.newRoute = nil
                     target = ship.route.startStation
-                    ship.log(3, ship.name .. " got new route " .. ship.newRoute.name.." and going to "..target:tostring())
+                    ship.log(2, ship.name .. " got new route " .. ship.newRoute.name.." and going to "..target:tostring())
                 else
                     target = ship.route.endStation
-                    ship.log(3, ship.name .. " ship now undocking and going to "..target:tostring())
+                    ship.log(2, ship.name .. " ship now undocking and going to "..target:tostring())
                 end
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.inResources[ship.route.resourceTaking].storage))
             end
@@ -134,7 +134,7 @@ Tasks["waitUntilFullUnLoad"] = function(ship, storage)
                     ship.newRoute = nil
                 end
                 local target = ship.route.startStation
-                ship.log(3, ship.name .. " ship now undocking and going to "..target:tostring())
+                ship.log(2, ship.name .. " ship now undocking and going to "..target:tostring())
                 ship.tasks:addTask(Tasks.goTo(ship, target, target.outResources[ship.route.resourceTaking].storage))
             end
             ship:setVisible(true)

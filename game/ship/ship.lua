@@ -35,10 +35,11 @@ local Ship =
         self.loadTimer = Timer.new()
         self.log = require "engine.logger"("shipInnerDebug", 
             function(msg) 
-                love.filesystem.append(self.name..'_ships_debug.txt', msg)
-                love.filesystem.append('ships_and_ports_debug.txt', msg) 
-                return 'Ship: ['.. msg ..'] ' 
+                love.filesystem.append(self.name..'_ships_debug.txt', msg..'\n')
+                love.filesystem.append('ships_and_ports_debug.txt', msg..'\n') 
+                return msg
             end)
+        self.log( 1, self.name .." initialized on position ["..self.position.x..":"..self.position.y.."]")
     end
 }
 
@@ -50,10 +51,10 @@ function Ship:setRoute(route)
         self.tasks.onEmpty = function()
             self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage))
         end
-        self.log( 4, "Ship ".. self.name .." set to route "..route.name)
+        self.log( 3, "Ship ".. self.name .." set to route "..route.name)
     else
         self.newRoute = route
-        self.log( 4, "Ship ".. self.name .." set newRoute "..route.name)
+        self.log( 3, "Ship ".. self.name .." set newRoute "..route.name)
     end
     return self
 end
@@ -82,7 +83,7 @@ function Ship:flyAroundStation(station)
     self.tasks:clear()
     self.tasks.onEmpty = nil
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
-    self.log( 4, "Ship ".. self.name .." get task to wait Around Station"..station:tostring())
+    self.log( 5, "Ship ".. self.name .." get task to wait Around Station"..station:tostring())
     return self
 end
 

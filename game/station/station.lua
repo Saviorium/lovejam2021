@@ -10,7 +10,6 @@ local Station =
         self.y = position.y
         self.width = nvl(parameters.width, parameters.image:getWidth())
         self.height = nvl(parameters.height, parameters.image:getHeight())
-
         self.inResources = parameters.inResources
 
         self.shipPorts = {}
@@ -34,7 +33,6 @@ local Station =
             index = index + 1
         end
 
-
         self.name = "station #" .. love.math.random(100)
         for name, _ in pairs(self.outResources) do
             self.name = name .. " " .. self.name
@@ -49,6 +47,7 @@ local Station =
         self.population = 1
 
         self.informationBoard = StationInformationBoard(self, parameters.description)
+        log( 1, self.name .." initialized on position ["..self.x..":"..self.y.."]")
     end
 }
 function Station:update(dt)

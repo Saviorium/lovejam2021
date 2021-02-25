@@ -1,8 +1,8 @@
 local log = require "engine.logger"("portInnerDebug", 
 function(msg) 
-    love.filesystem.append('ports_debug.txt', msg)
-    love.filesystem.append('ships_and_ports_debug.txt', msg) 
-    return 'Port: ['.. msg ..'] ' 
+    -- love.filesystem.append('ports_debug.txt', msg)
+    love.filesystem.append('ships_and_ports_debug.txt', msg..'\n') 
+    return msg
 end)
 
 local Port =
@@ -16,8 +16,8 @@ local Port =
         self.loadSpeed = nvl(loadSpeed, 100)
         self.direction = direction -- in = 1, out = -1
         self.storage = storage
-        self.name = "Port #"..love.math.random( 1000 )
-        log( 1, "Port ".. self.name .." transporting resource "..storage.resource.. ' in direction '..self.direction == 1 and ' from ships ' or ' to ships')
+        self.name = "#"..love.math.random( 1000 )
+        log( 1, "Port ".. self.name .." transporting resource "..storage.resource.. ' in direction '..(self.direction == 1 and ' from ships ' or ' to ships'))
     end
 }
 
@@ -26,14 +26,11 @@ function Port:onTick()
     self:getShipToPort()
     for ind, port in pairs(self.dockedShips) do
         if port.ship then
-            log( 4, "Port ".. self.name .." started transport resources with "..port.ship.name)
             local result
             if self.direction == 1 then
                 result = math.min(self.storage:canPut(self.loadSpeed), port.ship.storage:canGive(self.loadSpeed))
-                log( 3, "Port ".. self.name .." getting from ship "..port.ship.name.." resources "..port.ship.route.resourceTaking.." in amount "..result)
             elseif self.direction == -1 then
                 result = math.min(self.storage:canGive(port.ship.storage.port.loadSpeed), port.ship.storage:canPut(port.ship.storage.port.loadSpeed))
-                log( 3, "Port ".. self.name .." putting to ship "..port.ship.name.." resources "..port.ship.route.resourceTaking.." in amount "..result)
             end
             if result ~= 0 then
                 self.storage:addAndGetExcess(self.direction * result)
@@ -41,7 +38,7 @@ function Port:onTick()
                 port.ship.canLeave = false
                 port.ship.loadTimer:clear()
                 port.ship.loadTimer:after(4, function() port.ship.canLeave = true end)
-                log( 2, "Port ".. self.name .." successly traded with ship "..port.ship.name.." resources "..port.ship.route.resourceTaking.." in amount "..result)
+                log( 3, "Port ".. self.name .." successly traded with ship "..port.ship.name.." resources "..port.ship.route.resourceTaking.." in amount "..result)
             end
         end
     end
@@ -58,7 +55,7 @@ function Port:getShipToPort()
         if not port.ship then
             self.dockedShips[ind].ship = table.remove(self.shipsQueue, 1)
             if port.ship then
-                log(3, "Port ".. self.name .." docked ship "..self.dockedShips[ind].ship.name .. ' at port number '..ind)
+                log(2, "Port ".. self.name .." docked ship "..self.dockedShips[ind].ship.name .. ' at port number '..ind)
                 return true
             end
         end
@@ -70,7 +67,7 @@ function Port:isFree()
     log( 5, "Port ".. self.name .." checking for free port")
     for ind, port in pairs(self.dockedShips) do
         if not port.ship then
-            log( 3, "Port ".. self.name .." found free port at "..ind)
+            log( 2, "Port ".. self.name .." found free port at "..ind)
             return true
         end
     end
@@ -82,7 +79,7 @@ function Port:leavePort(ship)
     for ind, queueShip in pairs(self.shipsQueue) do
         if ship == queueShip then
             table.remove(self.shipsQueue, ind)
-            log( 3, "Ship "..ship.name.." leaving port ".. self.name.." from queue ")
+            log( 2, "Ship "..ship.name.." leaving port ".. self.name.." from queue ")
         end
     end
 end
@@ -95,7 +92,7 @@ function Port:undockShip(ship)
             port.ship.loadTimer:clear()
             port.ship = nil
             if not port.ship then
-                log(3, "Port ".. self.name .." undocked ship "..ship.name .. ' from port number '..ind)
+                log(2, "Port ".. self.name .." undocked ship "..ship.name .. ' from port number '..ind)
                 return true
             end
         end
@@ -107,7 +104,7 @@ function Port:findShipInPort(ship)
     log( 5, "Port "..self.name.." searching ship ".. ship.name)
     for ind, port in pairs(self.dockedShips) do
         if port.ship and port.ship == ship then
-            log( 3, "Port "..self.name.." found ship ".. ship.name.. " at port "..ind)
+            log( 2, "Port "..self.name.." found ship ".. ship.name.. " at port "..ind)
             return true
         end
     end

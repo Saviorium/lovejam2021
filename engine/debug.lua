@@ -4,16 +4,16 @@ Debug = {
     mousePos = 0,
     showStatesLoadSave = 0,
     resourceGrid = 0,
-    stationsInnerDebug = 0,
+    stationsInnerDebug = 1,
     stationsDrawDebug = false,
     storagesInnerDebug = 0,
     storagesDrawDebug = false,
-    shipInnerDebug = 0,
+    shipInnerDebug = 2,
     shipDrawDebug = false,
     taskInnerDebug = 0,
     routeBuilder = 0,
     shipAssigner = 0,
-    portInnerDebug = 0,
+    portInnerDebug = 2,
     resourceDisplay = true
 }
 
