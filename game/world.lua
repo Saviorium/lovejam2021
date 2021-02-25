@@ -8,6 +8,8 @@ local Route = require("game.route")
 local WindowManager = require("game.ui.window_manager")
 local NewStationButton = require("game.ui.new_station_button")
 local ResourceBar = require("game.ui.resource_bar")
+local SpeedButton = require("game.ui.speed_button")
+local TimeBar = require("game.ui.time_bar")
 local BuildingStation = require("game.station.station")
 local Clock = require("game.clock")
 local Star = require("game.star")
@@ -46,6 +48,8 @@ local World =
 
         self.distantStars = {}
         self:starsInit()
+
+        self.speed = config.game.speed1
     end
 }
 
@@ -136,6 +140,9 @@ function World:initUI()
     end
 
     self.uiManager:registerObject("Global resource bar", self:buildResourceBar())
+
+    self.uiManager:registerObject("Speed buttons", SpeedButton( {x = 0, y = 0}, self ))
+    self.timeBar = TimeBar(self.clock)
 end
 
 function World:buildResourceBar()
@@ -183,6 +190,7 @@ function World:buildResourceBar()
 end
 
 function World:update(dt)
+    dt = dt * self.speed
     self.clock:update(dt)
     self.Timer:update(dt)
 
@@ -200,6 +208,7 @@ function World:update(dt)
         for _, station in pairs(self.stations) do
             station:onTick(self)
         end
+        self.timeBar:onTick()
     end
     if self.clock.monthChanged then
         for _, station in pairs(self.stations) do
@@ -302,6 +311,7 @@ function World:draw()
 
     love.graphics.pop()
     self.uiManager:draw()
+    self.timeBar:draw()
     self.shipAssigner:draw()
     if Debug.resourceDisplay then
         love.graphics.print(

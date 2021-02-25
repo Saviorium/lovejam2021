@@ -33,18 +33,27 @@ local Ship =
 
         self.informationBoard = ShipInformationBoard(self, 'Little poor ship transpoting resources from one place to another')
         self.loadTimer = Timer.new()
+        self.log = require "engine.logger"("shipInnerDebug", 
+            function(msg) 
+                love.filesystem.append(self.name..'_ships_debug.txt', msg)
+                love.filesystem.append('ships_and_ports_debug.txt', msg) 
+                return 'Ship: ['.. msg ..'] ' 
+            end)
     end
 }
 
-function Ship:setRoute(route)
+function Ship:setRoute(route)        
+    self.log( 5, "Ship ".. self.name .." setting to route "..route.name)
     if not self.route then
         self.route = route
         local target = self.route.startStation
         self.tasks.onEmpty = function()
             self.tasks:addTask(Tasks.goTo(self, target, target.outResources[self.route.resourceTaking].storage))
         end
+        self.log( 4, "Ship ".. self.name .." set to route "..route.name)
     else
         self.newRoute = route
+        self.log( 4, "Ship ".. self.name .." set newRoute "..route.name)
     end
     return self
 end
@@ -57,6 +66,7 @@ end
 
 
 function Ship:flyAroundStation(station)
+    self.log( 5, "Ship ".. self.name .." set to fly around "..station:tostring())
     self.route = nil
     self.newRoute = nil
     if self.tasks.currentTask then
@@ -68,9 +78,11 @@ function Ship:flyAroundStation(station)
             self.tasks.currentTask:onDone()
         end
     end
+    self.log( 5, "Ship ".. self.name .." done all tasks")
     self.tasks:clear()
     self.tasks.onEmpty = nil
     self.tasks:addTask(Tasks.waitAroundStation(self, station))
+    self.log( 4, "Ship ".. self.name .." get task to wait Around Station"..station:tostring())
     return self
 end
 
@@ -121,6 +133,7 @@ function Ship:drawSelected()
 end
 
 function Ship:setVisible(boolean)
+    self.log( 5, "Ship ".. self.name .." set visible to ", boolean)
     self.visible = boolean
     return self
 end
@@ -147,26 +160,26 @@ end
 
 function Ship:isNear(target)
     local result = (target:getCenter() - self.position):len()
-    log(1, "Ship checking distance to target", result)
+    self.log(3, "Ship ".. self.name .." checking distance to target "..target.name, result)
     return result <= target.width
 end
 
 function Ship:moveTo(dt, target)
+    self.log(5, "Ship ".. self.name .." moving to target "..target.name)
     self.direction = (target:getCenter() - self.position):normalized()
     self.angle = -self.direction:toPolar().x - math.pi
     self.direction = self.direction:rotateInplace(self.driftAngle)
-    log(1, "Ship moving in direction ", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
 
 function Ship:moveAroundStation(dt, target)
+    self.log(5, "Ship ".. self.name .." moving around stations "..target.name)
     if not self:isNear(target) then
         self:moveTo(dt, target)
     end
     local direction = self.direction
     self.direction = (target:getCenter() - self.position):normalized():rotateInplace(math.pi / 2)
     self.angle = -(direction + self.direction):toPolar().x - math.pi
-    log(1, "Ship moving around station", self.direction)
     self.position = self.position + self.direction * self.speed * dt
 end
 
@@ -179,6 +192,7 @@ function Ship:tostring()
 end
 
 function Ship:isLeaving()
+    self.log(4, "Ship ".. self.name .." now can leave port? ", (self.canLeave and self.storage.value > 0 and self.storage.value < self.storage.max))
     return (self.canLeave and self.storage.value > 0 and self.storage.value < self.storage.max)
 end
 return Ship

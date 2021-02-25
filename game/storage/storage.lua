@@ -29,14 +29,15 @@ function Storage:addAndGetExcess(units)
     return 0
 end
 
-function Storage:canGet(units)
+function Storage:canGive(units)
     local newValue = self.value - units
-    return not (newValue < 0)
+    return newValue > 0 and units or (units + newValue)
 end
 
 function Storage:canPut(units)
     local newValue = self.value + units
-    return not (newValue > self.max)
+    local result = self.max - newValue
+    return newValue > 0 and units or (units + newValue) 
 end
 
 return Storage

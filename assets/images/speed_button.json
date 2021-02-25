@@ -1,0 +1,48 @@
+{ "frames": [
+   {
+    "filename": "speed_button 0.png",
+    "frame": { "x": 0, "y": 0, "w": 66, "h": 66 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   },
+   {
+    "filename": "speed_button 1.png",
+    "frame": { "x": 66, "y": 0, "w": 66, "h": 66 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   },
+   {
+    "filename": "speed_button 2.png",
+    "frame": { "x": 132, "y": 0, "w": 66, "h": 66 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
+    "sourceSize": { "w": 64, "h": 64 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.15-x64",
+  "image": "speed_button.png",
+  "format": "RGBA8888",
+  "size": { "w": 198, "h": 66 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Speed1", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "Speed2", "from": 1, "to": 1, "direction": "forward" },
+   { "name": "Speed3", "from": 2, "to": 2, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

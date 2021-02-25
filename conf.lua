@@ -21,7 +21,9 @@ config = {
         routeDistance = 900 -- squared
     },
     game = {
-        speed = 5,
+        speed1 = 1,
+        speed2 = 2,
+        speed3 = 5,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
         godMode = false,

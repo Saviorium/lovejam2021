@@ -59,9 +59,9 @@ function Station:onTick(world)
     local productivity = self:calculateProductivity()
     local canProduce = true
     for name, resource in pairs(self.inResources) do
-        local canGet = resource.storage:canGet(resource.consume * productivity)
-        log(3, "Station storage of " .. name .. " check of can get is " .. (canGet and 1 or 0))
-        canProduce = canGet and canProduce or false
+        local canGive = resource.storage:canGive(resource.consume * productivity) == resource.consume * productivity
+        log(3, "Station storage of " .. name .. " check of can get is " .. (canGive and 1 or 0))
+        canProduce = canGive and canProduce or false
     end
     for name, resource in pairs(self.outResources) do
         if resource.takingFromGrid then
@@ -76,7 +76,7 @@ function Station:onTick(world)
                 world:deleteStationAt(Vector(self.x, self.y))
             end
         end
-        local canPut = resource.storage:canPut(resource.produce * productivity)
+        local canPut = resource.storage:canPut(resource.produce * productivity) == resource.produce * productivity
         log(3, "Station storage of " .. name .. " check of can put is " .. (canPut and 1 or 0))
         canProduce = canPut and canProduce or false
     end
