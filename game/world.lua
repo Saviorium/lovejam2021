@@ -49,7 +49,7 @@ local World =
         self.distantStars = {}
         self:starsInit()
 
-        self.speed = config.game.speed1
+        self.speed = config.game.speedMultipliers[1]
     end
 }
 

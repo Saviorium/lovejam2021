@@ -1,46 +1,46 @@
 { "frames": [
    {
-    "filename": "speed_button 0.png",
-    "frame": { "x": 0, "y": 0, "w": 66, "h": 66 },
+    "filename": "speed_button_0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 42, "h": 43 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
-    "sourceSize": { "w": 64, "h": 64 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 40, "h": 41 },
+    "sourceSize": { "w": 40, "h": 41 },
     "duration": 100
    },
    {
-    "filename": "speed_button 1.png",
-    "frame": { "x": 66, "y": 0, "w": 66, "h": 66 },
+    "filename": "speed_button_1.aseprite",
+    "frame": { "x": 42, "y": 0, "w": 42, "h": 43 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
-    "sourceSize": { "w": 64, "h": 64 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 40, "h": 41 },
+    "sourceSize": { "w": 40, "h": 41 },
     "duration": 100
    },
    {
-    "filename": "speed_button 2.png",
-    "frame": { "x": 132, "y": 0, "w": 66, "h": 66 },
+    "filename": "speed_button_2.aseprite",
+    "frame": { "x": 84, "y": 0, "w": 42, "h": 43 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 },
-    "sourceSize": { "w": 64, "h": 64 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 40, "h": 41 },
+    "sourceSize": { "w": 40, "h": 41 },
     "duration": 100
    }
  ],
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.15-x64",
+  "version": "1.2.21",
   "image": "speed_button.png",
   "format": "RGBA8888",
-  "size": { "w": 198, "h": 66 },
+  "size": { "w": 126, "h": 43 },
   "scale": "1",
   "frameTags": [
-   { "name": "Speed1", "from": 0, "to": 0, "direction": "forward" },
-   { "name": "Speed2", "from": 1, "to": 1, "direction": "forward" },
-   { "name": "Speed3", "from": 2, "to": 2, "direction": "forward" }
+   { "name": "up", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "down", "from": 1, "to": 1, "direction": "forward" },
+   { "name": "hover", "from": 2, "to": 2, "direction": "forward" }
   ],
   "layers": [
-   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
   ]

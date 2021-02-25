@@ -69,7 +69,7 @@ local Stations = {
         inResources['cocoa'] = { consume = 20 , storage = newStorage}
         newStorage = Storage(1000, 0, 'milk', 100, 1)
         inResources['milk'] = { consume = 20 , storage = newStorage}
-        newStorage = Storage(1000, 0, 'chocolate', 100, -1)
+        newStorage = Storage(200, 0, 'chocolate', 100, -1)
         outResources['chocolate'] = { produce = 3 , storage = newStorage}
         StationsData.chocolateFabric.inResources = inResources
         StationsData.chocolateFabric.outResources = outResources
