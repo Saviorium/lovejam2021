@@ -31,6 +31,8 @@ function love.load()
 end
 
 function love.draw()
+    love.graphics.setColor(1, 1, 1)
+    StateManager.draw()
     if Debug and Debug.showFps == 1 then
         love.graphics.print(""..tostring(love.timer.getFPS( )), 2, 2)
     end
@@ -38,8 +40,6 @@ function love.draw()
         local x, y = love.mouse.getPosition()
         love.graphics.print(""..tostring(x)..","..tostring(y), 2, 16)
     end
-    love.graphics.setColor(1, 1, 1)
-    StateManager.draw()
 end
 
 function love.keypressed(t)

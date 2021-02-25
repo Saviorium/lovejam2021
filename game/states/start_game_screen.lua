@@ -31,14 +31,21 @@ function StartGame:draw()
     for ind, ui in pairs(self.gameWorld.uiManager.objects) do
         if ind == "Global resource bar" then
             local x, y = love.graphics.transformPoint(ui.x, ui.y + ui.height)
-            love.graphics.printf("The most important global resources", x, y, ui.width, "left")
+            --love.graphics.printf("The most important global resources", x, y, ui.width, "left")
         end
     end
-    love.graphics.printf("In this game you need to make and deliver chocolate to the HUB", 150, 0, 1000, "center")
+    love.graphics.printf("In this game you need to produce and deliver chocolate to the HUB", 150, 0, 1000, "center")
     love.graphics.printf(
         "Buttons to build stations",
         0,
         220,
+        1000,
+        "left"
+    )
+    love.graphics.printf(
+        "Drag'n'drop to build\nRight mouse button to cancel",
+        81,
+        258,
         1000,
         "left"
     )
@@ -64,7 +71,7 @@ function StartGame:draw()
         "Then you need to drag a ship on a route."..'\n'..
         "The game is paused now, press ENTER to start!",
         150,
-        670,
+        655,
         1000,
         "center"
     )
@@ -78,9 +85,9 @@ function StartGame:draw()
     )
 
     love.graphics.printf(
-        "Hub is right there",
-        love.graphics.getWidth()-300,
-        love.graphics.getHeight()-50,
+        "Hub is right there\nUse scroll to move\nand zoom camera",
+        love.graphics.getWidth()-220,
+        love.graphics.getHeight()-120,
         1000,
         "left"
     )
