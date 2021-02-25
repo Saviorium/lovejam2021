@@ -4,10 +4,8 @@ local UIobject = require "game.ui.uiobject"
 --     resource = "chocolate",
 --     resourceStorage = -- optional if resourceSource is set
 --         self.stations["HubStation"]:getStorage("chocolate")
---     resourceSource = -- callback to get value, optional if resourceStorage is set
+--     textSource = -- callback to get value, optional if resourceStorage is set
 --         function() return self.stations["HubStation"]:getResourceValue("chocolate") end,
---     maxResourceSource = -- callback to get max value - optional
---         function() return self.stations["HubStation"]:getStorage("chocolate").max end,
 --     criticalCheck = -- if true - text will be red, optional
 --         function (value, max) return value == 0 end
 -- }
@@ -81,14 +79,18 @@ function ResourceBar:render()
         )
 
         -- text
-        local value, max
+        local value, max, delta
         if res.resourceStorage then
             value, max = res.resourceStorage.value, res.resourceStorage.max
-        elseif res.resourceSource then
+        end
+        if res.resourceSource then
             value = res.resourceSource()
-            if res.maxResourceSource then
-                max = res.maxResourceSource()
-            end
+        end
+        if res.maxResourceSource then
+            max = res.maxResourceSource()
+        end
+        if res.deltaResourceSource then
+            delta = res.deltaResourceSource()
         end
         local text = value
         if type(value) == "number" then
@@ -99,6 +101,7 @@ function ResourceBar:render()
             text = ""
         end
         if max then text = text .. "/" .. math.clamp(0, math.floor(max), 9999) end
+        if delta and type(delta) == "number" then text = (delta > 0 and "+" or "") .. delta .. "\n" .. text end
         if res.criticalCheck and res.criticalCheck(value, max) then
             love.graphics.setColor(config.colors.critical)
         else

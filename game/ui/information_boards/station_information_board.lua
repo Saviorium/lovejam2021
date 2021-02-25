@@ -32,11 +32,11 @@ end
 function StationInformationBoard:initResourceBar()
     local resources = {}
     for name, resource in pairs(self.targetObject.inResources) do
-        table.insert(resources, {resource = name, resourceStorage = resource.storage})
+        table.insert(resources, {resource = name, resourceStorage = resource.storage, deltaResourceSource = function() return -resource.consume end})
     end
     for name, resource in pairs(self.targetObject.outResources) do
         if name ~= 'dude' then
-            table.insert(resources, {resource = name, resourceStorage = resource.storage})
+            table.insert(resources, {resource = name, resourceStorage = resource.storage, deltaResourceSource = function() return resource.produce end})
         end
     end
     self.resourceBar = ResourceBar(
