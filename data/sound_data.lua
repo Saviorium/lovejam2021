@@ -75,7 +75,7 @@ return {
             { name = "dudes_warning" },
         },
         options = {
-            maxSources = 2,
+            maxSources = 1,
         }
     },
     dudes_die = {
@@ -83,7 +83,7 @@ return {
             { name = "dudes_die" },
         },
         options = {
-            maxSources = 2,
+            maxSources = 1,
         }
     },
 }

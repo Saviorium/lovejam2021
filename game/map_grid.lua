@@ -14,7 +14,7 @@ local MapGrid = Class {
 
 function MapGrid:initResources()
     local stats = {}
-    for i=1,1000 do
+    for i=1,1 do
         for resourceName, resource in pairs(self.resources) do
             self.grid[resourceName] = {
                 noiseStart = {

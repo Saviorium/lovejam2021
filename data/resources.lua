@@ -22,7 +22,7 @@ Resources = {
     chocolate = {
         name = 'Chocolate bars',
         icon = AssetManager:getImage('chocolate_icon'),
-        color = {0.7, 0.5, 0.1},
+        color = {0.7, 0.5, 0.1}, -- owerwtitten in World:update FYI
         bgColor = {1, 1, 1}
     },
     cocoa = {
@@ -56,7 +56,7 @@ Resources = {
     life = {
         name = 'Life',
         icon = AssetManager:getImage('lifes_icon'),
-        color = {1, 0, 0},
+        color = {1, 0, 0}, -- owerwtitten in World:update FYI
         bgColor = {1, 1, 1}
     },
 }

@@ -11,7 +11,8 @@ config = {
         hover = {0.6, 1, 0.4, 0.5},
         delete = {0.8, 0.2, 0.2},
         noResource = {0.1, 0.1, 0.1},
-        infoTextColor = {0.1, 0.1, 0.1}
+        infoTextColor = {0.1, 0.1, 0.1},
+        critical = {0.8, 0.2, 0.2}
     },
     selection = {
         border = 4,

@@ -42,6 +42,8 @@ local World =
         self.lifes = config.game.godMode and 99999 or 10
         self.Timer = Timer.new()
 
+        self.worryBlinker = 0
+
         self.distantStars = {}
         self:starsInit()
     end
@@ -133,11 +135,51 @@ function World:initUI()
         end
     end
 
+    self.uiManager:registerObject("Global resource bar", self:buildResourceBar())
+end
+
+function World:buildResourceBar()
     local resources = {}
-    table.insert(resources, {resource = "dude", resourceSource = self.stations["HubStation"].outResources.dude})
-    table.insert(resources, {resource = "ship", resourceSource = nil})
-    table.insert(resources, {resource = "life", resourceSource = nil})
-    self.uiManager:registerObject("Global resource bar", ResourceBar(love.graphics.getWidth(), 0, 3, resources, self, nil, nil, 16, 16))
+    table.insert(
+        resources,
+        {
+            resource = "ship",
+            resourceSource = function()
+                local shipsBuilt = 0
+                local shipsMax = 0
+                for _, station in pairs(self.stations) do
+                    shipsBuilt = shipsBuilt + math.floor(station:getResourceValue("ship"))
+                    local shipsStorage = station:getStorage("ship")
+                    if shipsStorage then
+                        shipsMax = shipsMax + math.floor(shipsStorage.max)
+                    end
+                end
+                return #self.ships .. "+" .. shipsBuilt .. "/" .. shipsMax
+            end
+            })
+    table.insert(
+        resources,
+        {
+            resource = "dude",
+            resourceSource = function() 
+                local globalPopulation = 0
+                for _, station in pairs(self.stations) do
+                    globalPopulation = globalPopulation + station.population
+                end
+                return globalPopulation
+            end,
+            maxResourceSource = function() return self.stations["HubStation"]:getResourceValue("dude") end
+        })
+    table.insert(
+        resources,
+        {
+            resource = "chocolate",
+            resourceSource = function() return self.stations["HubStation"]:getResourceValue("chocolate") end,
+            maxResourceSource = function() return self.stations["HubStation"]:getResourceValue("dude") end,
+            criticalCheck = function (value, max) return value < max end
+        })
+    table.insert(resources, {resource = "life", resourceSource = function() return self.lifes end})
+    return ResourceBar(love.graphics.getWidth(), 0, 3, resources, self, nil, nil, 16, 16)
 end
 
 function World:update(dt)
@@ -209,7 +251,19 @@ function World:update(dt)
     self.uiManager:update(dt)
 
     if self.disapointment then Resources.life.color = {1,1,1} else Resources.life.color = {1,0,0} end -- @todo: for the love of god, delete this line
-
+    if self.worry then
+        if self.worryBlinker > 0.5 then 
+            Resources.chocolate.color = {1,1,1}
+        else
+            Resources.chocolate.color = {0.7, 0.5, 0.1} -- @todo: oh noes not again
+        end
+        self.worryBlinker = self.worryBlinker + 0.02
+        if self.worryBlinker > 1 then
+            self.worryBlinker = 0
+        end
+    else
+        Resources.chocolate.color = {0.7, 0.5, 0.1}
+    end
 end
 
 function World:draw()

@@ -81,7 +81,7 @@ local Stations = {
         local outResources = {}
         newStorage = Storage(10000, 0, 'iron', 100, 1)
         inResources['iron'] = { consume = 100 , storage = newStorage}
-        newStorage = Storage(10000, 33, 'chocolate', 100, 1)
+        newStorage = Storage(10000, 200, 'chocolate', 100, 1)
         inResources['chocolate'] = { dudeConsuming = 1, consume = 0 , storage = newStorage}
         newStorage = Storage(10000, 10, 'dude', 100, -1)
         outResources['dude'] = { inMonthProducing = 2, produce = 0 , storage = newStorage}
@@ -111,7 +111,7 @@ local Stations = {
         local outResources = {}
         newStorage = Storage(1000, 200, 'iron', 100, 1)
         inResources['iron'] = { consume = 10 , storage = newStorage}
-        newStorage = Storage(5, 1, 'ship', 1, -1)
+        newStorage = Storage(5.1, 1, 'ship', 1, -1)
         outResources['ship'] = { produce = 0.05 , storage = newStorage}
         StationsData.buildShipsStation.inResources = inResources
         StationsData.buildShipsStation.outResources = outResources

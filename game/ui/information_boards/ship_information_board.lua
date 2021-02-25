@@ -27,7 +27,7 @@ end
 function StationInformationBoard:initResourceBar()
     local resources = {}
     if self.targetObject.route then
-        table.insert(resources, {resource = self.targetObject.route.resourceTaking, resourceSource = self.targetObject})
+        table.insert(resources, {resource = self.targetObject.route.resourceTaking, resourceStorage = self.targetObject.storage})
     end
     self.resourceBar = ResourceBar( self.targetObject.position.x + self.targetObject.width,
                                     self.targetObject.position.y + self.targetObject.height,

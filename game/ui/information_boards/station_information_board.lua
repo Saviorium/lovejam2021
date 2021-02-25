@@ -32,23 +32,24 @@ end
 function StationInformationBoard:initResourceBar()
     local resources = {}
     for name, resource in pairs(self.targetObject.inResources) do
-        table.insert(resources, {resource = name, resourceSource = resource})
+        table.insert(resources, {resource = name, resourceStorage = resource.storage})
     end
     for name, resource in pairs(self.targetObject.outResources) do
         if name ~= 'dude' then
-            table.insert(resources, {resource = name, resourceSource = resource})
+            table.insert(resources, {resource = name, resourceStorage = resource.storage})
         end
     end
-    self.resourceBar = ResourceBar( self.targetObject.x + self.targetObject.width,
-                                    self.targetObject.y + self.targetObject.height,
-                                    1,
-                                    resources,
-                                    self,
-                                    36,
-                                    48,
-                                    self.font:getHeight()*2,
-                                    16
-                                  )
+    self.resourceBar = ResourceBar(
+        self.targetObject.x + self.targetObject.width,
+        self.targetObject.y + self.targetObject.height,
+        1,
+        resources,
+        self,
+        36,
+        48,
+        self.font:getHeight()*2,
+        16
+    )
 end
 
 function StationInformationBoard:render()

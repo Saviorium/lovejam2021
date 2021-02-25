@@ -242,6 +242,11 @@ function Station:isProducing(resourceName)
     return false
 end
 
+function Station:getResourceValue(resourceName)
+    local storage = self:getStorage(resourceName)
+    return storage and storage.value or 0
+end
+
 function Station:getStorage(resourceName)
     for ind, storage in pairs(self.outResources) do
         if ind == resourceName then
