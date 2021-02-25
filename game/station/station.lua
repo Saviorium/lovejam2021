@@ -17,7 +17,7 @@ local Station =
         self.inProgressBars = {}
         local index = 1
         for _, res in pairs(parameters.inResources) do
-            table.insert(self.inProgressBars, ProgressBar(self.x - 5 * index, self.y, self.height, res.storage))
+            table.insert(self.inProgressBars, ProgressBar(self.x - 6 * index, self.y, self.height, res.storage))
             table.insert(self.shipPorts, res.storage.port)
             index = index + 1
         end
@@ -28,7 +28,7 @@ local Station =
         for _, res in pairs(parameters.outResources) do
             table.insert(
                 self.outProgressBars,
-                ProgressBar(self.x + self.width + 4 * index, self.y, self.height, res.storage)
+                ProgressBar(self.x + self.width + 6 * index, self.y, self.height, res.storage)
             )
             table.insert(self.shipPorts, res.storage.port)
             index = index + 1

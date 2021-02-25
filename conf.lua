@@ -20,11 +20,11 @@ config = {
         routeDistance = 900 -- squared
     },
     game = {
-        speed = 1,
+        speed = 5,
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
         godMode = false,
-        startShips = 1
+        startShips = 2
     },
     map = {
         style = 'grid', -- circle grid image,
