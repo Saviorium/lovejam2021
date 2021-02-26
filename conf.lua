@@ -24,6 +24,7 @@ config = {
         speedMultipliers = { 1, 2, 5, 10 },
         infobarsTimeToAppear = 0.5,
         infobarsTimeToDisapear = 1,
+        defaultLifes = 10,
         godMode = false,
         startShips = 2
     },

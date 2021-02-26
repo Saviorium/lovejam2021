@@ -41,7 +41,7 @@ local World =
         self.uiManager = WindowManager()
         self:initUI()
 
-        self.lifes = config.game.godMode and 99999 or 10
+        self.lifes = config.game.godMode and 99999 or config.game.defaultLifes
         self.Timer = Timer.new()
 
         self.worryBlinker = 0
@@ -310,6 +310,7 @@ function World:draw()
     end
 
     love.graphics.pop()
+
     self.uiManager:draw()
     self.timeBar:draw()
     self.shipAssigner:draw()

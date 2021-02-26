@@ -8,43 +8,57 @@ local MapGrid = Class {
         self.seed = seed or love.timer.getTime()
         self.random = love.math.newRandomGenerator( self.seed )
         self.grid = {}
+        -- self:debugGetResourceStats(10000)
         self:initResources()
     end
 }
 
 function MapGrid:initResources()
-    local stats = {}
-    for i=1,1 do
-        for resourceName, resource in pairs(self.resources) do
-            self.grid[resourceName] = {
-                noiseStart = {
-                    x = self.random:random(999999),
-                    y = self.random:random(999999)
-                },
-                cells = {},
-                total = 0,
-                filledCells = 0
-            }
-            local grid = self.grid[resourceName]
-            for x = 1, self.size.width do
-                for y = 1, self.size.height do
-                    self.grid[resourceName].cells[x] = self.grid[resourceName].cells[x] or {}
-                    self.grid[resourceName].cells[x][y] =
-                        math.max(0, love.math.noise(
-                            grid.noiseStart.x + x * resource.frequency,
-                            grid.noiseStart.y + y * resource.frequency )
-                        - resource.threshold ) / (1 - resource.threshold) * resource.multiplier
-                        self.grid[resourceName].total = self.grid[resourceName].total + self.grid[resourceName].cells[x][y]
-                        self.grid[resourceName].filledCells = self.grid[resourceName].filledCells + (self.grid[resourceName].cells[x][y] >1 and 1 or 0)
-                end
+    for resourceName, resource in pairs(self.resources) do
+        self.grid[resourceName] = {
+            noiseStart = {
+                x = self.random:random(999999),
+                y = self.random:random(999999)
+            },
+            cells = {},
+            total = 0,
+            filledCells = 0
+        }
+        local grid = self.grid[resourceName]
+        for x = 1, self.size.width do
+            for y = 1, self.size.height do
+                self.grid[resourceName].cells[x] = self.grid[resourceName].cells[x] or {}
+                self.grid[resourceName].cells[x][y] =
+                    math.max(0, love.math.noise(
+                        grid.noiseStart.x + x * resource.frequency,
+                        grid.noiseStart.y + y * resource.frequency )
+                    - resource.threshold ) / (1 - resource.threshold) * resource.multiplier
+                    self.grid[resourceName].total = self.grid[resourceName].total + self.grid[resourceName].cells[x][y]
+                    self.grid[resourceName].filledCells = self.grid[resourceName].filledCells + (self.grid[resourceName].cells[x][y] > 1 and 1 or 0)
             end
-        if not stats[resourceName] then stats[resourceName] = {total = 0, filledCells = 0} end
-        stats[resourceName].total = stats[resourceName].total + self.grid[resourceName].total
-        stats[resourceName].filledCells = stats[resourceName].filledCells + self.grid[resourceName].filledCells
-        log(1, "Generated " .. self.grid[resourceName].total .. " units of " .. resourceName)
         end
     end
-    vardump (stats)
+end
+
+function MapGrid:debugGetResourceStats(n)
+    if not Debug or Debug.resourceGrid < 1 then
+        return
+    end
+    local stats = {}
+    for i=1, n do
+        self:initResources()
+        for resourceName, resource in pairs(self.resources) do
+            if not stats[resourceName] then stats[resourceName] = {total = 0, filledCells = 0} end
+            stats[resourceName].total = stats[resourceName].total + self.grid[resourceName].total
+            stats[resourceName].filledCells = stats[resourceName].filledCells + self.grid[resourceName].filledCells
+            log(3, "Generated " .. self.grid[resourceName].total .. " units of " .. resourceName .. " in " .. stats[resourceName].filledCells .. " cells")
+        end
+    end
+    for resourceName, resource in pairs(self.resources) do
+        stats[resourceName].total = stats[resourceName].total / n
+        stats[resourceName].filledCells = stats[resourceName].filledCells / n
+    end
+    log(1, "Generated resources " .. n .. " times", stats)
 end
 
 function MapGrid:getResourceTypes()
