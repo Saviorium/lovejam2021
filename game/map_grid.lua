@@ -99,7 +99,7 @@ function MapGrid:drawResource(x, y, resourceName)
         )
     elseif config.map.style == 'grid' then
         local fadedColor = resource.color
-        fadedColor[4] = resourceCell/1000
+        fadedColor[4] = resourceCell/resource.multiplier
         love.graphics.setColor(fadedColor)
         fadedColor[4] = 1 -- i'm sorry
 

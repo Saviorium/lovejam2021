@@ -41,6 +41,8 @@ Tasks["waitUntilPortRelease"] = function(ship, target, storage)
             if ship.route then
                 if ship.newRoute then
                     ship.log(2, ship.name .. " ship get new route "..ship.newRoute.name)
+                    storage.port:leavePort(ship)
+                    storage.port:undockShip(ship)
                     ship.storage.value = 0
                     ship.route = ship.newRoute
                     ship.newRoute = nil
@@ -103,9 +105,9 @@ Tasks["waitUntilFullLoad"] = function(ship, storage)
                 if ship.newRoute then
                     ship.storage.value = 0
                     ship.route = ship.newRoute
-                    ship.newRoute = nil
                     target = ship.route.startStation
                     ship.log(2, ship.name .. " got new route " .. ship.newRoute.name.." and going to "..target:tostring())
+                    ship.newRoute = nil
                 else
                     target = ship.route.endStation
                     ship.log(2, ship.name .. " ship now undocking and going to "..target:tostring())

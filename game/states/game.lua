@@ -3,7 +3,7 @@ local World = require("game.world")
 local Game = {}
 
 function Game:enter(prev_state, world)
-    self.gameWorld = nvl(world, World())
+    self.gameWorld = world or World()
 end
 
 function Game:mousepressed(x, y, button)

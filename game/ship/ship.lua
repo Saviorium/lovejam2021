@@ -36,7 +36,7 @@ local Ship =
         self.log = require "engine.logger"("shipInnerDebug", 
             function(msg) 
                 love.filesystem.append(self.name..'_ships_debug.txt', msg..'\n')
-                love.filesystem.append('ships_and_ports_debug.txt', msg..'\n') 
+                love.filesystem.append('ships_and_ports_debug.txt', msg..'\n')
                 return msg
             end)
         self.log( 1, self.name .." initialized on position ["..self.position.x..":"..self.position.y.."]")

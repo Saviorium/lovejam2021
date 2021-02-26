@@ -42,7 +42,7 @@ local Stations = {
         newStorage = Storage(4000, 0, 'ice', 100, 1)
         inResources['ice'] = { consume = 20 , storage = newStorage}
         newStorage = Storage(1000, 0, 'cocoa', 100, 1)
-        inResources['cocoa'] = { consume = 20 , storage = newStorage}
+        inResources['cocoa'] = { consume = 10 , storage = newStorage}
         newStorage = Storage(1000, 0, 'milk', 100, -1)
         outResources['milk'] = { produce = 10 , storage = newStorage}
         StationsData.milkStation.inResources = inResources
@@ -84,7 +84,7 @@ local Stations = {
         newStorage = Storage(10000, 200, 'chocolate', 100, 1)
         inResources['chocolate'] = { dudeConsuming = 1, consume = 0 , storage = newStorage}
         newStorage = Storage(10000, 10, 'dude', 100, -1)
-        outResources['dude'] = { inMonthProducing = 2, produce = 0 , storage = newStorage}
+        outResources['dude'] = { inMonthProducing = 1, produce = 0 , storage = newStorage}
         newStorage = Storage(10000, 0, 'iron', 100, 1)
         outResources['iron'] = { produce = 100, storage = newStorage}
         StationsData.hubStation.inResources = inResources

@@ -23,7 +23,7 @@ local ShipAssigner = require "game.ship.ship_assigner"
 local World =
     Class {
     init = function(self)
-        self.clock = Clock(2, 30)
+        self.clock = Clock(2, 60)
         self.resourcesGrid = MapGrid(100, 100, ResourcesData)
         self.stations = {}
         self.routes = {}

@@ -12,7 +12,7 @@ Debug = {
     shipDrawDebug = false,
     taskInnerDebug = 0,
     routeBuilder = 0,
-    shipAssigner = 0,
+    shipAssigner = 1,
     portInnerDebug = 2,
     resourceDisplay = false
 }
