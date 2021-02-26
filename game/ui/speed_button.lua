@@ -60,6 +60,17 @@ function SpeedButton:update(dt)
     elseif not isHovered and self.bgTag == 'hover' then
         self:setTag('up')
     end
+    self:checkIfSpeedWasChangedAndSync()
+end
+
+function SpeedButton:checkIfSpeedWasChangedAndSync()
+    if self.world.speed ~= config.game.speedMultipliers[self.speedOption] then
+        for index, multiplier in pairs(config.game.speedMultipliers) do
+            if multiplier == self.world.speed then
+                self.speedOption = index
+            end
+        end
+    end
 end
 
 function SpeedButton:render()

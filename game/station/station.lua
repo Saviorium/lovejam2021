@@ -120,6 +120,20 @@ function Station:onTick(world)
 end
 
 function Station:draw()
+    if self.isSelected then
+        self:drawSelected()
+        self.informationBoard.showTimer:clear()
+        self.informationBoard.isVisible = false
+    else
+        if self.isHovered then
+            self.informationBoard.showTimer:after(config.game.infobarsTimeToAppear, function() self.informationBoard.isVisible = true end)
+            self:drawHovered()
+        else
+            self.informationBoard.showTimer:clear()
+            self.informationBoard.isVisible = false
+        end
+    end
+    love.graphics.draw(self.image, self.x, self.y)
     for _, progressBar in pairs(self.inProgressBars) do
         progressBar:draw()
     end
@@ -141,20 +155,6 @@ function Station:draw()
             end
         end
     end
-    if self.isSelected then
-        self:drawSelected()
-        self.informationBoard.showTimer:clear()
-        self.informationBoard.isVisible = false
-    else
-        if self.isHovered then
-            self.informationBoard.showTimer:after(config.game.infobarsTimeToAppear, function() self.informationBoard.isVisible = true end)
-            self:drawHovered()
-        else
-            self.informationBoard.showTimer:clear()
-            self.informationBoard.isVisible = false
-        end
-    end
-    love.graphics.draw(self.image, self.x, self.y)
     if Debug.stationsDrawDebug then
         local ind = 0
         for i, res in pairs(self:getProductingResources()) do

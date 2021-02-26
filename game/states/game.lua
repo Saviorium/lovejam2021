@@ -18,7 +18,8 @@ function Game:wheelmoved(x, y)
     self.gameWorld:wheelmoved(x, y)
 end
 
-function Game:keypressed(key)
+function Game:keypressed(key, scancode, isrepeat)
+    self.gameWorld:keypressed(key, scancode, isrepeat)
 end
 
 function Game:draw()

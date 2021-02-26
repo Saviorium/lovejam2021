@@ -1,5 +1,7 @@
 config = {
     camera = {
+        keyboardMoveSpeed = 25,
+        keyboardZoomRate = 2, 
         zoomRate = 0.2, -- more - faster
         zoomMin = 0.3,
         zoomMax = 5
@@ -27,6 +29,14 @@ config = {
         defaultLifes = 10,
         godMode = false,
         startShips = 2
+    },
+    controls = {
+        up = "w",
+        left = "a",
+        right = "d",
+        down = "s",
+        zoomIn = "q",
+        zoomOut = "e"
     },
     map = {
         style = 'grid', -- circle grid image,

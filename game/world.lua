@@ -387,6 +387,20 @@ function World:mousereleased(x, y, button)
     self.builders.route:stopBuilding()
 end
 
+function World:keypressed(key, scancode, isrepeat)
+    local controls = config.controls
+    if key == controls.zoomIn then
+        self:zoom(Vector(love.mouse.getPosition()), config.camera.keyboardZoomRate)
+    end
+    if key == controls.zoomOut then
+        self:zoom(Vector(love.mouse.getPosition()), -config.camera.keyboardZoomRate)
+    end
+    local numberKey = tonumber(key)
+    if numberKey and config.game.speedMultipliers[numberKey] then
+        self.speed = config.game.speedMultipliers[numberKey]
+    end
+end
+
 function World:getMouseCoords()
     return self:getFromScreenCoord(Vector(love.mouse.getPosition()))
 end
@@ -410,6 +424,23 @@ function World:handleInputMove()
         self:move(inputPosition - self.lastInputPosition)
     end
     self.lastInputPosition = inputPosition
+
+    local controls = config.controls
+    local move = Vector()
+    if love.keyboard.isDown(controls.up) then
+        move = move + Vector(0, 1)
+    end
+    if love.keyboard.isDown(controls.down) then
+        move = move + Vector(0, -1)
+    end
+    if love.keyboard.isDown(controls.left) then
+        move = move + Vector(1, 0)
+    end
+    if love.keyboard.isDown(controls.right) then
+        move = move + Vector(-1, 0)
+    end
+    move = move * config.camera.keyboardMoveSpeed * self.camera.zoom
+    self:move(move)
 end
 
 function World:move(dPos)
