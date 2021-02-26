@@ -137,7 +137,6 @@ function Station:draw()
                 ship.progressBar:draw()
                 local inverse = transform:inverse( )
                 love.graphics.applyTransform( inverse )
-
                 index = index + 1
             end
         end

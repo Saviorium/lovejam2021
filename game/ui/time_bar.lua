@@ -15,8 +15,8 @@ end
 
 function TimeBar:draw()    
     local daysInMonth = self.clock.daysInMonth-1
-    local maxWidth, height, y = self.width - self.innerLineWidth*2, self.height-self.innerLineWidth, self.y + self.innerLineWidth
-    local cellWidth = ((maxWidth-self.delimeterLineWidth*daysInMonth)/daysInMonth)
+    local maxWidth, height, y = self.width  - self.innerLineWidth*2, self.height-self.innerLineWidth, self.y + self.innerLineWidth
+    local cellWidth = (maxWidth/daysInMonth)
     love.graphics.setColor(config.colors.uiBackground)
     love.graphics.rectangle('fill', 
         self.x, 
@@ -29,8 +29,8 @@ function TimeBar:draw()
     love.graphics.rectangle('fill', 
         self.x + self.innerLineWidth, 
         self.y + self.innerLineWidth, 
-        self.width  - self.innerLineWidth*2, 
-        self.height - self.innerLineWidth, 
+        maxWidth, 
+        height, 
         8, 
         8)
     love.graphics.setColor(0, 1, 0)
