@@ -390,10 +390,10 @@ end
 function World:keypressed(key, scancode, isrepeat)
     local controls = config.controls
     if key == controls.zoomIn then
-        self:zoom(Vector(love.mouse.getPosition()), config.camera.keyboardZoomRate)
+        self:zoom(Vector(love.mouse.getPosition()), -config.camera.keyboardZoomRate)
     end
     if key == controls.zoomOut then
-        self:zoom(Vector(love.mouse.getPosition()), -config.camera.keyboardZoomRate)
+        self:zoom(Vector(love.mouse.getPosition()), config.camera.keyboardZoomRate)
     end
     local numberKey = tonumber(key)
     if numberKey and config.game.speedMultipliers[numberKey] then
