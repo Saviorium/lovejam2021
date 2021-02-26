@@ -12,7 +12,7 @@ local BuildingStation =
             self,
             world.resourcesGrid:clampToGrid(position.x, position.y),
             {
-                inResources  = {iron = { consume = 0, storage = Storage(1000, 0, "iron", 100, 1)}},
+                inResources  = {iron = { consume = 0, storage = Storage(700, 0, "iron", 100, 1)}},
                 outResources = {},
                 image        = StationsData[self.targetStation].image,
                 selectedImage = StationsData[self.targetStation].selectedImage,

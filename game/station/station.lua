@@ -71,7 +71,7 @@ function Station:onTick(world)
                 1,
                 resource.takingFromGrid
             )
-            if not canProduce then
+            if not canProduce and resource.storage.value == 0 then
                 world:deleteStationAt(Vector(self.x, self.y))
             end
         end
